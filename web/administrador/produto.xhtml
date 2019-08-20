@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/estrutura/template.xhtml">
+
+    <ui:define name="title">Produto</ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form_pesquisa">
+
+            <p:messages id="mens" autoUpdate="" />
+
+            <h:panelGroup id="aba1" rendered="#{!produtoC.mostrar_toolbar}" >
+
+                <p:toolbar styleClass="toolbar">
+                    <p:toolbarGroup  >
+                        <p:commandButton value="Pesquisar" actionListener="#{produtoC.pesquisar()}"
+                                         update="dadosProduto" process="@this panelGridPesq" />
+                        <p:separator></p:separator>
+                        <p:commandButton value="Novo" actionListener="#{produtoC.novo}" update="@form" global="false"  />
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:panelGrid id="panelGridPesq" columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-10" styleClass="painel_grid_noborder" >
+
+                    <p:outputLabel for="pesqNome" value="Produto: "/>
+                    <p:inputText id="pesqNome" value="#{produtoC.produto.nomeProduto}" style="margin-left: 5px"/>
+                    <p:spacer />
+
+                </p:panelGrid>
+
+                <p:dataTable id="dadosProduto" value="#{produtoC.modelProdutos}" var="produto" reflow="true"
+                             style="margin-top: 20px;"  emptyMessage="Nenhum produto encontrado">
+
+                    <p:column headerText="Produto" priority="1">
+                        <h:outputText value="#{produto.nomeProduto}"/>
+                    </p:column>
+
+                    <p:column headerText="Quantidade" priority="1">
+                        <h:outputText value="#{produto.quantidade}" />
+                    </p:column>
+
+                    <p:column headerText="Marca" priority="1">
+                        <h:outputText value="#{produto.marca.nomeMarca}" />
+                    </p:column>
+                    <p:column headerText="Situação" priority="1">
+                        <h:outputText value="#{produto.situacao.nomeSituacao}" />
+                    </p:column>
+
+                    <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
+                        <p:commandButton icon="ui-icon-pencil" title="Alterar" process="@this" update="@form" actionListener="#{produtoC.carregarParaAlterar()}">
+                            <f:setPropertyActionListener target="#{produtoC.produto}" value="#{produto}"   />          
+                        </p:commandButton>
+
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{produtoC.excluir()}" update="dadosProduto" title="Excluir" >
+                            <p:confirm header="Confirmação" message="Tem certeza exclusão?" icon="ui-icon-alert" />
+                            <f:setPropertyActionListener target="#{produtoC.produto}" value="#{produto}"   />
+                        </p:commandButton>
+
+                    </p:column>
+
+                </p:dataTable>
+
+            </h:panelGroup> 
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" 
+                                 icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" 
+                                 icon="ui-icon-close" />
+            </p:confirmDialog>
+
+            <h:panelGroup id="aba_alterar" rendered="#{produtoC.mostrar_toolbar}">
+
+                <p:toolbar id="toolbar_salvar" styleClass="toolbar">
+
+                    <p:toolbarGroup  >
+                        <p:commandButton value="Salvar" action="#{produtoC.salvar()}" update="aba_alterar" />
+                        <p:separator></p:separator>
+                        <p:commandButton value="Cancelar" actionListener="#{produtoC.novaPesquisa}" immediate="true"
+                                         update="@form" global="false" />
+                    </p:toolbarGroup>
+
+                </p:toolbar>
+
+                <p:fieldset legend="Dados do Produto" style="margin-bottom:20px; margin-top: 10px">
+
+                    <p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" styleClass="painel_grid_noborder" 
+                                 style="width: 100%">
+
+                        <p:outputLabel for="nomeFunc" value="Nome:" />
+                        <p:inputText id="nomeFunc" value="#{produtoC.produto.nomeProduto}" size="40"/>
+                        <p:spacer/>
+
+                        <p:outputLabel for="quantidade" value="Quantidade :" />
+                        <p:inputText id="quantidade" value="#{produtoC.produto.quantidade}"
+                                     requiredMessage="Quantidade é obrigatório" required="true" />
+                        <p:spacer/>
+
+                        <h:outputLabel for="marca" value="Marca: " />
+                        <p:selectOneMenu styleClass="form-control" id="perfil01" value="#{produtoC.marca.id}" style="width: 100%">
+                            <f:selectItem itemLabel="Selecione uma marca" itemValue="" />
+                            <f:selectItems value="#{produtoC.marcas}" />
+                        </p:selectOneMenu>
+
+                        <p:commandButton value="Add Nova Marca" style="margin-left: 25px" type="button" onclick="PF('dlg3').show();" /> 
+
+                        <h:outputLabel for="situacao" value="Situação: " />
+                        <p:selectOneMenu styleClass="form-control" id="perfil02" value="#{produtoC.situacao.id}" style="width: 100%">
+                            <f:selectItem itemLabel="Selecione uma situação" itemValue="" />
+                            <f:selectItems value="#{produtoC.situacoes}" />
+                        </p:selectOneMenu>
+
+                        <p:commandButton value="Add Nova Situação" style="margin-left: 25px" type="button" onclick="PF('dlg3').show();" /> 
+
+                        <!--                        Model Add Nova Marca-->
+                        <p:dialog header="Nova Marca" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
+                            <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-4" styleClass="painel_grid_noborder" >
+
+                                <p:outputLabel for="novaMarca" value="Marca: " />
+                                <p:inputText id="novaMarca" value="#{produtoC.marca.nomeMarca}" size="40" style="max-width: 600px;"/>
+
+                                <p:commandButton value="Salvar"  action="#{produtoC.salvarMarca()}" update="aba_alterar"/>
+                                <p:commandButton value="Cancelar" actionListener="#{produtoC.cancelarModal()}" immediate="true"
+                                                 update="@form" global="false" />
+                            </p:panelGrid>
+                        </p:dialog>
+
+                        <!--Model Add Nova Situação-->
+                        <p:dialog header="Nova Marca" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
+                            <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-4" styleClass="painel_grid_noborder" >
+
+                                <p:outputLabel for="novaSituacao" value="Situação: " />
+                                <p:inputText id="novaSituacao" value="#{produtoC.situacao.nomeSituacao}" size="40" style="max-width: 600px;"/>
+
+                                <p:commandButton value="Salvar"  action="#{produtoC.salvarSituacao()}" update="aba_alterar"/>
+                                <p:commandButton value="Cancelar" actionListener="#{produtoC.cancelarModal()}" immediate="true"
+                                                 update="@form" global="false" />
+                            </p:panelGrid>
+                        </p:dialog>
+
+                    </p:panelGrid>
+
+                </p:fieldset>
+
+
+            </h:panelGroup>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>
+

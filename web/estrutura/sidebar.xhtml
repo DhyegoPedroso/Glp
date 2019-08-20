@@ -1,0 +1,87 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:form id="menuform">
+        <div class="sidebar">
+            <div class="nano">
+                <div class="nano-content sidebar-scroll-content">
+
+                    <div class="logo">
+                        <p:graphicImage name="images/logo.png" library="omega-layout" width="113"/>
+                    </div>
+
+                    <div>
+                        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"  />
+
+                        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                            <p:graphicImage name="aguarde.gif" library="imagem"/>
+                        </p:dialog>
+
+                        <aside class="menu">
+                            <nav>
+                                <ul>
+
+                                        <li>
+                                            <h:link outcome="/conferente/dashboard">
+                                                <i class="fa fw-fw fa-bars"> Dashboard</i></h:link>
+                                        </li>
+
+                                        <li>
+                                            <h:link outcome="/conferente/relatorio">
+                                                <i class="fa fw-fw fa-check"> Relatório</i></h:link>
+                                        </li>
+
+                                        <li>
+                                            <h:link outcome="/secreto/pedido">
+                                                <i class="fa fw-fw fa-check"> Pedido</i></h:link>
+                                        </li>
+
+                                    <h:panelGroup rendered="#{request.isUserInRole('ROLE_CONFERENTE')}" >
+                                    
+                                        <li>
+                                            <h:link outcome="/conferente/estoque">
+                                                <i class="fa fw-fw fa-check"> Estoque</i></h:link>
+                                        </li>
+
+                                    </h:panelGroup>
+
+                                    <h:panelGroup rendered="#{request.isUserInRole('ROLE_ADMIN')}" >
+
+                                        <li>
+                                            <h:link outcome="/administrador/funcionario">
+                                                <i class="fa fw-fw fa-user"> Funcionário</i></h:link>
+                                        </li>
+
+                                        <li>
+                                            <h:link outcome="/administrador/cliente">
+                                                <i class="fa fw-fw fa-gear"> Cliente</i></h:link>
+                                        </li>
+                                        <li>
+                                            <h:link outcome="/administrador/produto">
+                                                <i class="fa fw-fw fa-gear"> Produto</i></h:link>
+                                        </li>
+
+                                    </h:panelGroup>
+
+
+                                        <li>
+                                            <h:link outcome="/conferente/sobre">
+                                                <i class="fa fw-fw fa-sign-out icon-signout"> Sobre</i></h:link>
+                                        </li>
+                                        <li>
+                                            <a href="Glp/logout"><i class="fa fw-fw fa-sign-out icon-signout"></i> Sair</a>
+                                        </li>
+
+
+                                </ul>
+                            </nav>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:form>
+</ui:composition>
