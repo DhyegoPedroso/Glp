@@ -24,23 +24,24 @@
                             <nav>
                                 <ul>
 
-                                        <li>
-                                            <h:link outcome="/conferente/dashboard">
-                                                <i class="fa fw-fw fa-bars"> Dashboard</i></h:link>
-                                        </li>
+                                    <li>
+                                        <h:link outcome="/conferente/dashboard">
+                                            <i class="fa fw-fw fa-bars"> Dashboard</i></h:link>
+                                    </li>
 
-                                        <li>
-                                            <h:link outcome="/conferente/relatorio">
-                                                <i class="fa fw-fw fa-check"> Relatório</i></h:link>
-                                        </li>
+                                    <li>
+                                        <h:link outcome="/conferente/relatorio">
+                                            <i class="fa fw-fw fa-check"> Relatório</i></h:link>
+                                    </li>
+
+                                    <h:panelGroup rendered="#{request.isUserInRole('ROLE_CONFERENTE')}" >
 
                                         <li>
                                             <h:link outcome="/secreto/pedido">
                                                 <i class="fa fw-fw fa-check"> Pedido</i></h:link>
                                         </li>
 
-                                    <h:panelGroup rendered="#{request.isUserInRole('ROLE_CONFERENTE')}" >
-                                    
+
                                         <li>
                                             <h:link outcome="/conferente/estoque">
                                                 <i class="fa fw-fw fa-check"> Estoque</i></h:link>
@@ -67,13 +68,13 @@
                                     </h:panelGroup>
 
 
-                                        <li>
-                                            <h:link outcome="/conferente/sobre">
-                                                <i class="fa fw-fw fa-sign-out icon-signout"> Sobre</i></h:link>
-                                        </li>
-                                        <li>
-                                            <a href="SistemaGlp/logout"><i class="fa fw-fw fa-sign-out icon-signout"></i> Sair</a>
-                                        </li>
+                                    <li>
+                                        <h:link outcome="/conferente/sobre">
+                                            <i class="fa fw-fw fa-sign-out icon-signout"> Sobre</i></h:link>
+                                    </li>
+                                    <li>
+                                        <a href="SistemaGlp/logout"><i class="fa fw-fw fa-sign-out icon-signout"></i> Sair</a>
+                                    </li>
 
 
                                 </ul>

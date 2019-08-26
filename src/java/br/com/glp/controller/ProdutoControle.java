@@ -1,19 +1,11 @@
 package br.com.glp.controller;
 
 import br.com.glp.dao.HibernateUtil;
-import br.com.glp.dao.MarcaDao;
-import br.com.glp.dao.MarcaDaoImpl;
 import br.com.glp.dao.ProdutoDao;
 import br.com.glp.dao.ProdutoDaoImpl;
-import br.com.glp.dao.SituacaoDao;
-import br.com.glp.dao.SituacaoDaoImpl;
-import br.com.glp.model.Marca;
 import br.com.glp.model.Produto;
-import br.com.glp.model.Situacao;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.DataModel;
@@ -21,7 +13,6 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -35,8 +26,6 @@ public class ProdutoControle implements Serializable {
     private boolean mostrar_toolbar;
 
     private Produto produto;
-    private Marca marca;
-    private Situacao situacao;
 
     private ProdutoDao produtoDao;
 
@@ -44,12 +33,6 @@ public class ProdutoControle implements Serializable {
     private List<Produto> produtos;
     private List<SelectItem> marcas;
     private List<SelectItem> situacoes;
-
-//    @PostConstruct
-//    public void inicializar() {
-//        carregaMarcas();
-//        carregaSituacoes();
-//    }
 
     public ProdutoControle() {
         produtoDao = new ProdutoDaoImpl();
@@ -81,8 +64,6 @@ public class ProdutoControle implements Serializable {
     public void carregarParaAlterar() {
         mostrar_toolbar = !mostrar_toolbar;
         produto = modelProdutos.getRowData();
-        marca = produto.getMarca();
-        situacao = produto.getSituacao();
     }
 
     public void pesquisar() {
@@ -103,74 +84,8 @@ public class ProdutoControle implements Serializable {
         }
     }
 
-    private void carregaMarcas() {
-        List<Marca> todasMarcas;
-        try {
-            abreSessao();
-            marcas = new ArrayList();
-
-            MarcaDao marcaDao = new MarcaDaoImpl();
-            todasMarcas = marcaDao.listaTodos(session);
-            todasMarcas.stream().forEach((perf) -> {
-                marcas.add(new SelectItem(perf.getId(), perf.getNomeMarca()));
-            });
-        } catch (HibernateException hi) {
-            System.out.println("Erro ao carregar os marca " + hi.getMessage());
-        } finally {
-            session.close();
-        }
-    }
-
-    public void salvarMarca() {
-        abreSessao();
-        try {
-            MarcaDao marcaDao = new MarcaDaoImpl();
-            marcaDao.salvarOuAlterar(marca, session);
-            carregaMarcas();
-        } catch (HibernateException ex) {
-            System.err.println("Erro ao Salvar nova Marca:\n" + ex.getMessage());
-        } finally {
-        }
-    }
-
-    public void salvarSituacao() {
-        abreSessao();
-        try {
-            SituacaoDao situacaoDao = new SituacaoDaoImpl();
-            situacaoDao.salvarOuAlterar(situacao, session);
-            carregaSituacoes();
-        } catch (HibernateException ex) {
-            System.err.println("Erro ao Salvar nova Situação:\n" + ex.getMessage());
-        } finally {
-        }
-    }
-
-    private void carregaSituacoes() {
-        List<Situacao> todasSituacoes;
-        try {
-            abreSessao();
-            situacoes = new ArrayList();
-
-            SituacaoDao situacaoDao = new SituacaoDaoImpl();
-            todasSituacoes = situacaoDao.listaTodos(session);
-            todasSituacoes.stream().forEach((perf) -> {
-                situacoes.add(new SelectItem(perf.getId(), perf.getNomeSituacao()));
-            });
-        } catch (HibernateException hi) {
-            System.out.println("Erro ao carregar as situações " + hi.getMessage());
-        } finally {
-            session.close();
-        }
-    }
-
-    public void cancelarModal() {
-        RequestContext.getCurrentInstance().closeDialog(null);
-    }
-
     public void limpar() {
         produto = new Produto();
-        marca = new Marca();
-        situacao = new Situacao();
     }
 
     public void excluir() {
@@ -233,28 +148,6 @@ public class ProdutoControle implements Serializable {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
-    }
-
-    public Marca getMarca() {
-        if (marca == null) {
-            marca = new Marca();
-        }
-        return marca;
-    }
-
-    public void setMarca(Marca marca) {
-        this.marca = marca;
-    }
-
-    public Situacao getSituacao() {
-        if (situacao == null) {
-            situacao = new Situacao();
-        }
-        return situacao;
-    }
-
-    public void setSituacao(Situacao situacao) {
-        this.situacao = situacao;
     }
 
     public ProdutoDao getProdutoDao() {

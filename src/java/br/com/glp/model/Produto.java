@@ -21,7 +21,7 @@ public class Produto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
@@ -30,25 +30,23 @@ public class Produto implements Serializable {
     @Column(nullable = false)
     private String nomeProduto;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idMarca")
-    private Marca marca;
+    @Column(nullable = false)
+    private String marca;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idSituacao")
-    private Situacao situacao;
+    @Column(nullable = false)
+    private String situacao;
 
     public Produto() {
     }
 
-    public Produto(Integer quantidade, String nomeProduto, Marca marca, Situacao situacao) {
+    public Produto(Integer quantidade, String nomeProduto, String marca, String situacao) {
         this.quantidade = quantidade;
         this.nomeProduto = nomeProduto;
         this.marca = marca;
         this.situacao = situacao;
     }
 
-    public Produto(Long id, Integer quantidade, String nomeProduto, Marca marca, Situacao situacao) {
+    public Produto(Long id, Integer quantidade, String nomeProduto, String marca, String situacao) {
         this.id = id;
         this.quantidade = quantidade;
         this.nomeProduto = nomeProduto;
@@ -80,19 +78,19 @@ public class Produto implements Serializable {
         this.quantidade = quantidade;
     }
 
-    public Marca getMarca() {
+    public String getMarca() {
         return marca;
     }
 
-    public void setMarca(Marca marca) {
+    public void setMarca(String marca) {
         this.marca = marca;
     }
 
-    public Situacao getSituacao() {
+    public String getSituacao() {
         return situacao;
     }
 
-    public void setSituacao(Situacao situacao) {
+    public void setSituacao(String situacao) {
         this.situacao = situacao;
     }
 

@@ -10,10 +10,8 @@ import br.com.glp.dao.ProdutoDaoImpl;
 import br.com.glp.model.Contato;
 import br.com.glp.model.Endereco;
 import br.com.glp.model.Funcionario;
-import br.com.glp.model.Marca;
 import br.com.glp.model.Perfil;
 import br.com.glp.model.Produto;
-import br.com.glp.model.Situacao;
 import br.com.glp.model.Usuario;
 import java.util.Date;
 import org.hibernate.Session;
@@ -63,63 +61,34 @@ public class InicializarSistema {
 
         ProdutoDao produtoDao = new ProdutoDaoImpl();
 
-        //Cadastrar Marca UltraGaz
-        Marca ultraGaz = new Marca();
-        ultraGaz.setNomeMarca("UltraGaz");
-
-        Situacao cheio = new Situacao();
-        cheio.setNomeSituacao("Cheio");
-        Situacao vazio = new Situacao();
-        vazio.setNomeSituacao("Vazio");
-        Situacao avariado = new Situacao();
-        avariado.setNomeSituacao("Avariado");
-
         //Cadastrar P13 Marca UltraGaz
-        Produto p13Cheio = new Produto(0, "P13", ultraGaz, cheio);
-        p13Cheio.setMarca(ultraGaz);
-        p13Cheio.setSituacao(cheio);
+        Produto p13Cheio = new Produto(0, "P13", "ultraGaz", "cheio");
         produtoDao.salvarOuAlterar(p13Cheio, sessao);
 
-        Produto p13Vazio = new Produto(0, "P13", ultraGaz, vazio);
-        p13Vazio.setMarca(ultraGaz);
-        p13Vazio.setSituacao(vazio);
+        Produto p13Vazio = new Produto(0, "P13", "ultraGaz", "vazio");
         produtoDao.salvarOuAlterar(p13Vazio, sessao);
 
-        Produto p13Avariado = new Produto(0, "P13", ultraGaz, avariado);
-        p13Avariado.setMarca(ultraGaz);
-        p13Avariado.setSituacao(avariado);
+        Produto p13Avariado = new Produto(0, "P13", "ultraGaz", "avariado");
         produtoDao.salvarOuAlterar(p13Avariado, sessao);
 
         //Cadastrar P20 Marca UltraGaz
-        Produto p20Cheio = new Produto(0, "P20", ultraGaz, cheio);
-        p20Cheio.setMarca(ultraGaz);
-        p20Cheio.setSituacao(cheio);
+        Produto p20Cheio = new Produto(0, "P20", "ultraGaz", "cheio");
         produtoDao.salvarOuAlterar(p20Cheio, sessao);
 
-        Produto p20Vazio = new Produto(0, "P20", ultraGaz, vazio);
-        p20Vazio.setMarca(ultraGaz);
-        p20Vazio.setSituacao(vazio);
+        Produto p20Vazio = new Produto(0, "P20", "ultraGaz", "vazio");
         produtoDao.salvarOuAlterar(p20Vazio, sessao);
 
-        Produto p20Avariado = new Produto(0, "P20", ultraGaz, avariado);
-        p20Avariado.setMarca(ultraGaz);
-        p20Avariado.setSituacao(avariado);
+        Produto p20Avariado = new Produto(0, "P20", "ultraGaz", "avariado");
         produtoDao.salvarOuAlterar(p20Avariado, sessao);
 
         //Cadastrar P45 Marca UltraGaz
-        Produto P45Cheio = new Produto(0, "P45", ultraGaz, cheio);
-        P45Cheio.setMarca(ultraGaz);
-        P45Cheio.setSituacao(cheio);
+        Produto P45Cheio = new Produto(0, "P45", "ultraGaz", "cheio");
         produtoDao.salvarOuAlterar(P45Cheio, sessao);
 
-        Produto P45Vazio = new Produto(0, "P45", ultraGaz, vazio);
-        P45Vazio.setMarca(ultraGaz);
-        P45Vazio.setSituacao(vazio);
+        Produto P45Vazio = new Produto(0, "P45", "ultraGaz", "vazio");
         produtoDao.salvarOuAlterar(P45Vazio, sessao);
 
-        Produto P45Avariado = new Produto(0, "P45", ultraGaz, avariado);
-        P45Avariado.setMarca(ultraGaz);
-        P45Avariado.setSituacao(avariado);
+        Produto P45Avariado = new Produto(0, "P45", "ultraGaz", "avariado");
         produtoDao.salvarOuAlterar(P45Avariado, sessao);
     }
 

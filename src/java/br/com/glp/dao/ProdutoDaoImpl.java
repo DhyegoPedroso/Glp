@@ -11,7 +11,8 @@ public class ProdutoDaoImpl extends BaseDaoImpl<Produto, Long> implements Produt
 
     @Override
     public Produto pesquisaEntidadeId(Long id, Session session) throws HibernateException {
-        return (Produto) session.get(Produto.class, id);
+        Produto produto = (Produto) session.get(Produto.class, id);
+        return produto;
     }
 
     @Override

@@ -10,11 +10,11 @@ import javax.persistence.Persistence;
 public class GeradorTabela {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("glpPU");
-        emf.close();
         
         InicializarSistema ip = new InicializarSistema();
         ip.iniciarPerfils();
         ip.inicializarProdutos();
+        emf.close();
         
     }
 }

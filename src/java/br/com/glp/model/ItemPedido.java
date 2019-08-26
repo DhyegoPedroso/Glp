@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,30 +15,29 @@ import javax.persistence.Table;
  *
  * @author Pedrão Master
  */
-
 @Entity
 @Table(name = "itemPedido")
 public class ItemPedido implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Column(nullable = false)
     private int quantidade;
-    
+
     @ManyToOne
     @JoinColumn(name = "idProduto")
     private Produto produto;
-    
+
     @ManyToOne
     @JoinColumn(name = "idPedido")
     private Pedido pedido;
-    
 
     public ItemPedido() {
-    }    
-    
+    }
+
     public Long getId() {
         return id;
     }
@@ -94,13 +95,9 @@ public class ItemPedido implements Serializable {
         return true;
     }
 
-    
     @Override
     public String toString() {
         return super.toString(); //To change body of generated methods, choose Tools | Templates.
-    }  
-    
-    
-    
-    
+    }
+
 }
