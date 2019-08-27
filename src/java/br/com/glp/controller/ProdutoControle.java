@@ -31,8 +31,6 @@ public class ProdutoControle implements Serializable {
 
     private DataModel<Produto> modelProdutos;
     private List<Produto> produtos;
-    private List<SelectItem> marcas;
-    private List<SelectItem> situacoes;
 
     public ProdutoControle() {
         produtoDao = new ProdutoDaoImpl();
@@ -86,6 +84,9 @@ public class ProdutoControle implements Serializable {
 
     public void limpar() {
         produto = new Produto();
+        produto.setMarca("Selecione uma Marca");
+        produto.setSituacao("Selecione uma Situação");
+
     }
 
     public void excluir() {
@@ -108,8 +109,8 @@ public class ProdutoControle implements Serializable {
         try {
             abreSessao();
             produtoDao.salvarOuAlterar(produto, session);
+            limpar();
 
-            Mensagem.salvar("Produto ");
         } catch (HibernateException ex) {
             Mensagem.mensagemError("Erro ao salvar\nTente novamente");
         } finally {
@@ -172,22 +173,6 @@ public class ProdutoControle implements Serializable {
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
-    }
-
-    public List<SelectItem> getMarcas() {
-        return marcas;
-    }
-
-    public void setMarcas(List<SelectItem> marcas) {
-        this.marcas = marcas;
-    }
-
-    public List<SelectItem> getSituacoes() {
-        return situacoes;
-    }
-
-    public void setSituacoes(List<SelectItem> situacoes) {
-        this.situacoes = situacoes;
     }
 
 }

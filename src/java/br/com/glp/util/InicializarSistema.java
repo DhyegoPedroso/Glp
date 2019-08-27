@@ -62,33 +62,33 @@ public class InicializarSistema {
         ProdutoDao produtoDao = new ProdutoDaoImpl();
 
         //Cadastrar P13 Marca UltraGaz
-        Produto p13Cheio = new Produto(0, "P13", "ultraGaz", "cheio");
+        Produto p13Cheio = new Produto(0, "P13", "UltraGaz", "Cheio");
         produtoDao.salvarOuAlterar(p13Cheio, sessao);
 
-        Produto p13Vazio = new Produto(0, "P13", "ultraGaz", "vazio");
+        Produto p13Vazio = new Produto(0, "P13", "UltraGaz", "Vazio");
         produtoDao.salvarOuAlterar(p13Vazio, sessao);
 
-        Produto p13Avariado = new Produto(0, "P13", "ultraGaz", "avariado");
+        Produto p13Avariado = new Produto(0, "P13", "UltraGaz", "Avariado");
         produtoDao.salvarOuAlterar(p13Avariado, sessao);
 
         //Cadastrar P20 Marca UltraGaz
-        Produto p20Cheio = new Produto(0, "P20", "ultraGaz", "cheio");
+        Produto p20Cheio = new Produto(0, "P20", "UltraGaz", "Cheio");
         produtoDao.salvarOuAlterar(p20Cheio, sessao);
 
-        Produto p20Vazio = new Produto(0, "P20", "ultraGaz", "vazio");
+        Produto p20Vazio = new Produto(0, "P20", "UltraGaz", "Vazio");
         produtoDao.salvarOuAlterar(p20Vazio, sessao);
 
-        Produto p20Avariado = new Produto(0, "P20", "ultraGaz", "avariado");
+        Produto p20Avariado = new Produto(0, "P20", "UltraGaz", "Avariado");
         produtoDao.salvarOuAlterar(p20Avariado, sessao);
 
         //Cadastrar P45 Marca UltraGaz
-        Produto P45Cheio = new Produto(0, "P45", "ultraGaz", "cheio");
+        Produto P45Cheio = new Produto(0, "P45", "UltraGaz", "Cheio");
         produtoDao.salvarOuAlterar(P45Cheio, sessao);
 
-        Produto P45Vazio = new Produto(0, "P45", "ultraGaz", "vazio");
+        Produto P45Vazio = new Produto(0, "P45", "UltraGaz", "Vazio");
         produtoDao.salvarOuAlterar(P45Vazio, sessao);
 
-        Produto P45Avariado = new Produto(0, "P45", "ultraGaz", "avariado");
+        Produto P45Avariado = new Produto(0, "P45", "UltraGaz", "Avariado");
         produtoDao.salvarOuAlterar(P45Avariado, sessao);
     }
 

@@ -46,10 +46,10 @@
                     </p:column>
 
                     <p:column headerText="Marca" priority="1">
-                        <h:outputText value="#{produto.marca.nomeMarca}" />
+                        <h:outputText value="#{produto.marca}" />
                     </p:column>
                     <p:column headerText="Situação" priority="1">
-                        <h:outputText value="#{produto.situacao.nomeSituacao}" />
+                        <h:outputText value="#{produto.situacao}" />
                     </p:column>
 
                     <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
@@ -90,64 +90,35 @@
 
                 <p:fieldset legend="Dados do Produto" style="margin-bottom:20px; margin-top: 10px">
 
-                    <p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" styleClass="painel_grid_noborder" 
+                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" styleClass="painel_grid_noborder" 
                                  style="width: 100%">
 
-                        <p:outputLabel for="nomeProduto" value="Nome:" />
+                        <p:outputLabel for="nomeProduto" value="Nome: " />
                         <p:inputText id="nomeProduto" value="#{produtoC.produto.nomeProduto}" size="49"/>
-                        <p:spacer/>
 
-                        <p:outputLabel for="quantidade" value="Quantidade :" />
+                        <p:outputLabel for="quantidade" value="Quantidade: " />
                         <p:inputText id="quantidade" value="#{produtoC.produto.quantidade}"
                                      requiredMessage="Quantidade é obrigatório" required="true" size="49"/>
-                        <p:spacer/>
 
-                        <h:outputLabel for="marca" value="Marca: " />
-                        <p:selectOneMenu styleClass="form-control" id="perfil01" value="#{produtoC.marca.id}" style="width: 100%">
-                            <f:selectItem itemLabel="Selecione uma marca" itemValue="" />
-                            <f:selectItems value="#{produtoC.marcas}" />
+                        <p:outputLabel for="marca" value="Marca: " />
+                        <p:selectOneMenu id="marca" value="#{produtoC.produto.marca}" required="true" style="size: auto">
+                            <f:selectItem itemLabel="Selecione uma Marca" itemValue="" />
+                            <f:selectItem itemLabel="UltraGaz" itemValue="UltraGaz" />
+                            <f:selectItem itemLabel="LiquiGás" itemValue="LiquiGás" />
+                            <f:selectItem itemLabel="SuperGasBras" itemValue="SuperGasBras" />
                         </p:selectOneMenu>
 
-                        <p:commandButton value="Add Nova Marca" style="margin-left: 25px" type="button" onclick="PF('dlg3').show();" /> 
-
-                        <h:outputLabel for="situacao" value="Situação: " />
-                        <p:selectOneMenu styleClass="form-control" id="perfil02" value="#{produtoC.situacao.id}" style="width: 100%">
-                            <f:selectItem itemLabel="Selecione uma situação" itemValue="" />
-                            <f:selectItems value="#{produtoC.situacoes}" />
+                        <p:outputLabel for="situacao" value="Situação: " />
+                        <p:selectOneMenu id="situacao" value="#{produtoC.produto.situacao}" required="true" style="size: auto">
+                            <f:selectItem itemLabel="Selecione uma Situação" itemValue="" />
+                            <f:selectItem itemLabel="Cheio" itemValue="Cheio" />
+                            <f:selectItem itemLabel="Vazio" itemValue="Vazio" />
+                            <f:selectItem itemLabel="Avariado" itemValue="Avariado" />
                         </p:selectOneMenu>
-
-                        <p:commandButton value="Add Nova Situação" style="margin-left: 25px" type="button" onclick="PF('dlg3').show();" /> 
-
-                        <!--                        Model Add Nova Marca-->
-                        <p:dialog header="Nova Marca" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
-                            <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-4" styleClass="painel_grid_noborder" >
-
-                                <p:outputLabel for="novaMarca" value="Marca: " />
-                                <p:inputText id="novaMarca" value="#{produtoC.marca.nomeMarca}" size="40" style="max-width: 600px;"/>
-
-                                <p:commandButton value="Salvar"  action="#{produtoC.salvarMarca()}" update="aba_alterar"/>
-                                <p:commandButton value="Cancelar" actionListener="#{produtoC.cancelarModal()}" immediate="true"
-                                                 update="@form" global="false" />
-                            </p:panelGrid>
-                        </p:dialog>
-
-                        <!--Model Add Nova Situação-->
-                        <p:dialog header="Nova Marca" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
-                            <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-4" styleClass="painel_grid_noborder" >
-
-                                <p:outputLabel for="novaSituacao" value="Situação: " />
-                                <p:inputText id="novaSituacao" value="#{produtoC.situacao.nomeSituacao}" size="40" style="max-width: 600px;"/>
-
-                                <p:commandButton value="Salvar"  action="#{produtoC.salvarSituacao()}" update="aba_alterar"/>
-                                <p:commandButton value="Cancelar" actionListener="#{produtoC.cancelarModal()}" immediate="true"
-                                                 update="@form" global="false" />
-                            </p:panelGrid>
-                        </p:dialog>
 
                     </p:panelGrid>
 
                 </p:fieldset>
-
 
             </h:panelGroup>
 

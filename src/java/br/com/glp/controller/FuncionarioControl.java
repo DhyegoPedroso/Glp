@@ -48,7 +48,6 @@ public class FuncionarioControl implements Serializable {
     private DataModel<Funcionario> modelFuncionarios;
     private List<SelectItem> perfils;
     private List<Funcionario> funcionarios;
-//    private String pesqNome = "";
 
     @PostConstruct
     public void inicializar() {

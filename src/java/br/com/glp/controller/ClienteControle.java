@@ -9,6 +9,7 @@ import br.com.glp.model.Cliente;
 import br.com.glp.model.Contato;
 import br.com.glp.model.Endereco;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -79,12 +80,14 @@ public class ClienteControle implements Serializable {
 
     public void limpar() {
         cliente = new Cliente();
+        contato = new Contato();
     }
 
     public void carregarParaAlterar() {
         mostrar_toolbar = !mostrar_toolbar;
         cliente = modelClientes.getRowData();
         endereco = cliente.getEndereco();
+        contato = cliente.getContato();
     }
 
     public void excluir() {
@@ -104,25 +107,31 @@ public class ClienteControle implements Serializable {
     }
 
     public void salvar() {
-        abreSessao();
         try {
             abreSessao();
+
             cliente.setEndereco(endereco);
             endereco.setPessoa(cliente);
+            cliente.setContato(contato);
+            contato.setPessoa(cliente);
+
+            cliente.setDtCadastro(new Date());
+
             clienteDao.salvarOuAlterar(cliente, session);
-            Mensagem.salvar("Cliente " + cliente.getNome());
+            Mensagem.salvar("Cliente: " + cliente.getNome());
             cliente = null;
             endereco = null;
+            contato = null;
 
         } catch (HibernateException ex) {
-            Mensagem.mensagemError("Erro ao salvar\nTente novamente");
-            System.err.println("Erro ao pesquisar cliente:\n" + ex.getMessage());
+            System.err.println("Erro ao Salvar funcionario:\n" + ex.getMessage());
         } catch (Exception e) {
-            System.out.println("Erro no salvar clienteDao Controle" + e.getMessage());
+            System.out.println("Erro no salvar funcionarioDao Controle "
+                    + e.getMessage());
         } finally {
-            // cliente = new Cliente();
             session.close();
         }
+        limpar();
     }
 
     public void limparTela() {
