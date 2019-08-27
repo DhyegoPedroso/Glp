@@ -31,18 +31,21 @@ public class Cliente extends Pessoa implements Serializable {
     public Cliente() {
     }
 
+    public Cliente(String cnpj, String nomeSocial) {
+        this.cnpj = cnpj;
+        this.nomeSocial = nomeSocial;
+    }
+
     public Cliente(List<Caminhao> caminhoes, String cnpj, String nomeSocial) {
         this.caminhoes = caminhoes;
         this.cnpj = cnpj;
         this.nomeSocial = nomeSocial;
     }
 
-    public Cliente(String nome, Endereco endereco, Contato contato, Date dtCadastro) {
+    public Cliente(String cnpj, String nomeSocial, String nome, Endereco endereco, Contato contato, Date dtCadastro) {
         super(nome, endereco, contato, dtCadastro);
-    }
-
-    public Cliente(Long id, String nome, Endereco endereco, Contato contato, Date dtCadastro) {
-        super(id, nome, endereco, contato, dtCadastro);
+        this.cnpj = cnpj;
+        this.nomeSocial = nomeSocial;
     }
 
     public Cliente(List<Caminhao> caminhoes, String cnpj, String nomeSocial, String nome, Endereco endereco, Contato contato, Date dtCadastro) {
