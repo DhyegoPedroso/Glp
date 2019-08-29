@@ -2,14 +2,13 @@ package br.com.glp.controller;
 
 import br.com.glp.dao.ClienteDao;
 import br.com.glp.dao.ClienteDaoImpl;
-import br.com.glp.dao.EnderecoDao;
 import br.com.glp.dao.HibernateUtil;
 import br.com.glp.model.Caminhao;
 import br.com.glp.model.Cliente;
 import br.com.glp.model.Contato;
 import br.com.glp.model.Endereco;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -20,33 +19,34 @@ import org.hibernate.Session;
 
 /**
  *
- * @author rossi
+ * @author Leo
  */
 @ManagedBean(name = "clienteC")
 @ViewScoped
 public class ClienteControle implements Serializable {
 
-    private Cliente cliente;
-    private Endereco endereco;
-    private Caminhao caminhao;
-    private Contato contato;
-
-    private ClienteDao clienteDao;
-    private EnderecoDao enderecoDao;
-
-    private List<Cliente> clientes;
-    private List<Endereco> enderecos;
-    private DataModel<Cliente> modelClientes;
-
     private Session session;
     private boolean mostrar_toolbar;
+
+    private Cliente cliente;
+    private Endereco endereco;
+    private Contato contato;
+    private Caminhao caminhao;
+
+    private ClienteDao clienteDao;
+
+    private DataModel<Cliente> modelClientes;
+    private List<Cliente> clientes;
+    private List<Contato> contatos;
+    private List<Endereco> enderecos;
+    private List<Caminhao> caminhoes;
 
     public ClienteControle() {
         clienteDao = new ClienteDaoImpl();
     }
 
     private void abreSessao() {
-        if (session == null || !session.isOpen()) {
+        if (session == null) {
             session = HibernateUtil.abreSessao();
         } else if (!session.isOpen()) {
             session = HibernateUtil.abreSessao();
@@ -55,24 +55,41 @@ public class ClienteControle implements Serializable {
 
     public void novo() {
         mostrar_toolbar = !mostrar_toolbar;
+        limpar();
     }
 
     public void novaPesquisa() {
         mostrar_toolbar = !mostrar_toolbar;
+        limpar();
     }
 
     public void preparaAlterar() {
         mostrar_toolbar = !mostrar_toolbar;
+        limpar();
+    }
+
+    public void carregarParaAlterar() {
+        mostrar_toolbar = !mostrar_toolbar;
+        cliente = modelClientes.getRowData();
+        contato = cliente.getContato();
+        endereco = cliente.getEndereco();
+//        caminhao = cliente.getCaminhao();
     }
 
     public void pesquisar() {
+        clienteDao = new ClienteDaoImpl();
         try {
             abreSessao();
-            clientes = clienteDao.pesquisaPorNome(cliente.getNome(), session);
+
+            if (!cliente.getNome().equals("")) {
+                clientes = clienteDao.pesquisaPorNome(cliente.getNome(), session);
+            } else {
+                clientes = clienteDao.listaTodos(session);
+            }
+
             modelClientes = new ListDataModel(clientes);
-            cliente.setNome(null);
-        } catch (Exception e) {
-            System.out.println("erro ao pesquisar o cliente: " + e.getMessage());
+        } catch (HibernateException ex) {
+            System.err.println("Erro pesquisa Cliente:\n" + ex.getMessage());
         } finally {
             session.close();
         }
@@ -81,13 +98,8 @@ public class ClienteControle implements Serializable {
     public void limpar() {
         cliente = new Cliente();
         contato = new Contato();
-    }
-
-    public void carregarParaAlterar() {
-        mostrar_toolbar = !mostrar_toolbar;
-        cliente = modelClientes.getRowData();
-        endereco = cliente.getEndereco();
-        contato = cliente.getContato();
+        endereco = new Endereco();
+        caminhao = new Caminhao();
     }
 
     public void excluir() {
@@ -97,16 +109,17 @@ public class ClienteControle implements Serializable {
             clienteDao.remover(cliente, session);
             clientes.remove(cliente);
             modelClientes = new ListDataModel(clientes);
-            Mensagem.excluir("Cliente" + cliente.getNome());
+            Mensagem.excluir("Funcionario");
             limpar();
-        } catch (Exception ex) {
-            System.out.println("Erro ao excluir cliente\n" + ex.getMessage());
+        } catch (Exception e) {
+            System.out.println("erro ao excluir: " + e.getMessage());
         } finally {
             session.close();
         }
     }
 
     public void salvar() {
+
         try {
             abreSessao();
 
@@ -115,23 +128,46 @@ public class ClienteControle implements Serializable {
             cliente.setContato(contato);
             contato.setPessoa(cliente);
 
-            cliente.setDtCadastro(new Date());
-
             clienteDao.salvarOuAlterar(cliente, session);
-            Mensagem.salvar("Cliente: " + cliente.getNome());
+            Mensagem.salvar("Funcionario: " + cliente.getNome());
             cliente = null;
             endereco = null;
             contato = null;
 
         } catch (HibernateException ex) {
-            System.err.println("Erro ao Salvar funcionario:\n" + ex.getMessage());
+            System.err.println("Erro ao Salvar Cliente:\n" + ex.getMessage());
         } catch (Exception e) {
-            System.out.println("Erro no salvar funcionarioDao Controle "
+            System.out.println("Erro no salvar clienteDao Controle "
                     + e.getMessage());
         } finally {
             session.close();
         }
         limpar();
+
+    }
+
+    public void adicionarContato() {
+        contatos.add(contato);
+    }
+
+    public void removerContato(int index) {
+        contatos.remove(index);
+    }
+
+    public void adicionarCaminhao() {
+        caminhoes.add(caminhao);
+    }
+
+    public void removerCaminhao(int index) {
+        caminhoes.remove(index);
+    }
+
+    public void adicionarEndereco() {
+        enderecos.add(endereco);
+    }
+
+    public void removerEndereco(int index) {
+        enderecos.remove(index);
     }
 
     public void limparTela() {
@@ -153,11 +189,55 @@ public class ClienteControle implements Serializable {
         if (endereco == null) {
             endereco = new Endereco();
         }
+
         return endereco;
     }
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public Caminhao getCaminhao() {
+        if (caminhao == null) {
+            caminhao = new Caminhao();
+        }
+        return caminhao;
+    }
+
+    public void setCaminhao(Caminhao caminhao) {
+        this.caminhao = caminhao;
+    }
+
+    public DataModel<Cliente> getModelClientes() {
+        return modelClientes;
+    }
+
+    public void setModelClientes(DataModel<Cliente> modelClientes) {
+        this.modelClientes = modelClientes;
+    }
+
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setFuncionarios(List<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public boolean isMostrar_toolbar() {
+        return mostrar_toolbar;
+    }
+
+    public void setMostrar_toolbar(boolean mostrar_toolbar) {
+        this.mostrar_toolbar = mostrar_toolbar;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
     }
 
     public Contato getContato() {
@@ -179,7 +259,21 @@ public class ClienteControle implements Serializable {
         this.clienteDao = clienteDao;
     }
 
+    public List<Contato> getContatos() {
+        if (contatos == null) {
+            contatos = new ArrayList<>();
+        }
+        return contatos;
+    }
+
+    public void setContatos(List<Contato> contatos) {
+        this.contatos = contatos;
+    }
+
     public List<Endereco> getEnderecos() {
+        if (enderecos == null) {
+            enderecos = new ArrayList<>();
+        }
         return enderecos;
     }
 
@@ -187,52 +281,15 @@ public class ClienteControle implements Serializable {
         this.enderecos = enderecos;
     }
 
-    public Session getSession() {
-        return session;
+    public List<Caminhao> getCaminhoes() {
+        if (caminhoes == null) {
+            caminhoes = new ArrayList<>();
+        }
+        return caminhoes;
     }
 
-    public void setSession(Session session) {
-        this.session = session;
-    }
-
-    public DataModel<Cliente> getModelClientes() {
-        return modelClientes;
-    }
-
-    public void setModelClientes(DataModel<Cliente> modelClientes) {
-        this.modelClientes = modelClientes;
-    }
-
-    public List<Cliente> getClientes() {
-        return clientes;
-    }
-
-    public void setClientes(List<Cliente> clientes) {
-        this.clientes = clientes;
-    }
-
-    public Caminhao getCaminhao() {
-        return caminhao;
-    }
-
-    public void setCaminhao(Caminhao caminhao) {
-        this.caminhao = caminhao;
-    }
-
-    public EnderecoDao getEnderecoDao() {
-        return enderecoDao;
-    }
-
-    public void setEnderecoDao(EnderecoDao enderecoDao) {
-        this.enderecoDao = enderecoDao;
-    }
-
-    public boolean isMostrar_toolbar() {
-        return mostrar_toolbar;
-    }
-
-    public void setMostrar_toolbar(boolean mostrar_toolbar) {
-        this.mostrar_toolbar = mostrar_toolbar;
+    public void setCaminhoes(List<Caminhao> caminhoes) {
+        this.caminhoes = caminhoes;
     }
 
 }

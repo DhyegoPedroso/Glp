@@ -1,7 +1,6 @@
 package br.com.glp.model;
 
 import javax.annotation.Generated;
-import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
@@ -9,7 +8,6 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Cliente.class)
 public abstract class Cliente_ extends br.com.glp.model.Pessoa_ {
 
-	public static volatile ListAttribute<Cliente, Caminhao> caminhoes;
 	public static volatile SingularAttribute<Cliente, String> cnpj;
 	public static volatile SingularAttribute<Cliente, String> nomeSocial;
 
