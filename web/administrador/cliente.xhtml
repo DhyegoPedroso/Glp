@@ -118,55 +118,91 @@
 
                 <p:commandButton id="btAddEndereco" value="Adicionar Endereco" actionListener="#{clienteC.adicionarEndereco()}" update="@form" style="margin-bottom: 20px"/>
                 <ui:repeat value="#{clienteC.enderecos}" var="endereco" varStatus="status">
-                    <p:panelGrid id="painelContatos" columns="3" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-4, ui-grid-col-4" styleClass="painel_grid_noborder" > 
+                    <p:panelGrid id="painelContatos" columns="3" layout="grid" style="margin-bottom: 15px"
+                                 columnClasses="ui-grid-col-4, ui-grid-col-4, ui-grid-col-4" styleClass="painel_grid_noborder" > 
 
                         <p:fieldset legend="Endereço do Cliente" style="margin-bottom:20px; margin-top: 10px">
-                            <p:panelGrid id="painelEnderecos" columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" styleClass="painel_grid_noborder" >
+                            <p:panelGrid id="painelEnderecos" columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-5" styleClass="painel_grid_noborder" >
+
+                                <p:outputLabel for="unidadeCliente" value="Unidade: " />
+                                <p:outputLabel id="unidadeCliente" value="#{clienteC.endereco.unidade}" />
+
                                 <p:outputLabel for="logradouroCliente" value="Logradouro:" />
-                                <p:inputText id="logradouroCliente" value="#{clienteC.endereco.logradouro}"  size="40"/>
+                                <p:inputText id="logradouroCliente" value="#{clienteC.endereco.logradouro}"/>
+
                                 <p:outputLabel for="numeroCliente" value="Número:" />
-                                <p:inputText id="numeroCliente" value="#{clienteC.endereco.numero}"  size="40"/>
+                                <p:inputText id="numeroCliente" value="#{clienteC.endereco.numero}" />
+
                                 <p:outputLabel for="complementoCliente" value="Complemento:" />
-                                <p:inputText id="complementoCliente" value="#{clienteC.endereco.complemento}"  size="40"/>
+                                <p:inputText id="complementoCliente" value="#{clienteC.endereco.complemento}"/>
+
                                 <p:outputLabel for="cepCliente" value="Cep:" />
-                                <p:inputMask id="cepCliente" value="#{clienteC.endereco.cep}" mask="99999-999" size="40"/>
+                                <p:inputMask id="cepCliente" value="#{clienteC.endereco.cep}" mask="99999-999"/>
+
                                 <p:outputLabel for="bairroCliente" value="Bairro:" />
-                                <p:inputText id="bairroCliente" value="#{clienteC.endereco.bairro}"  size="40"/>
+                                <p:inputText id="bairroCliente" value="#{clienteC.endereco.bairro}"/>
+
                                 <p:outputLabel for="cidadeCliente" value="Cidade:" />
-                                <p:inputText id="cidadeCliente" value="#{clienteC.endereco.cidade}"  size="40"/>
+                                <p:inputText id="cidadeCliente" value="#{clienteC.endereco.cidade}"/>
+
                                 <p:outputLabel for="ufCliente" value="UF:" />
-                                <p:inputText id="ufCliente" value="#{clienteC.endereco.uf}"  size="2"/>
+                                <p:inputText id="ufCliente" value="#{clienteC.endereco.uf}" size="2"/>
+
                                 <p:outputLabel for="paisCliente" value="Pais:" />
-                                <p:inputText id="paisCliente" value="#{clienteC.endereco.pais}"  size="40"/>
+                                <p:inputText id="paisCliente" value="#{clienteC.endereco.pais}"/>
                             </p:panelGrid>
                         </p:fieldset>
 
                         <p:fieldset legend="Contato do Cliente" style="margin-bottom:20px; margin-top: 10px">
+
                             <p:commandButton id="btAddContato" value="Adicionar Contato" actionListener="#{clienteC.adicionarContato()}" update="@form" style="margin-bottom: 20px"/>
+
                             <ui:repeat value="#{clienteC.contatos}" var="contato" varStatus="status">
-                                <p:panelGrid id="painelContatos" columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" styleClass="painel_grid_noborder" >
+
+                                <p:panelGrid id="painelTelefone" columns="2" layout="grid" style="margin-bottom: 15px" 
+                                             columnClasses="ui-grid-col-4, ui-grid-col-5" styleClass="painel_grid_noborder" >
+
+                                    <p:outputLabel for="unidadeClienteCont" value="Unidade: " />
+                                    <p:outputLabel id="unidadeClienteCont" value="#{clienteC.contato.unidade}" />
+
                                     <p:outputLabel for="foneCliente" value="Telefone: " />
-                                    <p:inputMask id="foneCliente" value="#{clienteC.contato.telefone}" mask="(99) 9999-9999" size="40" />
+                                    <p:inputMask id="foneCliente" value="#{clienteC.contato.telefone}" mask="(99) 9999-9999" />
+
                                     <p:outputLabel for="celularCliente" value="Celular:" />
-                                    <p:inputMask id="celularCliente" value="#{clienteC.contato.celular}" mask="(99) 99999-9999" size="40" />
+                                    <p:inputMask id="celularCliente" value="#{clienteC.contato.celular}" mask="(99) 99999-9999" />
+
                                     <p:outputLabel for="btWhats" value="Whatsapp?"/>
                                     <p:selectBooleanButton id="btWhats" value="#{clienteC.contato.whatsapp}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+
                                     <p:outputLabel for="emailCliente" value="E-Mail:" />
-                                    <p:inputText id="emailCliente" value="#{clienteC.contato.email}" size="40" />
-                                    <p:commandButton id="btRemContato" value="Remover Contato" actionListener="#{clienteC.removerContato(status.index)}" update="@form"/>
+                                    <p:inputText id="emailCliente" value="#{clienteC.contato.email}" />
+
+                                    <p:commandButton id="btAddContato" value="Remover Contato" actionListener="#{clienteC.removerContato(status.index)}" update="@form"/>
+
                                 </p:panelGrid>
                             </ui:repeat>
                         </p:fieldset>
 
                         <p:fieldset legend="Caminhão do Cliente" style="margin-bottom:20px; margin-top: 10px">
+
                             <p:commandButton id="btAddCaminhao" value="Adicionar Caminhão" actionListener="#{clienteC.adicionarCaminhao()}" update="@form" style="margin-bottom: 20px"/>
+
                             <ui:repeat value="#{clienteC.caminhoes}" var="caminhao" varStatus="status">
-                                <p:panelGrid id="painelCamihoes" columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" styleClass="painel_grid_noborder" >
+
+                                <p:panelGrid id="painelCamihoes" columns="2" layout="grid" style="margin-bottom: 15px" 
+                                             columnClasses="ui-grid-col-4, ui-grid-col-5" styleClass="painel_grid_noborder" >
+
+                                    <p:outputLabel for="unidadeClienteCam" value="Unidade: " />
+                                    <p:outputLabel id="unidadeClienteCam" value="#{clienteC.caminhao.unidade}"/>
+
                                     <p:outputLabel for="nomeMotorista" value="Motorista: " />
-                                    <p:inputText id="nomeMotorista" value="#{clienteC.caminhao.nomeMotorista}" size="40" />
+                                    <p:inputText id="nomeMotorista" value="#{clienteC.caminhao.nomeMotorista}" />
+
                                     <p:outputLabel for="placaCaminhao" value="Placa: " />
-                                    <p:inputMask id="placaCaminhao" value="#{clienteC.caminhao.placaCaminhao}" mask="9999999" size="40" />
+                                    <p:inputMask id="placaCaminhao" value="#{clienteC.caminhao.placaCaminhao}" mask="9999999"/>
+
                                     <p:commandButton id="btRemCaminhao" value="Remover Caminhão" actionListener="#{clienteC.removerCaminhao(status.index)}" update="@form"/>
+
                                 </p:panelGrid>
                             </ui:repeat>
                         </p:fieldset>

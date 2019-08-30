@@ -40,6 +40,8 @@ public class ClienteControle implements Serializable {
     private List<Contato> contatos;
     private List<Endereco> enderecos;
     private List<Caminhao> caminhoes;
+    
+    private Integer unidadeContagem = 0;
 
     public ClienteControle() {
         clienteDao = new ClienteDaoImpl();
@@ -145,6 +147,12 @@ public class ClienteControle implements Serializable {
         limpar();
 
     }
+    
+    public void setarUnidade(){
+        endereco.setUnidade(Integer.parseInt("0") + ++unidadeContagem);
+        contato.setUnidade(unidadeContagem);
+        caminhao.setUnidade(unidadeContagem);
+    }
 
     public void adicionarContato() {
         contatos.add(contato);
@@ -163,6 +171,7 @@ public class ClienteControle implements Serializable {
     }
 
     public void adicionarEndereco() {
+        setarUnidade();
         enderecos.add(endereco);
     }
 

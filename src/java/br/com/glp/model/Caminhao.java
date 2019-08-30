@@ -24,6 +24,9 @@ public class Caminhao implements Serializable {
     private Long id;
 
     @Column
+    private Integer unidade;
+
+    @Column
     private String nomeMotorista;
 
     @Column
@@ -54,6 +57,14 @@ public class Caminhao implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(Integer unidade) {
+        this.unidade = unidade;
     }
 
     public String getNomeMotorista() {

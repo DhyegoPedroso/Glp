@@ -23,6 +23,9 @@ public class Endereco implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column
+    private Integer unidade;
+
     @Column(nullable = false)
     private String logradouro;
 
@@ -63,6 +66,18 @@ public class Endereco implements Serializable {
         this.cidade = cidade;
         this.uf = uf;
         this.pais = pais;
+    }
+
+    public Endereco(String logradouro, Integer numero, String complemento, String bairro, String cep, String cidade, String uf, String pais, Pessoa pessoa) {
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.cep = cep;
+        this.cidade = cidade;
+        this.uf = uf;
+        this.pais = pais;
+        this.pessoa = pessoa;
     }
 
     public Endereco(Long id, String logradouro, Integer numero, String complemento, String bairro, String cep, String cidade, String uf, String pais, Pessoa pessoa) {
@@ -134,6 +149,14 @@ public class Endereco implements Serializable {
         this.id = id;
     }
 
+    public Integer getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(Integer unidade) {
+        this.unidade = unidade;
+    }
+
     public Integer getNumero() {
         return numero;
     }
@@ -181,5 +204,7 @@ public class Endereco implements Serializable {
     @Override
     public String toString() {
         return "br.com.senac.model.Endereco[ id=" + id + " ]";
+
     }
+
 }

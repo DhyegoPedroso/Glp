@@ -24,6 +24,9 @@ public class Contato implements Serializable {
     private Long id;
 
     @Column
+    private Integer unidade;
+
+    @Column
     private String telefone;
 
     @Column
@@ -55,6 +58,14 @@ public class Contato implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(Integer unidade) {
+        this.unidade = unidade;
     }
 
     public String getTelefone() {
