@@ -28,7 +28,8 @@ public class ClienteControle implements Serializable {
 
     private Session session;
     private boolean mostrar_toolbar;
-    private boolean mostrar_tabela;
+    private boolean mostrarTabelaEndereco;
+    private boolean mostrarTabelaCaminhao;
 
     private Cliente cliente;
     private Endereco endereco;
@@ -39,6 +40,7 @@ public class ClienteControle implements Serializable {
 
     private DataModel<Cliente> modelClientes;
     private DataModel<Endereco> modelEnderecos;
+    private DataModel<Caminhao> modelCaminhoes;
     private List<Cliente> clientes;
     private List<Contato> contatos;
     private List<Endereco> enderecos;
@@ -76,15 +78,22 @@ public class ClienteControle implements Serializable {
         cliente = modelClientes.getRowData();
     }
 
-    public void carregarTabela() {
-
+    public void carregarTabelaEndereco() {
         if (enderecos.size() > 0) {
-            mostrar_tabela = true;
+            mostrarTabelaEndereco = true;
             endereco = modelEnderecos.getRowData();
         } else {
-            mostrar_tabela = false;
+            mostrarTabelaEndereco = false;
         }
+    }
 
+    public void carregarTabelaCaminhao() {
+        if (caminhoes.size() > 0) {
+            mostrarTabelaCaminhao = true;
+            caminhao = modelCaminhoes.getRowData();
+        } else {
+            mostrarTabelaCaminhao = false;
+        }
     }
 
     public void pesquisar() {
@@ -154,10 +163,32 @@ public class ClienteControle implements Serializable {
 
     }
 
+    public void addListaEndereco() {
+        if (enderecos.isEmpty()) {
+            enderecos = new ArrayList<>();
+            enderecos.add(endereco);
+        } else {
+            enderecos.add(endereco);
+        }
+    }
+
+    public void addListaCaminhao() {
+
+        if (caminhoes.isEmpty()) {
+            caminhoes = new ArrayList<>();
+            caminhoes.add(caminhao);
+        } else {
+            caminhoes.add(caminhao);
+        }
+    }
+
     public void limparTela() {
         limpar();
     }
 
+    //    
+    //Getters e Setters
+    //
     public Cliente getCliente() {
         if (cliente == null) {
             cliente = new Cliente();
@@ -207,6 +238,14 @@ public class ClienteControle implements Serializable {
         this.modelEnderecos = modelEnderecos;
     }
 
+    public DataModel<Caminhao> getModelCaminhoes() {
+        return modelCaminhoes;
+    }
+
+    public void setModelCaminhoes(DataModel<Caminhao> modelCaminhoes) {
+        this.modelCaminhoes = modelCaminhoes;
+    }
+
     public List<Cliente> getClientes() {
         return clientes;
     }
@@ -223,12 +262,20 @@ public class ClienteControle implements Serializable {
         this.mostrar_toolbar = mostrar_toolbar;
     }
 
-    public boolean isMostrar_tabela() {
-        return mostrar_tabela;
+    public boolean isMostrarTabelaEndereco() {
+        return mostrarTabelaEndereco;
     }
 
-    public void setMostrar_tabela(boolean mostrar_tabela) {
-        this.mostrar_tabela = mostrar_tabela;
+    public void setMostrarTabelaEndereco(boolean mostrarTabelaEndereco) {
+        this.mostrarTabelaEndereco = mostrarTabelaEndereco;
+    }
+
+    public boolean isMostrarTabelaCaminhao() {
+        return mostrarTabelaCaminhao;
+    }
+
+    public void setMostrarTabelaCaminhao(boolean mostrarTabelaCaminhao) {
+        this.mostrarTabelaCaminhao = mostrarTabelaCaminhao;
     }
 
     public Session getSession() {

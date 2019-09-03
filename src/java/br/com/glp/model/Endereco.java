@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -50,8 +51,8 @@ public class Endereco implements Serializable {
     @Column(nullable = false)
     private String pais;
 
-    @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL)
-    private List<Contato> contatos;
+    @OneToOne(mappedBy = "endereco", cascade = CascadeType.ALL)
+    private Contato contato;
 
     @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL)
     private List<Caminhao> caminhoes;
@@ -62,6 +63,19 @@ public class Endereco implements Serializable {
 
     public Endereco() {
     }
+
+    public Endereco(String logradouro, Integer numero, String complemento, String bairro, String cep, String cidade, String uf, String pais) {
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.cep = cep;
+        this.cidade = cidade;
+        this.uf = uf;
+        this.pais = pais;
+    }
+    
+    
 
     public String getCidade() {
         return cidade;
@@ -135,12 +149,12 @@ public class Endereco implements Serializable {
         this.uf = uf;
     }
 
-    public List<Contato> getContatos() {
-        return contatos;
+    public Contato getContato() {
+        return contato;
     }
 
-    public void setContatos(List<Contato> contatos) {
-        this.contatos = contatos;
+    public void setContato(Contato contato) {
+        this.contato = contato;
     }
 
     public Cliente getCliente() {

@@ -30,6 +30,11 @@ public class Cliente extends Pessoa implements Serializable {
     public Cliente() {
     }
 
+    public Cliente(String cnpj, String nomeSocial) {
+        this.cnpj = cnpj;
+        this.nomeSocial = nomeSocial;
+    }
+
     public String getCnpj() {
         return cnpj;
     }

@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -41,6 +42,15 @@ public class Contato implements Serializable {
 
     public Contato() {
     }
+
+    public Contato(String telefone, String celular, String email, Boolean whatsapp) {
+        this.telefone = telefone;
+        this.celular = celular;
+        this.email = email;
+        this.whatsapp = whatsapp;
+    }
+    
+    
 
     public Long getId() {
         return id;

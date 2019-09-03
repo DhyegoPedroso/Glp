@@ -36,6 +36,11 @@ public class Caminhao implements Serializable {
     public Caminhao() {
     }
 
+    public Caminhao(String nomeMotorista, String placaCaminhao) {
+        this.nomeMotorista = nomeMotorista;
+        this.placaCaminhao = placaCaminhao;
+    }
+    
     public Long getId() {
         return id;
     }
