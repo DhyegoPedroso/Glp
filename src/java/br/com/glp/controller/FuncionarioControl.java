@@ -5,8 +5,6 @@ import br.com.glp.dao.FuncionarioDaoImpl;
 import br.com.glp.dao.HibernateUtil;
 import br.com.glp.dao.PerfilDao;
 import br.com.glp.dao.PerfilDaoImpl;
-import br.com.glp.model.Contato;
-import br.com.glp.model.Endereco;
 import br.com.glp.model.Funcionario;
 import br.com.glp.model.Perfil;
 import br.com.glp.model.Usuario;
@@ -38,8 +36,6 @@ public class FuncionarioControl implements Serializable {
     private boolean mostrar_toolbar;
 
     private Funcionario funcionario;
-    private Endereco endereco;
-    private Contato contato;
     private Usuario usuario;
     private Perfil perfil;
 
@@ -84,8 +80,6 @@ public class FuncionarioControl implements Serializable {
     public void carregarParaAlterar() {
         mostrar_toolbar = !mostrar_toolbar;
         funcionario = modelFuncionarios.getRowData();
-//        contato = funcionario.getContato();
-//        endereco = funcionario.getEndereco();
         usuario = funcionario.getUsuario();
         perfil = usuario.getPerfil();
     }
@@ -94,15 +88,12 @@ public class FuncionarioControl implements Serializable {
         funcionarioDao = new FuncionarioDaoImpl();
         try {
             abreSessao();
-
             if (!funcionario.getNome().equals("")) {
                 funcionarios = funcionarioDao.pesquisaPorNome(funcionario.getNome(), session);
             } else {
                 funcionarios = funcionarioDao.listaTodos(session);
             }
-
             modelFuncionarios = new ListDataModel(funcionarios);
-//            pesqNome = null;
         } catch (HibernateException ex) {
             System.err.println("Erro pesquisa Funcionario:\n" + ex.getMessage());
         } finally {
@@ -130,9 +121,7 @@ public class FuncionarioControl implements Serializable {
 
     public void limpar() {
         funcionario = new Funcionario();
-        contato = new Contato();
         perfil = new Perfil();
-        endereco = new Endereco();
         usuario = new Usuario();
     }
 
@@ -171,11 +160,6 @@ public class FuncionarioControl implements Serializable {
         try {
             abreSessao();
 
-//            funcionario.setEndereco(endereco);
-//            endereco.setPessoa(funcionario);
-//            funcionario.setContato(contato);
-//            contato.setPessoa(funcionario);
-
             funcionario.setUsuario(usuario);
             usuario.setFuncionario(funcionario);
 
@@ -190,8 +174,6 @@ public class FuncionarioControl implements Serializable {
             funcionarioDao.salvarOuAlterar(funcionario, session);
             Mensagem.salvar("Funcionario: " + funcionario.getNome());
             funcionario = null;
-            endereco = null;
-            contato = null;
             usuario = null;
 
         } catch (HibernateException ex) {
@@ -219,18 +201,6 @@ public class FuncionarioControl implements Serializable {
 
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
-    }
-
-    public Endereco getEndereco() {
-        if (endereco == null) {
-            endereco = new Endereco();
-        }
-
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
     }
 
     public DataModel<Funcionario> getModelFuncionarios() {
@@ -273,17 +243,6 @@ public class FuncionarioControl implements Serializable {
         this.session = session;
     }
 
-    public Contato getContato() {
-        if (contato == null) {
-            contato = new Contato();
-        }
-        return contato;
-    }
-
-    public void setContato(Contato contato) {
-        this.contato = contato;
-    }
-
     public Usuario getUsuario() {
         if (usuario == null) {
             usuario = new Usuario();
@@ -313,12 +272,4 @@ public class FuncionarioControl implements Serializable {
     public void setFuncionarioDao(FuncionarioDao funcionarioDao) {
         this.funcionarioDao = funcionarioDao;
     }
-
-//    public String getPesqNome() {
-//        return pesqNome;
-//    }
-//
-//    public void setPesqNome(String pesqNome) {
-//        this.pesqNome = pesqNome;
-//    }
 }

@@ -49,14 +49,6 @@ public class Usuario implements Serializable {
         this.perfil = perfil;
     }
 
-    public Usuario(Long id, String login, String senha, boolean enable, Perfil perfil) {
-        this.id = id;
-        this.login = login;
-        this.senha = senha;
-        this.enable = enable;
-        this.perfil = perfil;
-    }
-
     public Long getId() {
         return id;
     }

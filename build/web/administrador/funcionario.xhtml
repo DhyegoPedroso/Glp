@@ -13,7 +13,7 @@
 
         <h:form id="form_pesquisa">
 
-          <p:messages id="mens" autoUpdate="" />
+            <p:messages id="mens" autoUpdate="" />
 
             <h:panelGroup id="aba1" rendered="#{!funcionarioC.mostrar_toolbar}" >
 
@@ -41,20 +41,16 @@
                         <h:outputText value="#{funcionario.nome}"/>
                     </p:column>
 
-                    <p:column headerText="Telefone" priority="1">
-                        <h:outputText value="#{funcionario.contato.telefone}" />
+                    <p:column headerText="CPF" priority="1">
+                        <h:outputText value="#{funcionario.cpf}" />
                     </p:column>
 
-                    <p:column headerText="Celular" priority="1">
-                        <h:outputText value="#{funcionario.contato.celular}" />
+                    <p:column headerText="RG" priority="1">
+                        <h:outputText value="#{funcionario.rg}" />
                     </p:column>
 
-                    <p:column headerText="Whatsapp:" priority="1">
-                        <h:outputText value="#{funcionario.contato.whatsapp}" />
-                    </p:column>
-
-                    <p:column headerText="E-Mail" priority="1">
-                        <h:outputText value="#{funcionario.contato.email}" />
+                    <p:column headerText="Matricula" priority="1">
+                        <h:outputText value="#{funcionario.matricula}" />
                     </p:column>
 
                     <p:column headerText="Data Contratação">
@@ -107,64 +103,14 @@
                         <p:outputLabel for="nomeFunc" value="Nome:" />
                         <p:inputText id="nomeFunc" value="#{funcionarioC.funcionario.nome}" size="40"/>
 
-                        <p:outputLabel for="sexoFunc" value="Sexo: " />
-                        <h:panelGrid columns="3" >
-                            <p:selectOneRadio id="sexoFunc" value="#{funcionarioC.funcionario.sexo}" >
-                                <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
-                                <f:selectItem itemLabel="Feminino" itemValue="Feminino" />
-                                <f:selectItem itemLabel="Outros" itemValue="Outros" />
-                            </p:selectOneRadio>
-                        </h:panelGrid>
-
                         <p:outputLabel for="rgFunc" value="RG:" />
                         <p:inputMask id="rgFunc" value="#{funcionarioC.funcionario.rg}"  mask="9.999.999-9" size="40" />
 
                         <p:outputLabel for="cpfFunc" value="CPF:" />
                         <p:inputMask id="cpfFunc" value="#{funcionarioC.funcionario.cpf}" mask="999.999.999-99" size="40" />
-
-                        <p:outputLabel for="foneFunc" value="Telefone: " />
-                        <p:inputMask id="foneFunc" value="#{funcionarioC.contato.telefone}" mask="(99) 9999-9999" size="40" />
-
-                        <p:outputLabel for="celularFunc" value="Celular:" />
-                        <p:inputMask id="celularFunc" value="#{funcionarioC.contato.celular}" mask="(99) 99999-9999" size="40" />
-
-                        <p:outputLabel for="btWhats" value="Whatsapp?"/>
-                        <p:selectBooleanButton id="btWhats" value="#{funcionarioC.contato.whatsapp}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
-
-                        <p:outputLabel for="emailFunc" value="E-Mail:" />
-                        <p:inputText id="emailFunc" value="#{funcionarioC.contato.email}" size="40" />
-
-                    </p:panelGrid>
-
-                </p:fieldset>
-
-                <p:fieldset legend="Endereço do Funcionario" style="margin-bottom:20px; margin-top: 10px">
-
-                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" styleClass="painel_grid_noborder" >
-
-                        <p:outputLabel for="logradouroFunc" value="Logradouro:" />
-                        <p:inputText id="logradouroFunc" value="#{funcionarioC.endereco.logradouro}"  size="40"/>
-
-                        <p:outputLabel for="numeroFunc" value="Número:" />
-                        <p:inputText id="numeroFunc" value="#{funcionarioC.endereco.numero}"  size="40"/>
-
-                        <p:outputLabel for="complementoFunc" value="Complemento:" />
-                        <p:inputText id="complementoFunc" value="#{funcionarioC.endereco.complemento}"  size="40"/>
-
-                        <p:outputLabel for="cepFunc" value="Cep:" />
-                        <p:inputMask id="cepFunc" value="#{funcionarioC.endereco.cep}" mask="99999-999" size="40"/>
-
-                        <p:outputLabel for="bairroFunc" value="Bairro:" />
-                        <p:inputText id="bairroFunc" value="#{funcionarioC.endereco.bairro}"  size="40"/>
-
-                        <p:outputLabel for="cidadeFunc" value="Cidade:" />
-                        <p:inputText id="cidadeFunc" value="#{funcionarioC.endereco.cidade}"  size="40"/>
-
-                        <p:outputLabel for="ufFunc" value="UF:" />
-                        <p:inputText id="ufFunc" value="#{funcionarioC.endereco.uf}"  size="2"/>
-
-                        <p:outputLabel for="paisFunc" value="Pais:" />
-                        <p:inputText id="paisFunc" value="#{funcionarioC.endereco.pais}"  size="40"/>
+                        
+                        <p:outputLabel for="matriculaFunc" value="Matricula:" />
+                        <p:inputText id="matriculaFunc" value="#{funcionarioC.funcionario.matricula}" size="40"/>
 
                     </p:panelGrid>
 

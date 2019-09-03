@@ -34,14 +34,6 @@ public class Perfil implements Serializable {
     }
 
     public Perfil(String tipo, String observacao, String nome) {
-        this.id = id;
-        this.tipo = tipo;
-        this.observacao = observacao;
-        this.nome = nome;
-    }
-
-    public Perfil(Long id, String tipo, String observacao, String nome) {
-        this.id = id;
         this.tipo = tipo;
         this.observacao = observacao;
         this.nome = nome;
