@@ -53,6 +53,12 @@
                         <h:outputText value="#{cliente.cnpj}" />
                     </p:column>
 
+                    <p:column headerText="Data Contratação">
+                        <h:outputText value="#{cliente.dtCadastro}">
+                            <f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
                     <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
                         <p:commandButton icon="ui-icon-pencil" title="Alterar" process="@this" update="@form" actionListener="#{clienteC.carregarParaAlterar()}">
                             <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />          
