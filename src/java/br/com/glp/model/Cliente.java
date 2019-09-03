@@ -21,10 +21,10 @@ public class Cliente extends Pessoa implements Serializable {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Endereco> enderecos;
 
-    @Column
+    @Column(nullable = false)
     private String cnpj;
 
-    @Column
+    @Column(nullable = false)
     private String nomeSocial;
 
     public Cliente() {

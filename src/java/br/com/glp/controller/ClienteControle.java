@@ -27,6 +27,7 @@ public class ClienteControle implements Serializable {
 
     private Session session;
     private boolean mostrar_toolbar;
+    private boolean mostrar_tabela;
 
     private Cliente cliente;
     private Endereco endereco;
@@ -36,13 +37,11 @@ public class ClienteControle implements Serializable {
     private ClienteDao clienteDao;
 
     private DataModel<Cliente> modelClientes;
-    private DataModel<Caminhao> modelCaminhoes;
+    private DataModel<Endereco> modelEnderecos;
     private List<Cliente> clientes;
     private List<Contato> contatos;
     private List<Endereco> enderecos;
     private List<Caminhao> caminhoes;
-    
-    private Integer unidadeContagem = 0;
 
     public ClienteControle() {
         clienteDao = new ClienteDaoImpl();
@@ -74,8 +73,17 @@ public class ClienteControle implements Serializable {
     public void carregarParaAlterar() {
         mostrar_toolbar = !mostrar_toolbar;
         cliente = modelClientes.getRowData();
-//        contato = cliente.getContato();
-//        endereco = cliente.getEndereco();
+    }
+
+    public void carregarTabela() {
+
+        if (enderecos.size() > 0) {
+            mostrar_tabela = true;
+            endereco = modelEnderecos.getRowData();
+        } else {
+            mostrar_tabela = false;
+        }
+
     }
 
     public void pesquisar() {
@@ -125,11 +133,6 @@ public class ClienteControle implements Serializable {
         try {
             abreSessao();
 
-//            cliente.setEndereco(endereco);
-//            endereco.setPessoa(cliente);
-//            cliente.setContato(contato);
-//            contato.setPessoa(cliente);
-
             clienteDao.salvarOuAlterar(cliente, session);
             Mensagem.salvar("Funcionario: " + cliente.getNome());
             cliente = null;
@@ -146,37 +149,6 @@ public class ClienteControle implements Serializable {
         }
         limpar();
 
-    }
-    
-    public void setarUnidade(){
-//        endereco.setUnidade(Integer.parseInt("0") + ++unidadeContagem);
-//        contato.setUnidade(unidadeContagem);
-//        caminhao.setUnidade(unidadeContagem);
-    }
-
-    public void adicionarContato() {
-        contatos.add(contato);
-    }
-
-    public void removerContato(int index) {
-        contatos.remove(index);
-    }
-
-    public void adicionarCaminhao() {
-        caminhoes.add(caminhao);
-    }
-
-    public void removerCaminhao(int index) {
-        caminhoes.remove(index);
-    }
-
-    public void adicionarEndereco() {
-        setarUnidade();
-        enderecos.add(endereco);
-    }
-
-    public void removerEndereco(int index) {
-        enderecos.remove(index);
     }
 
     public void limparTela() {
@@ -198,7 +170,6 @@ public class ClienteControle implements Serializable {
         if (endereco == null) {
             endereco = new Endereco();
         }
-
         return endereco;
     }
 
@@ -225,15 +196,13 @@ public class ClienteControle implements Serializable {
         this.modelClientes = modelClientes;
     }
 
-    public DataModel<Caminhao> getModelCaminhoes() {
-        return modelCaminhoes;
+    public DataModel<Endereco> getModelEnderecos() {
+        return modelEnderecos;
     }
 
-    public void setModelCaminhoes(DataModel<Caminhao> modelCaminhoes) {
-        this.modelCaminhoes = modelCaminhoes;
+    public void setModelEnderecos(DataModel<Endereco> modelEnderecos) {
+        this.modelEnderecos = modelEnderecos;
     }
-    
-    
 
     public List<Cliente> getClientes() {
         return clientes;
@@ -249,6 +218,14 @@ public class ClienteControle implements Serializable {
 
     public void setMostrar_toolbar(boolean mostrar_toolbar) {
         this.mostrar_toolbar = mostrar_toolbar;
+    }
+
+    public boolean isMostrar_tabela() {
+        return mostrar_tabela;
+    }
+
+    public void setMostrar_tabela(boolean mostrar_tabela) {
+        this.mostrar_tabela = mostrar_tabela;
     }
 
     public Session getSession() {

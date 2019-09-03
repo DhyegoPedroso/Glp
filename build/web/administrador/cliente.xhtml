@@ -18,12 +18,16 @@
             <h:panelGroup id="aba1" rendered="#{!clienteC.mostrar_toolbar}" >
 
                 <p:toolbar styleClass="toolbar">
+
                     <p:toolbarGroup  >
+
                         <p:commandButton value="Pesquisar" actionListener="#{clienteC.pesquisar()}"
                                          update="dadosCliente" process="@this panelGridPesq" />
                         <p:separator></p:separator>
                         <p:commandButton value="Novo" actionListener="#{clienteC.novo}" update="@form" global="false"  />
+
                     </p:toolbarGroup>
+
                 </p:toolbar>
 
                 <p:panelGrid id="panelGridPesq" columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-10" styleClass="painel_grid_noborder" >
@@ -49,18 +53,6 @@
                         <h:outputText value="#{cliente.cnpj}" />
                     </p:column>
 
-                    <p:column headerText="Celular" priority="1">
-                        <h:outputText value="#{cliente.contato.celular}" />
-                    </p:column>
-
-                    <p:column headerText="Whatsapp:" priority="1">
-                        <h:outputText value="#{cliente.contato.whatsapp}" />
-                    </p:column>
-
-                    <p:column headerText="E-Mail" priority="1">
-                        <h:outputText value="#{cliente.contato.email}" />
-                    </p:column>
-
                     <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
                         <p:commandButton icon="ui-icon-pencil" title="Alterar" process="@this" update="@form" actionListener="#{clienteC.carregarParaAlterar()}">
                             <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />          
@@ -78,6 +70,7 @@
             </h:panelGroup> 
 
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+
                 <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" 
                                  icon="ui-icon-check" />
                 <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" 
@@ -97,6 +90,7 @@
 
                 </p:toolbar>
 
+                <!--Cadastra dados do Cliente-->
                 <p:fieldset legend="Dados do Cliente" style="margin-bottom:20px; margin-top: 10px">
 
                     <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" styleClass="painel_grid_noborder" 
@@ -105,7 +99,7 @@
                         <p:outputLabel for="nomeCliente" value="Nome:" />
                         <p:inputText id="nomeCliente" value="#{clienteC.cliente.nome}" size="40"/>
 
-                        <p:outputLabel for="nomeSocialCliente" value="Nome Social:" />
+                        <p:outputLabel for="nomeSocialCliente" value="Razão Social:" />
                         <p:inputText id="nomeSocialCliente" value="#{clienteC.cliente.nomeSocial}" size="40"/>
 
                         <p:outputLabel for="cnpjCliente" value="CNPJ:" />
@@ -116,13 +110,12 @@
                 </p:fieldset>
 
 
+                <!--Modal para adicionar endereço do Cliente-->
                 <p:commandButton value="Endereço" type="button" onclick="PF('dlg3').show();" /> 
 
                 <p:dialog header="Mais Endereço" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
-                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-4" styleClass="painel_grid_noborder" >
 
-                        <p:outputLabel for="unidadeCliente" value="Unidade: " />
-                        <p:outputLabel id="unidadeCliente" value="#{clienteC.endereco.unidade}" />
+                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-6" styleClass="painel_grid_noborder" >
 
                         <p:outputLabel for="logradouroCliente" value="Logradouro:" />
                         <p:inputText id="logradouroCliente" value="#{clienteC.endereco.logradouro}"/>
@@ -148,7 +141,72 @@
                         <p:outputLabel for="paisCliente" value="Pais:" />
                         <p:inputText id="paisCliente" value="#{clienteC.endereco.pais}"/>
 
+                        <p:commandButton value="Salvar"  action="#{clienteC.salvar()}" update="aba_alterar"/>
+
                     </p:panelGrid>
+
+                </p:dialog>
+
+
+                <!--Endereços do Cliente ja cadastrados-->
+                <p:dataTable  rendered="#{clienteC.mostrar_tabela}" id="dadosEndereco" value="#{clienteC.modelEnderecos}" var="endereco" reflow="true"
+                              style="margin-top: 20px;"  emptyMessage="Nenhum endereço encontrado">
+
+                    <p:column headerText="Logradouro" priority="1">
+                        <h:outputText value="#{endereco.logradouro}"/>
+                    </p:column>
+
+                    <p:column headerText="CEP" priority="1">
+                        <h:outputText value="#{endereco.cep}" />
+                    </p:column>
+
+                    <p:column headerText="Complemento" priority="1">
+                        <h:outputText value="#{endereco.complemento}" />
+                    </p:column>
+
+                    <p:column headerText="Bairro" priority="1">
+                        <h:outputText value="#{endereco.bairro}"/>
+                    </p:column>
+
+                    <p:column headerText="Cidade" priority="1">
+                        <h:outputText value="#{endereco.cidade}" />
+                    </p:column>
+
+                    <p:column headerText="UF" priority="1">
+                        <h:outputText value="#{endereco.uf}" />
+                    </p:column>
+
+                    <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
+                        <p:commandButton icon="ui-icon-pencil" title="Alterar" process="@this" update="@form" actionListener="#{clienteC.carregarParaAlterar()}">
+                            <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />          
+                        </p:commandButton>
+
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{clienteC.excluir()}" update="dadosEndereco" title="Excluir" >
+                            <p:confirm header="Confirmação" message="Tem certeza exclusão?" icon="ui-icon-alert" />
+                            <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />
+                        </p:commandButton>
+
+                        <p:commandButton icon="ui-icon-pencil" title="Add Caminhão" process="@this" update="@form" onclick="PF('dlg4').show();">
+                            <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />          
+                        </p:commandButton>
+
+                    </p:column>
+
+                </p:dataTable>
+
+                <!--Modal para add caminhoes do cliente-->
+                <p:dialog header="Add Caminhão" widgetVar="dlg4" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
+
+                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-6" styleClass="painel_grid_noborder" >
+
+                        <p:column headerText="Motorista: " priority="1">
+                        </p:column>
+
+                        <p:column headerText="Placa: " priority="1">
+                        </p:column>
+
+                    </p:panelGrid>
+
                 </p:dialog>
 
             </h:panelGroup>
