@@ -24,31 +24,16 @@ public class Caminhao implements Serializable {
     private Long id;
 
     @Column
-    private Integer unidade;
-
-    @Column
     private String nomeMotorista;
 
     @Column
     private String placaCaminhao;
 
     @ManyToOne
-    @JoinColumn(name = "idCliente")
-    private Cliente cliente;
+    @JoinColumn(name = "idEndereco")
+    private Endereco endereco;
 
     public Caminhao() {
-    }
-
-    public Caminhao(String nomeMotorista, String placaCaminhao) {
-        this.nomeMotorista = nomeMotorista;
-        this.placaCaminhao = placaCaminhao;
-    }
-
-    public Caminhao(Long id, String nomeMotorista, String placaCaminhao, Cliente cliente) {
-        this.id = id;
-        this.nomeMotorista = nomeMotorista;
-        this.placaCaminhao = placaCaminhao;
-        this.cliente = cliente;
     }
 
     public Long getId() {
@@ -57,14 +42,6 @@ public class Caminhao implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Integer getUnidade() {
-        return unidade;
-    }
-
-    public void setUnidade(Integer unidade) {
-        this.unidade = unidade;
     }
 
     public String getNomeMotorista() {
@@ -83,13 +60,14 @@ public class Caminhao implements Serializable {
         this.placaCaminhao = placaCaminhao;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
+
 
     @Override
     public int hashCode() {

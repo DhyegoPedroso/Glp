@@ -12,7 +12,6 @@ public abstract class Funcionario_ extends br.com.glp.model.Pessoa_ {
 	public static volatile SingularAttribute<Funcionario, String> cpf;
 	public static volatile SingularAttribute<Funcionario, String> matricula;
 	public static volatile SingularAttribute<Funcionario, Usuario> usuario;
-	public static volatile SingularAttribute<Funcionario, String> sexo;
 
 }
 

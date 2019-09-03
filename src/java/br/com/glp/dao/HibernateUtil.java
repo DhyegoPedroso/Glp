@@ -32,16 +32,16 @@ public class HibernateUtil {
 
             Configuration cfg = new Configuration();
             cfg.addAnnotatedClass(Pessoa.class);
-            cfg.addAnnotatedClass(Funcionario.class);
-            cfg.addAnnotatedClass(Cliente.class);
-            cfg.addAnnotatedClass(Endereco.class);
-            cfg.addAnnotatedClass(Contato.class);
             cfg.addAnnotatedClass(Perfil.class);
             cfg.addAnnotatedClass(Usuario.class);
+            cfg.addAnnotatedClass(Funcionario.class);
+            cfg.addAnnotatedClass(Cliente.class);
             cfg.addAnnotatedClass(Caminhao.class);
+            cfg.addAnnotatedClass(Endereco.class);
+            cfg.addAnnotatedClass(Contato.class);
             cfg.addAnnotatedClass(Produto.class);
-            cfg.addAnnotatedClass(ItemPedido.class);
             cfg.addAnnotatedClass(Pedido.class);
+            cfg.addAnnotatedClass(ItemPedido.class);
 
             cfg.configure("/br/com/glp/dao/hibernate.cfg.xml");
 

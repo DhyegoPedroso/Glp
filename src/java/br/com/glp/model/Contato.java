@@ -24,9 +24,6 @@ public class Contato implements Serializable {
     private Long id;
 
     @Column
-    private Integer unidade;
-
-    @Column
     private String telefone;
 
     @Column
@@ -39,17 +36,10 @@ public class Contato implements Serializable {
     private Boolean whatsapp;
 
     @OneToOne
-    @JoinColumn(name = "idPessoa")
-    private Pessoa pessoa;
+    @JoinColumn(name = "idEndereco")
+    private Endereco endereco;
 
     public Contato() {
-    }
-
-    public Contato(String telefone, String celular, String email, Boolean whatsapp) {
-        this.telefone = telefone;
-        this.celular = celular;
-        this.email = email;
-        this.whatsapp = whatsapp;
     }
 
     public Long getId() {
@@ -58,14 +48,6 @@ public class Contato implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Integer getUnidade() {
-        return unidade;
-    }
-
-    public void setUnidade(Integer unidade) {
-        this.unidade = unidade;
     }
 
     public String getTelefone() {
@@ -100,12 +82,12 @@ public class Contato implements Serializable {
         this.whatsapp = whatsapp;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     @Override

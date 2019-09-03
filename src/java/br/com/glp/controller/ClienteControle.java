@@ -36,6 +36,7 @@ public class ClienteControle implements Serializable {
     private ClienteDao clienteDao;
 
     private DataModel<Cliente> modelClientes;
+    private DataModel<Caminhao> modelCaminhoes;
     private List<Cliente> clientes;
     private List<Contato> contatos;
     private List<Endereco> enderecos;
@@ -73,9 +74,8 @@ public class ClienteControle implements Serializable {
     public void carregarParaAlterar() {
         mostrar_toolbar = !mostrar_toolbar;
         cliente = modelClientes.getRowData();
-        contato = cliente.getContato();
-        endereco = cliente.getEndereco();
-//        caminhao = cliente.getCaminhao();
+//        contato = cliente.getContato();
+//        endereco = cliente.getEndereco();
     }
 
     public void pesquisar() {
@@ -125,10 +125,10 @@ public class ClienteControle implements Serializable {
         try {
             abreSessao();
 
-            cliente.setEndereco(endereco);
-            endereco.setPessoa(cliente);
-            cliente.setContato(contato);
-            contato.setPessoa(cliente);
+//            cliente.setEndereco(endereco);
+//            endereco.setPessoa(cliente);
+//            cliente.setContato(contato);
+//            contato.setPessoa(cliente);
 
             clienteDao.salvarOuAlterar(cliente, session);
             Mensagem.salvar("Funcionario: " + cliente.getNome());
@@ -149,9 +149,9 @@ public class ClienteControle implements Serializable {
     }
     
     public void setarUnidade(){
-        endereco.setUnidade(Integer.parseInt("0") + ++unidadeContagem);
-        contato.setUnidade(unidadeContagem);
-        caminhao.setUnidade(unidadeContagem);
+//        endereco.setUnidade(Integer.parseInt("0") + ++unidadeContagem);
+//        contato.setUnidade(unidadeContagem);
+//        caminhao.setUnidade(unidadeContagem);
     }
 
     public void adicionarContato() {
@@ -224,6 +224,16 @@ public class ClienteControle implements Serializable {
     public void setModelClientes(DataModel<Cliente> modelClientes) {
         this.modelClientes = modelClientes;
     }
+
+    public DataModel<Caminhao> getModelCaminhoes() {
+        return modelCaminhoes;
+    }
+
+    public void setModelCaminhoes(DataModel<Caminhao> modelCaminhoes) {
+        this.modelCaminhoes = modelCaminhoes;
+    }
+    
+    
 
     public List<Cliente> getClientes() {
         return clientes;

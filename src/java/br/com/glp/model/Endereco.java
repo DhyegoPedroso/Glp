@@ -1,13 +1,16 @@
 package br.com.glp.model;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -22,9 +25,6 @@ public class Endereco implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column
-    private Integer unidade;
 
     @Column(nullable = false)
     private String logradouro;
@@ -50,55 +50,17 @@ public class Endereco implements Serializable {
     @Column(nullable = false)
     private String pais;
 
-    @OneToOne
-    @JoinColumn(name = "idPessoa")
-    private Pessoa pessoa;
+    @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL)
+    private List<Contato> contatos;
+
+    @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL)
+    private List<Caminhao> caminhoes;
+
+    @ManyToOne
+    @JoinColumn(name = "idCliente")
+    private Cliente cliente;
 
     public Endereco() {
-    }
-
-    public Endereco(String logradouro, Integer numero, String complemento, String bairro, String cep, String cidade, String uf, String pais) {
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cep = cep;
-        this.cidade = cidade;
-        this.uf = uf;
-        this.pais = pais;
-    }
-
-    public Endereco(String logradouro, Integer numero, String complemento, String bairro, String cep, String cidade, String uf, String pais, Pessoa pessoa) {
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cep = cep;
-        this.cidade = cidade;
-        this.uf = uf;
-        this.pais = pais;
-        this.pessoa = pessoa;
-    }
-
-    public Endereco(Long id, String logradouro, Integer numero, String complemento, String bairro, String cep, String cidade, String uf, String pais, Pessoa pessoa) {
-        this.id = id;
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cep = cep;
-        this.cidade = cidade;
-        this.uf = uf;
-        this.pais = pais;
-        this.pessoa = pessoa;
-    }
-
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
     }
 
     public String getCidade() {
@@ -149,14 +111,6 @@ public class Endereco implements Serializable {
         this.id = id;
     }
 
-    public Integer getUnidade() {
-        return unidade;
-    }
-
-    public void setUnidade(Integer unidade) {
-        this.unidade = unidade;
-    }
-
     public Integer getNumero() {
         return numero;
     }
@@ -179,6 +133,30 @@ public class Endereco implements Serializable {
 
     public void setUf(String uf) {
         this.uf = uf;
+    }
+
+    public List<Contato> getContatos() {
+        return contatos;
+    }
+
+    public void setContatos(List<Contato> contatos) {
+        this.contatos = contatos;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public List<Caminhao> getCaminhoes() {
+        return caminhoes;
+    }
+
+    public void setCaminhoes(List<Caminhao> caminhoes) {
+        this.caminhoes = caminhoes;
     }
 
     @Override

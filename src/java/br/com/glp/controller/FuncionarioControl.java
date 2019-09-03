@@ -84,8 +84,8 @@ public class FuncionarioControl implements Serializable {
     public void carregarParaAlterar() {
         mostrar_toolbar = !mostrar_toolbar;
         funcionario = modelFuncionarios.getRowData();
-        contato = funcionario.getContato();
-        endereco = funcionario.getEndereco();
+//        contato = funcionario.getContato();
+//        endereco = funcionario.getEndereco();
         usuario = funcionario.getUsuario();
         perfil = usuario.getPerfil();
     }
@@ -171,10 +171,10 @@ public class FuncionarioControl implements Serializable {
         try {
             abreSessao();
 
-            funcionario.setEndereco(endereco);
-            endereco.setPessoa(funcionario);
-            funcionario.setContato(contato);
-            contato.setPessoa(funcionario);
+//            funcionario.setEndereco(endereco);
+//            endereco.setPessoa(funcionario);
+//            funcionario.setContato(contato);
+//            contato.setPessoa(funcionario);
 
             funcionario.setUsuario(usuario);
             usuario.setFuncionario(funcionario);
