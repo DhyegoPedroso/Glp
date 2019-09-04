@@ -26,9 +26,7 @@ public class ClienteDaoImplTest {
 
     @Test
     public void testsalvar() {
-
         session = HibernateUtil.abreSessao();
-
         List<Caminhao> caminhoes = new ArrayList<>();
         List<Endereco> enderecos = new ArrayList<>();
 
@@ -44,11 +42,8 @@ public class ClienteDaoImplTest {
         caminhoes.add(c1);
         c1.setEndereco(endereco);
 
-        //Contato e Endereço
         endereco.setContato(contato);
         contato.setEndereco(endereco);
-
-        //Endereço e Caminhão
         endereco.setCaminhoes(caminhoes);
         enderecos.add(endereco);
 
@@ -64,11 +59,8 @@ public class ClienteDaoImplTest {
         caminhoes.add(c2);
         c2.setEndereco(endereco2);
 
-        //Contato e Endereço
         endereco2.setContato(contato2);
         contato2.setEndereco(endereco2);
-
-        //Endereço e Caminhão
         endereco2.setCaminhoes(caminhoes);
         enderecos.add(endereco2);
 
@@ -76,11 +68,8 @@ public class ClienteDaoImplTest {
         cliente.setNome("Cliente");
         cliente.setDtCadastro(new Date());
         cliente.setEnderecos(enderecos);
-
-        //Endereço e Cliente
         endereco.setCliente(cliente);
         endereco2.setCliente(cliente);
-
         clienteDao.salvarOuAlterar(cliente, session);
 
     }

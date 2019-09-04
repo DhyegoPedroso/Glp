@@ -42,7 +42,6 @@ public class ClienteControle implements Serializable {
     private DataModel<Endereco> modelEnderecos;
     private DataModel<Caminhao> modelCaminhoes;
     private List<Cliente> clientes;
-    private List<Contato> contatos;
     private List<Endereco> enderecos;
     private List<Caminhao> caminhoes;
 
@@ -76,12 +75,13 @@ public class ClienteControle implements Serializable {
     public void carregarParaAlterar() {
         mostrar_toolbar = !mostrar_toolbar;
         cliente = modelClientes.getRowData();
+        endereco = modelEnderecos.getRowData();
     }
 
     public void carregarTabelaEndereco() {
         if (enderecos.size() > 0) {
-            mostrarTabelaEndereco = true;
             endereco = modelEnderecos.getRowData();
+            mostrarTabelaEndereco = true;
         } else {
             mostrarTabelaEndereco = false;
         }
@@ -108,6 +108,8 @@ public class ClienteControle implements Serializable {
             }
 
             modelClientes = new ListDataModel(clientes);
+            modelEnderecos = new ListDataModel(enderecos);
+            modelCaminhoes = new ListDataModel(caminhoes);
         } catch (HibernateException ex) {
             System.err.println("Erro pesquisa Cliente:\n" + ex.getMessage());
         } finally {
@@ -139,7 +141,6 @@ public class ClienteControle implements Serializable {
     }
 
     public void salvar() {
-
         try {
             abreSessao();
 
@@ -303,17 +304,6 @@ public class ClienteControle implements Serializable {
 
     public void setClienteDao(ClienteDao clienteDao) {
         this.clienteDao = clienteDao;
-    }
-
-    public List<Contato> getContatos() {
-        if (contatos == null) {
-            contatos = new ArrayList<>();
-        }
-        return contatos;
-    }
-
-    public void setContatos(List<Contato> contatos) {
-        this.contatos = contatos;
     }
 
     public List<Endereco> getEnderecos() {

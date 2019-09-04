@@ -165,7 +165,10 @@ public class FuncionarioControl implements Serializable {
             usuario.setEnable(true);
             usuario.setPerfil(perfil);
             usuario.setSenha(convertPasswordToMD5(usuario.getSenha()));
-            funcionario.setDtCadastro(new Date());
+
+            if (funcionario.getId() == null) {
+                funcionario.setDtCadastro(new Date());
+            }
 
             funcionarioDao.salvarOuAlterar(funcionario, session);
             Mensagem.salvar("Funcionario: " + funcionario.getNome());

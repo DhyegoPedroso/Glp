@@ -148,16 +148,16 @@
                         <p:inputText id="paisCliente" value="#{clienteC.endereco.pais}"/>
 
                         <p:outputLabel for="telefoneCliente" value="Telefone: " />
-                        <p:inputText id="telefoneCliente" value="#{clienteC.endereco.contato.telefone}"/>
+                        <p:inputText id="telefoneCliente" value="#{clienteC.contato.telefone}"/>
 
                         <p:outputLabel for="celularCliente" value="Celular: " />
-                        <p:inputText id="celularCliente" value="#{clienteC.endereco.contato.celular}"/>
+                        <p:inputText id="celularCliente" value="#{clienteC.contato.celular}"/>
 
                         <p:outputLabel for="whatsappCliente" value="Whatsapp:" />
-                        <p:inputText id="whatsappCliente" value="#{clienteC.endereco.contato.whatsapp}"/>
+                        <p:selectBooleanButton id="whatsappCliente" value="#{clienteC.contato.whatsapp}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
 
                         <p:outputLabel for="emailCliente" value="E-mail: " />
-                        <p:inputText id="emailCliente" value="#{clienteC.endereco.contato.email}"/>
+                        <p:inputText id="emailCliente" value="#{clienteC.contato.email}"/>
 
                         <p:commandButton value="Salvar"  action="#{clienteC.addListaEndereco()}" update="aba_alterar"/>
 
@@ -166,9 +166,9 @@
                 </p:dialog>
 
 
-                <!--Endereços do Cliente ja cadastrados-->
-                <p:dataTable  rendered="#{clienteC.mostrarTabelaEndereco}" id="dadosEndereco" value="#{clienteC.modelEnderecos}" var="endereco" reflow="true"
-                              style="margin-top: 20px;"  emptyMessage="Nenhum endereço encontrado">
+                <!--Endereços do Cliente ja add na lista-->
+                <p:dataTable   id="dadosEndereco" value="#{clienteC.modelEnderecos}" var="endereco" reflow="true"
+                               style="margin-top: 20px;"  emptyMessage="Nenhum endereço encontrado">
 
                     <p:column headerText="Logradouro" priority="1">
                         <h:outputText value="#{endereco.logradouro}"/>
@@ -195,6 +195,7 @@
                     </p:column>
 
                     <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
+
                         <p:commandButton icon="ui-icon-pencil" title="Alterar" process="@this" update="@form" actionListener="#{clienteC.carregarParaAlterar()}">
                             <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />          
                         </p:commandButton>
@@ -204,7 +205,7 @@
                             <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />
                         </p:commandButton>
 
-                        <p:commandButton icon="ui-icon-pencil" title="Add Caminhão" process="@this" update="@form" onclick="PF('dlg4').show();">
+                        <p:commandButton icon="ui-icon-home" title="Add Caminhão" process="@this" update="@form" onclick="PF('dlg4').show();">
                             <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />          
                         </p:commandButton>
 
