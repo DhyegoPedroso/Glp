@@ -10,14 +10,21 @@
 
     <ui:define name="content">
 
-       <p:messages id="mens" autoUpdate="" />
+        <p:messages id="mens" autoUpdate="" />
 
         <h:form id="form_pesquisa">
 
             <p:messages id="mens" autoUpdate="" />
 
-            <h1>Dashboard</h1>
+            <p:growl id="growl" showDetail="true" />
 
+            <p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-6, ui-grid-col-6" styleClass="painel_grid_noborder" 
+                         style="width: 100%">
+
+            <!--<p:chart type="bar" model="#{atividadeC.graficoSalas}" style="height:300px" widgetVar="chart" />-->
+                <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
+
+            </p:panelGrid>
         </h:form>
 
     </ui:define>

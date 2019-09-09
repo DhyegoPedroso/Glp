@@ -144,7 +144,9 @@ public class ClienteControle implements Serializable {
         try {
             abreSessao();
 
-            cliente.setDtCadastro(new Date());
+            if (cliente.getId() == null) {
+                cliente.setDtCadastro(new Date());
+            }
 
             clienteDao.salvarOuAlterar(cliente, session);
             Mensagem.salvar("Funcionario: " + cliente.getNome());
