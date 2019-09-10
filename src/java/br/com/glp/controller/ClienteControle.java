@@ -31,22 +31,49 @@ public class ClienteControle implements Serializable {
     private boolean mostrarTabelaEndereco;
     private boolean mostrarTabelaCaminhao;
 
-    private Cliente cliente;
     private Endereco endereco;
+    private List<Endereco> enderecos;
+    private DataModel<Endereco> modelEnderecos;
+
+    private Cliente cliente;
     private Contato contato;
     private Caminhao caminhao;
 
     private ClienteDao clienteDao;
 
     private DataModel<Cliente> modelClientes;
-    private DataModel<Endereco> modelEnderecos;
     private DataModel<Caminhao> modelCaminhoes;
     private List<Cliente> clientes;
-    private List<Endereco> enderecos;
     private List<Caminhao> caminhoes;
 
     public ClienteControle() {
         clienteDao = new ClienteDaoImpl();
+    }
+
+    public void addEndereco() {
+        if (enderecos.contains(endereco)) {
+            Mensagem.campoExiste("Duplicado,Este Endereço");
+        } else {
+            enderecos.add(endereco);
+        }
+    }
+
+    public String reinitEndereco() {
+        endereco = new Endereco();
+        return null;
+    }
+
+    public void addCaminhao() {
+        if (caminhoes.contains(caminhao)) {
+            Mensagem.campoExiste("Duplicado,Este Caminhão");
+        } else {
+            caminhoes.add(caminhao);
+        }
+    }
+
+    public String reinitCaminhao() {
+        caminhao = new Caminhao();
+        return null;
     }
 
     private void abreSessao() {
@@ -107,8 +134,6 @@ public class ClienteControle implements Serializable {
             }
 
             modelClientes = new ListDataModel(clientes);
-//            modelEnderecos = new ListDataModel(enderecos);
-//            modelCaminhoes = new ListDataModel(caminhoes);
         } catch (HibernateException ex) {
             System.err.println("Erro pesquisa Cliente:\n" + ex.getMessage());
         } finally {
@@ -163,25 +188,6 @@ public class ClienteControle implements Serializable {
         }
         limpar();
 
-    }
-
-    public void addListaEndereco() {
-        if (enderecos.isEmpty()) {
-            enderecos = new ArrayList<>();
-            enderecos.add(endereco);
-        } else {
-            enderecos.add(endereco);
-        }
-    }
-
-    public void addListaCaminhao() {
-
-        if (caminhoes.isEmpty()) {
-            caminhoes = new ArrayList<>();
-            caminhoes.add(caminhao);
-        } else {
-            caminhoes.add(caminhao);
-        }
     }
 
     public void limparTela() {
@@ -297,14 +303,6 @@ public class ClienteControle implements Serializable {
 
     public void setContato(Contato contato) {
         this.contato = contato;
-    }
-
-    public ClienteDao getClienteDao() {
-        return clienteDao;
-    }
-
-    public void setClienteDao(ClienteDao clienteDao) {
-        this.clienteDao = clienteDao;
     }
 
     public List<Endereco> getEnderecos() {

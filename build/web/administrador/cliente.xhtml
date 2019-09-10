@@ -12,6 +12,7 @@
     <ui:define name="content">
 
         <h:form id="form_pesquisa">
+            <p:growl id="msgs" showDetail="true" sticky="true"/>
 
             <p:messages id="mens"  autoUpdate="true" />
 
@@ -116,10 +117,21 @@
                 </p:fieldset>
 
 
+
+
+
+
+
+
+
+
+
+
+
                 <!--Modal para adicionar endereço do Cliente-->
                 <p:commandButton value="Endereço" type="button" onclick="PF('dlg3').show();" /> 
 
-                <p:dialog header="Mais Endereço" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
+                <p:dialog header="Endereço" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
 
                     <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-6" styleClass="painel_grid_noborder" >
 
@@ -148,10 +160,10 @@
                         <p:inputText id="paisCliente" value="#{clienteC.endereco.pais}"/>
 
                         <p:outputLabel for="telefoneCliente" value="Telefone: " />
-                        <p:inputText id="telefoneCliente" value="#{clienteC.contato.telefone}"/>
+                        <p:inputMask id="telefoneCliente" mask="(99) 9999-9999" value="#{clienteC.contato.telefone}"/>
 
                         <p:outputLabel for="celularCliente" value="Celular: " />
-                        <p:inputText id="celularCliente" value="#{clienteC.contato.celular}"/>
+                        <p:inputMask id="celularCliente" mask="(99) 99999-9999" value="#{clienteC.contato.celular}"/>
 
                         <p:outputLabel for="whatsappCliente" value="Whatsapp:" />
                         <p:selectBooleanButton id="whatsappCliente" value="#{clienteC.contato.whatsapp}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
@@ -159,7 +171,10 @@
                         <p:outputLabel for="emailCliente" value="E-mail: " />
                         <p:inputText id="emailCliente" value="#{clienteC.contato.email}"/>
 
-                        <p:commandButton value="Salvar"  action="#{clienteC.addListaEndereco()}" update="dadosEndereco"/>
+                        <p:commandButton id="btn_reset" value="Reset" type="reset"/>
+                        <p:commandButton id="btn_add" value="Add" update="enderecos " action="#{clienteC.reinitEndereco()}" >
+                            <p:collector value="#{clienteC.endereco}" addTo="#{clienteC.enderecos}" unique="true"/>
+                        </p:commandButton>
 
                     </p:panelGrid>
 
@@ -173,13 +188,17 @@
                     <p:column headerText="Logradouro" priority="1">
                         <h:outputText value="#{endereco.logradouro}"/>
                     </p:column>
-
-                    <p:column headerText="CEP" priority="1">
-                        <h:outputText value="#{endereco.cep}" />
+                    
+                    <p:column headerText="Numero" priority="1">
+                        <h:outputText value="#{endereco.numero}"/>
                     </p:column>
 
                     <p:column headerText="Complemento" priority="1">
                         <h:outputText value="#{endereco.complemento}" />
+                    </p:column>
+
+                    <p:column headerText="CEP" priority="1">
+                        <h:outputText value="#{endereco.cep}" />
                     </p:column>
 
                     <p:column headerText="Bairro" priority="1">
@@ -219,7 +238,7 @@
                         <p:outputLabel for="PlacaCaminhao" value="Placa:" />
                         <p:inputText id="PlacaCaminhao" value="#{clienteC.caminhao.nomeMotorista}"/>
 
-                        <p:commandButton value="Salvar"  action="#{clienteC.addListaCaminhao()}" update="aba_alterar"/>
+                        <p:commandButton value="Salvar"  action="#{clienteC.addCaminhao()}" update="aba_alterar"/>
 
                     </p:panelGrid>
 
