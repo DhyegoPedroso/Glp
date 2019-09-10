@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -18,7 +19,7 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name = "idPessoa")
 public class Cliente extends Pessoa implements Serializable {
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Endereco> enderecos;
 
     @Column(nullable = false)

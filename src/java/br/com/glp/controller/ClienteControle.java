@@ -75,7 +75,6 @@ public class ClienteControle implements Serializable {
     public void carregarParaAlterar() {
         mostrar_toolbar = !mostrar_toolbar;
         cliente = modelClientes.getRowData();
-//        endereco = modelEnderecos.getRowData();
     }
 
     public void carregarTabelaEndereco() {
@@ -104,12 +103,12 @@ public class ClienteControle implements Serializable {
             if (!cliente.getNome().equals("")) {
                 clientes = clienteDao.pesquisaPorNome(cliente.getNome(), session);
             } else {
-                clientes = clienteDao.listaTodos(session);
+                Mensagem.campoVazio("O campo Cliente");
             }
 
             modelClientes = new ListDataModel(clientes);
-            modelEnderecos = new ListDataModel(enderecos);
-            modelCaminhoes = new ListDataModel(caminhoes);
+//            modelEnderecos = new ListDataModel(enderecos);
+//            modelCaminhoes = new ListDataModel(caminhoes);
         } catch (HibernateException ex) {
             System.err.println("Erro pesquisa Cliente:\n" + ex.getMessage());
         } finally {
@@ -131,7 +130,7 @@ public class ClienteControle implements Serializable {
             clienteDao.remover(cliente, session);
             clientes.remove(cliente);
             modelClientes = new ListDataModel(clientes);
-            Mensagem.excluir("Funcionario");
+            Mensagem.excluir("Cliente");
             limpar();
         } catch (Exception e) {
             System.out.println("erro ao excluir: " + e.getMessage());
@@ -149,7 +148,7 @@ public class ClienteControle implements Serializable {
             }
 
             clienteDao.salvarOuAlterar(cliente, session);
-            Mensagem.salvar("Funcionario: " + cliente.getNome());
+            Mensagem.salvar("Cliente: " + cliente.getNome());
             cliente = null;
             endereco = null;
             contato = null;

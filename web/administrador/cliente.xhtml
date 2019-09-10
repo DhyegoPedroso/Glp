@@ -13,7 +13,7 @@
 
         <h:form id="form_pesquisa">
 
-            <p:messages id="mens" autoUpdate="" />
+            <p:messages id="mens"  autoUpdate="true" />
 
             <h:panelGroup id="aba1" rendered="#{!clienteC.mostrar_toolbar}" >
 
@@ -200,12 +200,7 @@
                             <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />          
                         </p:commandButton>
 
-                        <p:commandButton icon="ui-icon-trash" actionListener="#{clienteC.excluir()}" update="dadosEndereco" title="Excluir" >
-                            <p:confirm header="Confirmação" message="Tem certeza exclusão?" icon="ui-icon-alert" />
-                            <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />
-                        </p:commandButton>
-
-                        <p:commandButton icon="ui-icon-home" title="Add Caminhão" process="@this" update="@form" onclick="PF('dlg4').show();">
+                        <p:commandButton icon="ui-icon-home" title="Add Caminhão" process="@this" onclick="PF('dlg4').show();">
                             <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />          
                         </p:commandButton>
 
@@ -228,7 +223,7 @@
 
                     </p:panelGrid>
 
-                    <p:dataTable  rendered="#{clienteC.mostrarTabelaCaminhao}" id="dadosCaminhao" value="#{clienteC.modelCaminhoes}" var="caminhao" reflow="true"
+                    <p:dataTable  id="dadosCaminhao" value="#{clienteC.endereco.caminhoes}" var="caminhao" reflow="true"
                                   style="margin-top: 20px;"  emptyMessage="Nenhum Caminhao encontrado">
 
                         <p:column headerText="Motorista" priority="1">

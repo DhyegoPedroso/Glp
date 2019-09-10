@@ -15,12 +15,12 @@ public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long> implements Client
 
     @Override
     public Cliente pesquisaEntidadeId(Long id, Session session) throws HibernateException {
-        return (Cliente) session.get(Cliente.class, id); //To change body of generated methods, choose Tools | Templates.
+        return (Cliente) session.get(Cliente.class, id);
     }
 
     @Override
     public List<Cliente> listaTodos(Session session) throws HibernateException {
-        return session.createQuery("select distinct(c)  from Cliente c join fetch c.enderecos").list(); //To change body of generated methods, choose Tools | Templates.
+        return session.createQuery("from Cliente c").list(); 
     }
 
     @Override
@@ -28,7 +28,6 @@ public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long> implements Client
         Query consulta = session.createQuery("from Cliente c where c.nome like :nome");
         consulta.setParameter("nome", nome + "%");
         return consulta.list();
-//To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

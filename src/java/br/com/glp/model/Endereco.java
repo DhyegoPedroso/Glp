@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,7 +55,7 @@ public class Endereco implements Serializable {
     @OneToOne(mappedBy = "endereco", cascade = CascadeType.ALL)
     private Contato contato;
 
-    @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "endereco", cascade = CascadeType.ALL)
     private List<Caminhao> caminhoes;
 
     @ManyToOne

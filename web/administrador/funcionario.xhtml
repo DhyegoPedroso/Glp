@@ -13,7 +13,7 @@
 
         <h:form id="form_pesquisa">
 
-            <p:messages id="mens" autoUpdate="" />
+            <p:messages id="mens"  autoUpdate="true" />
 
             <h:panelGroup id="aba1" rendered="#{!funcionarioC.mostrar_toolbar}" >
 
@@ -38,10 +38,10 @@
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
                              paginator="true" rows="10" style="margin-bottom:20px">
                     <f:facet name="{Exporters}">
-                            <h:commandLink>
-                                <p:graphicImage library="images" name="excel.png" width="24"/>
-                                <p:dataExporter type="xls" target="dadosFuncionario" fileName="Funcionarios" />
-                            </h:commandLink>
+                        <h:commandLink>
+                            <p:graphicImage library="images" name="excel.png" width="24"/>
+                            <p:dataExporter type="xls" target="dadosFuncionario" fileName="Funcionarios" />
+                        </h:commandLink>
                     </f:facet>
 
                     <p:column headerText="Nome" priority="1">
