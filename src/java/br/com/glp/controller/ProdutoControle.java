@@ -151,20 +151,8 @@ public class ProdutoControle implements Serializable {
         this.produto = produto;
     }
 
-    public ProdutoDao getProdutoDao() {
-        return produtoDao;
-    }
-
-    public void setProdutoDao(ProdutoDao produtoDao) {
-        this.produtoDao = produtoDao;
-    }
-
     public DataModel<Produto> getModelProdutos() {
         return modelProdutos;
-    }
-
-    public void setModelProdutos(DataModel<Produto> modelProdutos) {
-        this.modelProdutos = modelProdutos;
     }
 
     public List<Produto> getProdutos() {
