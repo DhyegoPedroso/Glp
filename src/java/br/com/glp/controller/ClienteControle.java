@@ -75,7 +75,7 @@ public class ClienteControle implements Serializable {
     public void carregarParaAlterar() {
         mostrar_toolbar = !mostrar_toolbar;
         cliente = modelClientes.getRowData();
-        endereco = modelEnderecos.getRowData();
+//        endereco = modelEnderecos.getRowData();
     }
 
     public void carregarTabelaEndereco() {

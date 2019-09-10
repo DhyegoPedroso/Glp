@@ -35,7 +35,14 @@
                 </p:panelGrid>
 
                 <p:dataTable id="dadosFuncionario" value="#{funcionarioC.modelFuncionarios}" var="funcionario" reflow="true"
-                             style="margin-top: 20px;"  emptyMessage="Nenhum funcionario encontrado">
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                             paginator="true" rows="10" style="margin-bottom:20px">
+                    <f:facet name="{Exporters}">
+                            <h:commandLink>
+                                <p:graphicImage library="images" name="excel.png" width="24"/>
+                                <p:dataExporter type="xls" target="dadosFuncionario" fileName="Funcionarios" />
+                            </h:commandLink>
+                    </f:facet>
 
                     <p:column headerText="Nome" priority="1">
                         <h:outputText value="#{funcionario.nome}"/>
@@ -57,6 +64,7 @@
                         <h:outputText value="#{funcionario.dtCadastro}">
                             <f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy"/>
                         </h:outputText>
+
                     </p:column>
 
                     <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
@@ -70,6 +78,8 @@
                         </p:commandButton>
 
                     </p:column>
+
+
 
                 </p:dataTable>
 
@@ -108,7 +118,7 @@
 
                         <p:outputLabel for="cpfFunc" value="CPF:" />
                         <p:inputMask id="cpfFunc" value="#{funcionarioC.funcionario.cpf}" mask="999.999.999-99" size="40" />
-                        
+
                         <p:outputLabel for="matriculaFunc" value="Matricula:" />
                         <p:inputText id="matriculaFunc" value="#{funcionarioC.funcionario.matricula}" size="40"/>
 

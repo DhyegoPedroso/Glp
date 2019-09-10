@@ -20,7 +20,7 @@ public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long> implements Client
 
     @Override
     public List<Cliente> listaTodos(Session session) throws HibernateException {
-        return session.createQuery("from Cliente").list(); //To change body of generated methods, choose Tools | Templates.
+        return session.createQuery("select distinct(c)  from Cliente c join fetch c.enderecos").list(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
