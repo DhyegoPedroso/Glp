@@ -116,18 +116,6 @@
 
                 </p:fieldset>
 
-
-
-
-
-
-
-
-
-
-
-
-
                 <!--Modal para adicionar endereço do Cliente-->
                 <p:commandButton value="Endereço" type="button" onclick="PF('dlg3').show();" /> 
 
@@ -222,25 +210,26 @@
                     <p:menuitem value="Cancelar" update="dadosEndereco"  icon="ui-icon-search" />
                 </p:contextMenu>
 
-
-
                 <!--Modal para add caminhoes do cliente-->
                 <p:dialog id="caminhaoView" header="Add Caminhão" widgetVar="dlg4" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
 
-                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-6" styleClass="painel_grid_noborder" >
+                    <p:panelGrid id="editarCaminhao" columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-6" styleClass="painel_grid_noborder" >
 
                         <p:outputLabel for="MotoristaCaminhao" value="Motorista:" />
                         <p:inputText id="MotoristaCaminhao" value="#{clienteC.caminhao.nomeMotorista}"/>
 
                         <p:outputLabel for="PlacaCaminhao" value="Placa:" />
-                        <p:inputText id="PlacaCaminhao" value="#{clienteC.caminhao.nomeMotorista}"/>
+                        <p:inputText id="PlacaCaminhao" value="#{clienteC.caminhao.placaCaminhao}"/>
 
                         <p:commandButton value="Salvar"/>
 
                     </p:panelGrid>
 
-                    <p:dataTable  id="dadosCaminhao" value="#{clienteC.endereco.caminhoes}" var="caminhao" reflow="true"
-                                  style="margin-top: 20px;"  emptyMessage="Nenhum Caminhao encontrado">
+                    <p:dataTable id="dadosCaminhao" var="caminhao" value="#{clienteC.endereco.caminhoes}"
+                                 paginator="true" rows="10" emptyMessage="Não há registros na lista"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,15,25,50,100" 
+                                 rowKey="#{caminhao.id}" selection="#{clienteC.caminhao}" selectionMode="single" >
 
                         <p:column headerText="Motorista" priority="1">
                             <h:outputText value="#{caminhao.nomeMotorista}"/>
@@ -250,19 +239,13 @@
                             <h:outputText value="#{caminhao.placaCaminhao}" />
                         </p:column>
 
-                        <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
-                            <p:commandButton icon="ui-icon-pencil" title="Alterar" process="@this" update="@form" actionListener="#{clienteC.carregarParaAlterar()}">
-                                <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />          
-                            </p:commandButton>
-
-                            <p:commandButton icon="ui-icon-trash" actionListener="#{clienteC.excluir()}" update="dadosCaminhao" title="Excluir" >
-                                <p:confirm header="Confirmação" message="Tem certeza exclusão?" icon="ui-icon-alert" />
-                                <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />
-                            </p:commandButton>
-
-                        </p:column>
-
                     </p:dataTable>
+
+                    <p:contextMenu for="dadosCaminhao">
+                        <p:menuitem value="Editar Caminhão" update="editarCaminhao" icon="ui-icon-search" /> 
+                        <p:menuitem value="Excluir Caminhão" update="dadosCaminhao"  icon="ui-icon-search" />
+                        <p:menuitem value="Cancelar" update="dadosCaminhao"  icon="ui-icon-search" />
+                    </p:contextMenu>
 
                 </p:dialog>
 

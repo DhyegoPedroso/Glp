@@ -101,21 +101,12 @@ public class ClienteControle implements Serializable {
     }
 
     public void carregarTabelaEndereco() {
-        if (enderecos.size() > 0) {
-            endereco = modelEnderecos.getRowData();
-            mostrarTabelaEndereco = true;
-        } else {
-            mostrarTabelaEndereco = false;
-        }
+        endereco = modelEnderecos.getRowData();
     }
 
     public void carregarTabelaCaminhao() {
-        if (caminhoes.size() > 0) {
-            mostrarTabelaCaminhao = true;
-            caminhao = modelCaminhoes.getRowData();
-        } else {
-            mostrarTabelaCaminhao = false;
-        }
+        caminhao = modelCaminhoes.getRowData();
+        
     }
 
     public void pesquisar() {
