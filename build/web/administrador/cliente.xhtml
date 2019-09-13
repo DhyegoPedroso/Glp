@@ -131,7 +131,7 @@
                 <!--Modal para adicionar endereço do Cliente-->
                 <p:commandButton value="Endereço" type="button" onclick="PF('dlg3').show();" /> 
 
-                <p:dialog header="Endereço" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
+                <p:dialog id="enderecoView" header="Endereço" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
 
                     <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-6" styleClass="painel_grid_noborder" >
 
@@ -172,9 +172,7 @@
                         <p:inputText id="emailCliente" value="#{clienteC.contato.email}"/>
 
                         <p:commandButton id="btn_reset" value="Reset" type="reset"/>
-                        <p:commandButton id="btn_add" value="Add" update="dadosEndereco " action="#{clienteC.reinitEndereco()}" >
-                            <p:collector value="#{clienteC.endereco}" addTo="#{clienteC.enderecos}" unique="true"/>
-                        </p:commandButton>
+                        <p:commandButton id="btn_add" value="Add"/>
 
                     </p:panelGrid>
 
@@ -185,10 +183,8 @@
                 <p:dataTable id="dadosEndereco" var="endereco" value="#{clienteC.cliente.enderecos}"
                              paginator="true" rows="10" emptyMessage="Não há registros na lista"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="10,15,25,50,100"  
-                             rowKey="#{endereco.id}" selection="#{endereco}" selectionMode="single" >
-
-                    <p:ajax event="rowSelect" listener="#{clienteC.onRowSelect}" update="form_pesquisa" />
+                             rowsPerPageTemplate="10,15,25,50,100" 
+                             rowKey="#{endereco.id}" selection="#{clienteC.endereco}" selectionMode="single" >
 
                     <p:column headerText="Logradouro" priority="1">
                         <h:outputText value="#{endereco.logradouro}"/>
@@ -218,22 +214,18 @@
                         <h:outputText value="#{endereco.uf}" />
                     </p:column>
 
-                    <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
-
-                        <p:commandButton icon="ui-icon-pencil" title="Alterar" process="@this" update="@form" actionListener="#{clienteC.carregarParaAlterar()}">
-                            <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />          
-                        </p:commandButton>
-
-                        <p:commandButton icon="ui-icon-home" title="Add Caminhão" process="@this" onclick="PF('dlg4').show();">
-                            <f:setPropertyActionListener target="#{clienteC.endereco}" value="#{endereco}"   />          
-                        </p:commandButton>
-
-                    </p:column>
-
                 </p:dataTable>
 
+                <p:contextMenu for="dadosEndereco">
+                    <p:menuitem value="Editar Endereço" update="enderecoView" icon="ui-icon-search" oncomplete="PF('dlg3').show()"/>
+                    <p:menuitem value="Add Caminhão" update="caminhaoView"  icon="ui-icon-search" oncomplete="PF('dlg4').show()"/>
+                    <p:menuitem value="Cancelar" update="dadosEndereco"  icon="ui-icon-search" />
+                </p:contextMenu>
+
+
+
                 <!--Modal para add caminhoes do cliente-->
-                <p:dialog header="Add Caminhão" widgetVar="dlg4" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
+                <p:dialog id="caminhaoView" header="Add Caminhão" widgetVar="dlg4" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
 
                     <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-6" styleClass="painel_grid_noborder" >
 
@@ -243,7 +235,7 @@
                         <p:outputLabel for="PlacaCaminhao" value="Placa:" />
                         <p:inputText id="PlacaCaminhao" value="#{clienteC.caminhao.nomeMotorista}"/>
 
-                        <p:commandButton value="Salvar"  action="#{clienteC.addCaminhao()}" update="aba_alterar"/>
+                        <p:commandButton value="Salvar"/>
 
                     </p:panelGrid>
 

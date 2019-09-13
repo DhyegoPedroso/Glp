@@ -56,47 +56,28 @@ public class ClienteControle implements Serializable {
         clienteDao = new ClienteDaoImpl();
     }
 
-    public void onRowSelect(SelectEvent event) {
-        endereco = (Endereco) event.getObject();
-        setEndereco(endereco);
-        System.out.println("ID: " + getEndereco().getId());
-    }
-
-    public void addEndereco() {
-        if (enderecos.contains(endereco)) {
-            Mensagem.campoExiste("Duplicado,Este Endereço");
-        } else {
-            enderecos.add(endereco);
-        }
-    }
-
-    public Endereco reinitEndereco() {
-        if (endereco == null) {
-            endereco = new Endereco();
-        }
-
-        return endereco;
-    }
-
-    public void addCaminhao() {
-        if (caminhoes.contains(caminhao)) {
-            Mensagem.campoExiste("Duplicado,Este Caminhão");
-        } else {
-            caminhoes.add(caminhao);
-        }
-    }
-
-    public String reinitCaminhao() {
-        caminhao = new Caminhao();
-        return null;
-    }
-
     private void abreSessao() {
         if (session == null) {
             session = HibernateUtil.abreSessao();
         } else if (!session.isOpen()) {
             session = HibernateUtil.abreSessao();
         }
+    }
+
+    public void pegarIdEndereco(SelectEvent event) {
+        endereco = (Endereco) event.getObject();
+        setEndereco(endereco);
+        System.out.println("ID: " + getEndereco().getId());
+    }
+
+    public boolean isAddCaminhao() {
+        return this.endereco == null;
+    }
+
+    public void onRowSelect(SelectEvent event) {
+        endereco = (Endereco) event.getObject();
+        setEndereco(endereco);
+        System.out.println("ID: " + getEndereco().getId());
     }
 
     public void novo() {
