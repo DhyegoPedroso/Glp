@@ -11,12 +11,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
 
 /**
  *
@@ -31,23 +36,30 @@ public class ClienteControle implements Serializable {
     private boolean mostrarTabelaEndereco;
     private boolean mostrarTabelaCaminhao;
 
+    private ClienteDao clienteDao;
+
     private Endereco endereco;
     private List<Endereco> enderecos;
     private DataModel<Endereco> modelEnderecos;
 
     private Cliente cliente;
-    private Contato contato;
-    private Caminhao caminhao;
-
-    private ClienteDao clienteDao;
-
-    private DataModel<Cliente> modelClientes;
-    private DataModel<Caminhao> modelCaminhoes;
     private List<Cliente> clientes;
+    private DataModel<Cliente> modelClientes;
+
+    private Caminhao caminhao;
     private List<Caminhao> caminhoes;
+    private DataModel<Caminhao> modelCaminhoes;
+
+    private Contato contato;
 
     public ClienteControle() {
         clienteDao = new ClienteDaoImpl();
+    }
+
+    public void onRowSelect(SelectEvent event) {
+        endereco = (Endereco) event.getObject();
+        setEndereco(endereco);
+        System.out.println("ID: " + getEndereco().getId());
     }
 
     public void addEndereco() {
@@ -58,9 +70,12 @@ public class ClienteControle implements Serializable {
         }
     }
 
-    public String reinitEndereco() {
-        endereco = new Endereco();
-        return null;
+    public Endereco reinitEndereco() {
+        if (endereco == null) {
+            endereco = new Endereco();
+        }
+
+        return endereco;
     }
 
     public void addCaminhao() {

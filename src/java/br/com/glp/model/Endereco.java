@@ -75,8 +75,6 @@ public class Endereco implements Serializable {
         this.uf = uf;
         this.pais = pais;
     }
-    
-    
 
     public String getCidade() {
         return cidade;

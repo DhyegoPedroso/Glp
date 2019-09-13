@@ -16,8 +16,8 @@
                     <div>
                         <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"  />
 
-                        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-                            <p:graphicImage name="aguarde.gif" library="imagem"/>
+                        <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
+                            <p:graphicImage name="Loader.gif" library="images"/>
                         </p:dialog>
 
                         <aside class="menu">
@@ -73,7 +73,7 @@
                                 </ul>
 
                             </nav>
-                            
+
                         </aside>
 
                         <div class="logo">
@@ -86,7 +86,11 @@
 
 
                             <div style="margin: auto ; margin-bottom: 30px">
-                                <p:clock />
+                                <p:clock pattern="dd.MM.yyyy" />
+                            </div>
+
+                            <div style="margin: auto ; margin-bottom: 30px">
+                                <p:clock pattern="HH:mm:ss" />
                             </div>
 
                             <div style="margin: auto">

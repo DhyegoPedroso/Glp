@@ -182,13 +182,18 @@
 
 
                 <!--Endereços do Cliente ja add na lista-->
-                <p:dataTable   id="dadosEndereco" value="#{clienteC.cliente.enderecos}" var="endereco" reflow="true"
-                               style="margin-top: 20px;"  emptyMessage="Nenhum endereço encontrado">
+                <p:dataTable id="dadosEndereco" var="endereco" value="#{clienteC.cliente.enderecos}"
+                             paginator="true" rows="10" emptyMessage="Não há registros na lista"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,15,25,50,100"  
+                             rowKey="#{endereco.id}" selection="#{endereco}" selectionMode="single" >
+
+                    <p:ajax event="rowSelect" listener="#{clienteC.onRowSelect}" update="form_pesquisa" />
 
                     <p:column headerText="Logradouro" priority="1">
                         <h:outputText value="#{endereco.logradouro}"/>
                     </p:column>
-                    
+
                     <p:column headerText="Numero" priority="1">
                         <h:outputText value="#{endereco.numero}"/>
                     </p:column>
@@ -220,7 +225,7 @@
                         </p:commandButton>
 
                         <p:commandButton icon="ui-icon-home" title="Add Caminhão" process="@this" onclick="PF('dlg4').show();">
-                            <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />          
+                            <f:setPropertyActionListener target="#{clienteC.endereco}" value="#{endereco}"   />          
                         </p:commandButton>
 
                     </p:column>

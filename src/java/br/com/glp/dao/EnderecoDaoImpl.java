@@ -25,5 +25,5 @@ public class EnderecoDaoImpl extends BaseDaoImpl<Endereco, Long> implements Ende
         consulta.setParameter("logradouro", "&" + logradouro + "%");
         return consulta.list();
     }
-    
+
 }
