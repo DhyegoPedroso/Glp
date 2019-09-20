@@ -116,7 +116,7 @@
 
                 </p:fieldset>
 
-                <!--Modal para adicionar endereço do Cliente-->
+                <!--Botão para abrir a modal endereço do Cliente-->
                 <p:commandButton value="Endereço" type="button" onclick="PF('dlg3').show();" /> 
 
                 <p:dialog id="enderecoView" header="Endereço" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
@@ -159,13 +159,14 @@
                         <p:outputLabel for="emailCliente" value="E-mail: " />
                         <p:inputText id="emailCliente" value="#{clienteC.contato.email}"/>
 
-                        <p:commandButton id="btn_reset" value="Reset" type="reset"/>
-                        <p:commandButton id="btn_add" value="Add"/>
+
 
                     </p:panelGrid>
+                    <p:commandButton id="btn_reset" value="Reset" type="reset"/>
+                    <p:commandButton id="btn_add" value="Add" actionListener="#{clienteC.addEndereco()}"
+                                     process="@this, enderecoView"   update="dadosEndereco"/>
 
                 </p:dialog>
-
 
                 <!--Endereços do Cliente ja add na lista-->
                 <p:dataTable id="dadosEndereco" var="endereco" value="#{clienteC.cliente.enderecos}"
@@ -252,6 +253,8 @@
             </h:panelGroup>
 
         </h:form>
+
+
 
     </ui:define>
 

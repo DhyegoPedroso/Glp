@@ -11,17 +11,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.primefaces.event.SelectEvent;
-import org.primefaces.event.UnselectEvent;
 
 /**
  *
@@ -64,20 +59,8 @@ public class ClienteControle implements Serializable {
         }
     }
 
-    public void pegarIdEndereco(SelectEvent event) {
-        endereco = (Endereco) event.getObject();
-        setEndereco(endereco);
-        System.out.println("ID: " + getEndereco().getId());
-    }
-
     public boolean isAddCaminhao() {
         return this.endereco == null;
-    }
-
-    public void onRowSelect(SelectEvent event) {
-        endereco = (Endereco) event.getObject();
-        setEndereco(endereco);
-        System.out.println("ID: " + getEndereco().getId());
     }
 
     public void novo() {
@@ -98,6 +81,7 @@ public class ClienteControle implements Serializable {
     public void carregarParaAlterar() {
         mostrar_toolbar = !mostrar_toolbar;
         cliente = modelClientes.getRowData();
+        enderecos = cliente.getEnderecos();
     }
 
     public void carregarTabelaEndereco() {
@@ -106,7 +90,7 @@ public class ClienteControle implements Serializable {
 
     public void carregarTabelaCaminhao() {
         caminhao = modelCaminhoes.getRowData();
-        
+
     }
 
     public void pesquisar() {
@@ -174,7 +158,30 @@ public class ClienteControle implements Serializable {
             session.close();
         }
         limpar();
+    }
 
+    public void addEndereco() {
+
+        if (enderecos == null) {
+            enderecos = new ArrayList<>();
+        }
+        enderecos.add(endereco);
+    }
+    
+     public void createNew() {
+        if(enderecos.contains(endereco)) {
+            Mensagem.campoExiste("Endereço ");
+        } 
+        else {
+            enderecos.add(endereco);
+            endereco = new Endereco();
+        }
+    }
+     
+    public String reinit() {
+        endereco = new Endereco();
+         
+        return null;
     }
 
     public void limparTela() {
