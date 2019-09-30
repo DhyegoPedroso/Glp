@@ -97,11 +97,17 @@ public class PedidoController implements Serializable {
         try {
             abreSessao();
             pedido.setCadastro(new Date());
+            pedido.setCliente(cliente);
 
             pedidoDao.salvarOuAlterar(pedido, session);
+            Mensagem.salvar("Pedido: " + pedido.getCliente());
+            pedido = null;
         } catch (HibernateException ex) {
-
+          System.err.println("Erro ao Salvar pedido:\n" + ex.getMessage());
+         } finally {
+            session.close();
         }
+         
     }
     
     public List<String> completeCliente(String query){

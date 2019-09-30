@@ -110,9 +110,9 @@
                             <f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
                         </p:outputLabel>
                         
-                        <p:outputLabel value="Nota Fiscal: "/>                        
+                        <p:outputLabel value="Nota Fiscal: ">                        
                         <p:inputText id="nota" value="#{pedidoC.pedido.notaFiscal}"/>
-                        
+                        </p:outputLabel>
                         
                         <p:outputLabel value="Cliente" for="cliente" />
      
@@ -122,22 +122,19 @@
                         <p:inputText id="cliente2" rendered="#{clienteC.cliente.id !=null}" readonly="true" value="#{pedidoC.cliente.nome}"/>
                         
                         
-                        <p:outputLabel value="CNPJ: "/>
-                        <p:outputLabel value="#{pedidoC.cliente.cnpj}" >
-                            <p:autoComplete id="cnpj" minQueryLength="3" value="#{pedidoC.cliente.cnpj}"
-                                        completeMethod="#{autoCompleteView.completeText}" effect="fade" />
+                        <p:outputLabel value="CNPJ: ">
+                        <p:inputText   id="CNPJ" value="#{pedidoC.cliente.cnpj}"/>
+                      
+                           
                         </p:outputLabel>
                         
-                        <p:outputLabel value="Placa do Veículo: "/>
-                        <p:outputLabel value="#{pedidoC.caminhao.placaCaminhao}" >
-                            <p:autoComplete id="placaVeiculo" minQueryLength="3" value="#{pedidoC.caminhao.placaCaminhao}"
-                                        completeMethod="#{autoCompleteView.completeText}" effect="fade" />
+                        <p:outputLabel value="Placa do Veículo: ">
+                        <p:outputLabel value="#{pedidoC.caminhao.placaCaminhao}" />
+                           
                         </p:outputLabel>
                         
-                        <p:outputLabel value="Nome do Motorista: "/>
-                        <p:outputLabel value="#{pedidoC.caminhao.nomeMotorista}" >
-                            <p:autoComplete id="nomeMotorista" minQueryLength="3" value="#{pedidoC.caminhao.nomeMotorista}"
-                                        completeMethod="#{autoCompleteView.completeText}" effect="fade" />
+                        <p:outputLabel for="nomeMot" value="Nome do Motorista: ">
+                        <p:inputText   id="nomeMot" value="#{pedidoC.caminhao.nomeMotorista}"/>
                         </p:outputLabel>
 
 
