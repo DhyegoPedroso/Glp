@@ -1,5 +1,7 @@
 package br.com.glp.controller;
 
+import br.com.glp.dao.ClienteDao;
+import br.com.glp.dao.ClienteDaoImpl;
 import br.com.glp.dao.HibernateUtil;
 import br.com.glp.dao.PedidoDao;
 import br.com.glp.dao.PedidoDaoImpl;
@@ -9,6 +11,7 @@ import br.com.glp.model.ItemPedido;
 import br.com.glp.model.Pedido;
 import br.com.glp.model.Produto;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -34,6 +37,7 @@ public class PedidoController implements Serializable {
     private ItemPedido itemPedido;
     private List<ItemPedido> itemPedidos;
     private List<Pedido> pedidos;
+    private List<Cliente> clientes;
     private DataModel<Pedido> modelPedido;
     private Cliente cliente;
     private Caminhao caminhao;
@@ -99,7 +103,31 @@ public class PedidoController implements Serializable {
 
         }
     }
-
+    
+    public List<String> completeCliente(String query){
+        abreSessao();
+        List<String> autoCompletes = new ArrayList<>();
+        try {
+            ClienteDao clienteDao = new ClienteDaoImpl();
+            clientes = clienteDao.pesquisaPorNome(query, session);
+            
+            for(Cliente cliente1 : clientes){
+                autoCompletes.add(cliente1.getNome());
+            }
+            
+        } catch (HibernateException e) {
+            System.out.println("erro ao pesquisar cliente");
+        }finally{
+            session.close();
+        }
+        return autoCompletes;
+    }
+    
+//    public void carregarDadosCliente(){
+//        try{
+//            
+//        }
+//    }
     public Produto getProduto() {
         return produto;
     }

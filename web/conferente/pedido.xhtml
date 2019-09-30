@@ -104,31 +104,40 @@
                 <!--Cadastra dados do Pedido-->
                 <p:fieldset legend="Dados do Pedido" style="margin-bottom:20px; margin-top: 10px">
 
-                    <p:panelGrid id="novo_salvar" columns="6" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-10" styleClass="painel_grid_noborder" >
+                    <p:panelGrid id="novo_salvar" columns="6"   >
                         <p:outputLabel value="Data: "/>
-                        <p:outputLabel value="#{pedidoC.pedido.cadastro}" >
+                        <p:outputLabel value="#{pedidoC.pedido.cadastro}" >                             
                             <f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
                         </p:outputLabel>
                         
-                        <p:outputLabel value="Nota Fiscal: "/>
-                        <p:outputLabel value="#{pedidoC.pedido.cliente}" >
-                        </p:outputLabel>
+                        <p:outputLabel value="Nota Fiscal: "/>                        
+                        <p:inputText id="nota" value="#{pedidoC.pedido.notaFiscal}"/>
                         
                         
-                        <p:outputLabel value="Cliente: "/>
-                        <p:outputLabel value="#{pedidoC.cliente.nome}" >
-                        </p:outputLabel>
+                        <p:outputLabel value="Cliente" for="cliente" />
+     
+                        <p:autoComplete id="cliente" forceSelection="true" minQueryLength="4" rendered="#{pedidoC.cliente.id == null}" value="#{pedidoC.cliente.nome}"
+                                        completeMethod="#{pedidoC.completeCliente}" effect="fade"
+                                       />
+                        <p:inputText id="cliente2" rendered="#{clienteC.cliente.id !=null}" readonly="true" value="#{pedidoC.cliente.nome}"/>
+                        
                         
                         <p:outputLabel value="CNPJ: "/>
                         <p:outputLabel value="#{pedidoC.cliente.cnpj}" >
+                            <p:autoComplete id="cnpj" minQueryLength="3" value="#{pedidoC.cliente.cnpj}"
+                                        completeMethod="#{autoCompleteView.completeText}" effect="fade" />
                         </p:outputLabel>
                         
                         <p:outputLabel value="Placa do Veículo: "/>
                         <p:outputLabel value="#{pedidoC.caminhao.placaCaminhao}" >
+                            <p:autoComplete id="placaVeiculo" minQueryLength="3" value="#{pedidoC.caminhao.placaCaminhao}"
+                                        completeMethod="#{autoCompleteView.completeText}" effect="fade" />
                         </p:outputLabel>
                         
                         <p:outputLabel value="Nome do Motorista: "/>
                         <p:outputLabel value="#{pedidoC.caminhao.nomeMotorista}" >
+                            <p:autoComplete id="nomeMotorista" minQueryLength="3" value="#{pedidoC.caminhao.nomeMotorista}"
+                                        completeMethod="#{autoCompleteView.completeText}" effect="fade" />
                         </p:outputLabel>
 
 
