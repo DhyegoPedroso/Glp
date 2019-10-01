@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,7 +43,23 @@ public class Pedido implements Serializable {
     
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itemPedidos;
+    
+    @Column
+    private String notaFiscal;
 
+    public Pedido() {
+    }
+
+    public Pedido(Long id, Date cadastro, Cliente cliente, List<ItemPedido> itemPedidos, String notaFiscal) {
+        this.id = id;
+        this.cadastro = cadastro;
+        this.cliente = cliente;
+        this.itemPedidos = itemPedidos;
+        this.notaFiscal = notaFiscal;
+    }
+
+
+    
     public Long getId() {
         return id;
     }
@@ -100,6 +117,14 @@ public class Pedido implements Serializable {
     @Override
     public String toString() {
         return "br.com.glp.model.Pedido[ id=" + id + " ]";
+    }
+
+    public String getNotaFiscal() {
+        return notaFiscal;
+    }
+
+    public void setNotaFiscal(String notaFiscal) {
+        this.notaFiscal = notaFiscal;
     }
     
 }

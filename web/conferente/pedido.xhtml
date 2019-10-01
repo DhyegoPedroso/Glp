@@ -104,31 +104,37 @@
                 <!--Cadastra dados do Pedido-->
                 <p:fieldset legend="Dados do Pedido" style="margin-bottom:20px; margin-top: 10px">
 
-                    <p:panelGrid id="novo_salvar" columns="6" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-10" styleClass="painel_grid_noborder" >
+                    <p:panelGrid id="novo_salvar" columns="6"   >
                         <p:outputLabel value="Data: "/>
-                        <p:outputLabel value="#{pedidoC.pedido.cadastro}" >
+                        <p:outputLabel value="#{pedidoC.pedido.cadastro}" >                             
                             <f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
                         </p:outputLabel>
                         
-                        <p:outputLabel value="Nota Fiscal: "/>
-                        <p:outputLabel value="#{pedidoC.pedido.cliente}" >
+                        <p:outputLabel value="Nota Fiscal: ">                        
+                        <p:inputText id="nota" value="#{pedidoC.pedido.notaFiscal}"/>
                         </p:outputLabel>
                         
+                        <p:outputLabel value="Cliente" for="cliente" />
+     
+                        <p:autoComplete id="cliente" forceSelection="true" minQueryLength="4" rendered="#{pedidoC.cliente.id == null}" value="#{pedidoC.cliente.nome}"
+                                        completeMethod="#{pedidoC.completeCliente}" effect="fade"
+                                       />
+                        <p:inputText id="cliente2" rendered="#{clienteC.cliente.id !=null}" readonly="true" value="#{pedidoC.cliente.nome}"/>
                         
-                        <p:outputLabel value="Cliente: "/>
-                        <p:outputLabel value="#{pedidoC.cliente.nome}" >
+                        
+                        <p:outputLabel value="CNPJ: ">
+                        <p:inputText   id="CNPJ" value="#{pedidoC.cliente.cnpj}"/>
+                      
+                           
                         </p:outputLabel>
                         
-                        <p:outputLabel value="CNPJ: "/>
-                        <p:outputLabel value="#{pedidoC.cliente.cnpj}" >
+                        <p:outputLabel value="Placa do Veículo: ">
+                        <p:outputLabel value="#{pedidoC.caminhao.placaCaminhao}" />
+                           
                         </p:outputLabel>
                         
-                        <p:outputLabel value="Placa do Veículo: "/>
-                        <p:outputLabel value="#{pedidoC.caminhao.placaCaminhao}" >
-                        </p:outputLabel>
-                        
-                        <p:outputLabel value="Nome do Motorista: "/>
-                        <p:outputLabel value="#{pedidoC.caminhao.nomeMotorista}" >
+                        <p:outputLabel for="nomeMot" value="Nome do Motorista: ">
+                        <p:inputText   id="nomeMot" value="#{pedidoC.caminhao.nomeMotorista}"/>
                         </p:outputLabel>
 
 
