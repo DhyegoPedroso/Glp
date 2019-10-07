@@ -3,6 +3,7 @@ package br.com.glp.dao;
 import br.com.glp.model.Usuario;
 import java.util.List;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -23,7 +24,23 @@ public class UsuarioDaoImpl extends BaseDaoImpl<Usuario, Long> implements Usuari
 
     @Override
     public List<Usuario> pesquisaPorNome(String nome, Session session) throws HibernateException {
-        return null;
+        Query consulta = session.createQuery("from Usuario u where u.nome like :nome");
+        consulta.setParameter("nome", "%" + nome + "%");
+        return consulta.list();
+    }
+
+    @Override
+    public Usuario pesquisaPorLogin(String login, Session session) throws HibernateException {
+        Query consulta = session.createQuery("from Usuario u where u.login like :login");
+        consulta.setParameter("login", "%" + login + "%");
+        return (Usuario) consulta.uniqueResult();
+    }
+
+    @Override
+    public List<String> pesquisarPorLoginAutoComplete(String login, Session session) throws HibernateException {
+        Query consulta = session.createQuery("Select u.login from Usuario u where u.login like :login");
+        consulta.setParameter("login", "%" + login + "%");
+        return consulta.list();
     }
 
 }

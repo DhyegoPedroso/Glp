@@ -11,250 +11,55 @@
 
     <ui:define name="content">
 
-        <h:form id="form_pesquisa">
-            <p:growl id="msgs" showDetail="true" sticky="true"/>
+        <h:form id="form">
+            
+            <p:growl id="msgs" />
 
-            <p:messages id="mens"  autoUpdate="true" />
+            <p:panel header="Criar novo Cliente" style="margin-bottom:20px">
+                
+                <h:panelGrid columns="2" cellpadding="5">
+                    
+                    <h:outputLabel value="Nome : *" for="nome"></h:outputLabel>
+                    <p:inputText id="nome" value="#{clienteC.cliente.nome}" required="true"/>
 
-            <h:panelGroup id="aba1" rendered="#{!clienteC.mostrar_toolbar}" >
+                    <h:outputLabel value="Nome Social : *" for="nome_social"></h:outputLabel>
+                    <p:inputText id="nome_social" value="#{clienteC.cliente.nomeSocial}" required="true"/>
 
-                <p:toolbar styleClass="toolbar">
-
-                    <p:toolbarGroup  >
-
-                        <p:commandButton value="Pesquisar" actionListener="#{clienteC.pesquisar()}"
-                                         update="dadosCliente" process="@this panelGridPesq" />
-                        <p:separator></p:separator>
-                        <p:commandButton value="Novo" actionListener="#{clienteC.novo}" update="@form" global="false"  />
-
-                    </p:toolbarGroup>
-
-                </p:toolbar>
-
-                <p:panelGrid id="panelGridPesq" columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-10" styleClass="painel_grid_noborder" >
-
-                    <p:outputLabel for="pesqNome" value="Funcionario: "/>
-                    <p:inputText id="pesqNome" value="#{clienteC.cliente.nome}" style="margin-left: 5px"/>
-                    <p:spacer />
-
-                </p:panelGrid>
-
-                <p:dataTable id="dadosCliente" value="#{clienteC.modelClientes}" var="cliente" reflow="true"
-                             style="margin-top: 20px;"  emptyMessage="Nenhum cliente encontrado">
-
-                    <p:column headerText="Cliente" priority="1">
-                        <h:outputText value="#{cliente.nome}"/>
-                    </p:column>
-
-                    <p:column headerText="Razão Social" priority="1">
-                        <h:outputText value="#{cliente.nomeSocial}"/>
-                    </p:column>
-
-                    <p:column headerText="CNPJ" priority="1">
-                        <h:outputText value="#{cliente.cnpj}" />
-                    </p:column>
-
-                    <p:column headerText="Data Contratação">
-                        <h:outputText value="#{cliente.dtCadastro}">
-                            <f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy"/>
-                        </h:outputText>
-                    </p:column>
-
-                    <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
-                        <p:commandButton icon="ui-icon-pencil" title="Alterar" process="@this" update="@form" actionListener="#{clienteC.carregarParaAlterar()}">
-                            <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />          
-                        </p:commandButton>
-
-                        <p:commandButton icon="ui-icon-trash" actionListener="#{clienteC.excluir()}" update="dadosCliente" title="Excluir" >
-                            <p:confirm header="Confirmação" message="Tem certeza exclusão?" icon="ui-icon-alert" />
-                            <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />
-                        </p:commandButton>
-
-                    </p:column>
-
-                </p:dataTable>
-
-            </h:panelGroup> 
-
-            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-
-                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" 
-                                 icon="ui-icon-check" />
-                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" 
-                                 icon="ui-icon-close" />
-            </p:confirmDialog>
-
-            <h:panelGroup id="aba_alterar" rendered="#{clienteC.mostrar_toolbar}">
-
-                <p:toolbar id="toolbar_salvar" styleClass="toolbar">
-
-                    <p:toolbarGroup  >
-                        <p:commandButton value="Salvar" action="#{clienteC.salvar()}" update="aba_alterar" />
-                        <p:separator></p:separator>
-                        <p:commandButton value="Cancelar" actionListener="#{clienteC.novaPesquisa}" immediate="true"
-                                         update="@form" global="false" />
-                    </p:toolbarGroup>
-
-                </p:toolbar>
-
-                <!--Cadastra dados do Cliente-->
-                <p:fieldset legend="Dados do Cliente" style="margin-bottom:20px; margin-top: 10px">
-
-                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" styleClass="painel_grid_noborder" 
-                                 style="width: 100%">
-
-                        <p:outputLabel for="nomeCliente" value="Nome:" />
-                        <p:inputText id="nomeCliente" value="#{clienteC.cliente.nome}" size="40"/>
-
-                        <p:outputLabel for="nomeSocialCliente" value="Razão Social:" />
-                        <p:inputText id="nomeSocialCliente" value="#{clienteC.cliente.nomeSocial}" size="40"/>
-
-                        <p:outputLabel for="cnpjCliente" value="CNPJ:" />
-                        <p:inputMask id="cnpjCliente" value="#{clienteC.cliente.cnpj}" mask="99.999.999/9999-99" size="40" />
-
-                    </p:panelGrid>
-
-                </p:fieldset>
-
-                <!--Botão para abrir a modal endereço do Cliente-->
-                <p:commandButton value="Endereço" type="button" onclick="PF('dlg3').show();" /> 
-
-                <p:dialog id="enderecoView" header="Endereço" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
-
-                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-6" styleClass="painel_grid_noborder" >
-
-                        <p:outputLabel for="logradouroCliente" value="Logradouro:" />
-                        <p:inputText id="logradouroCliente" value="#{clienteC.endereco.logradouro}"/>
-
-                        <p:outputLabel for="numeroCliente" value="Número:" />
-                        <p:inputText id="numeroCliente" value="#{clienteC.endereco.numero}" />
-
-                        <p:outputLabel for="complementoCliente" value="Complemento:" />
-                        <p:inputText id="complementoCliente" value="#{clienteC.endereco.complemento}"/>
-
-                        <p:outputLabel for="cepCliente" value="Cep:" />
-                        <p:inputMask id="cepCliente" value="#{clienteC.endereco.cep}" mask="99999-999"/>
-
-                        <p:outputLabel for="bairroCliente" value="Bairro:" />
-                        <p:inputText id="bairroCliente" value="#{clienteC.endereco.bairro}"/>
-
-                        <p:outputLabel for="cidadeCliente" value="Cidade:" />
-                        <p:inputText id="cidadeCliente" value="#{clienteC.endereco.cidade}"/>
-
-                        <p:outputLabel for="ufCliente" value="UF:" />
-                        <p:inputText id="ufCliente" value="#{clienteC.endereco.uf}" size="2"/>
-
-                        <p:outputLabel for="paisCliente" value="Pais:" />
-                        <p:inputText id="paisCliente" value="#{clienteC.endereco.pais}"/>
-
-                        <p:outputLabel for="telefoneCliente" value="Telefone: " />
-                        <p:inputMask id="telefoneCliente" mask="(99) 9999-9999" value="#{clienteC.contato.telefone}"/>
-
-                        <p:outputLabel for="celularCliente" value="Celular: " />
-                        <p:inputMask id="celularCliente" mask="(99) 99999-9999" value="#{clienteC.contato.celular}"/>
-
-                        <p:outputLabel for="whatsappCliente" value="Whatsapp:" />
-                        <p:selectBooleanButton id="whatsappCliente" value="#{clienteC.contato.whatsapp}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
-
-                        <p:outputLabel for="emailCliente" value="E-mail: " />
-                        <p:inputText id="emailCliente" value="#{clienteC.contato.email}"/>
-
-
-
-                    </p:panelGrid>
                     <p:commandButton id="btn_reset" value="Reset" type="reset"/>
-                    <p:commandButton id="btn_add" value="Add" actionListener="#{clienteC.addEndereco()}"
-                                     process="@this, enderecoView"   update="dadosEndereco"/>
+                    <p:commandButton id="btn_add" value="Add" update="clientes msgs @parent" action="#{clienteC.addCliente()}" >
+                        <p:collector value="#{clienteC.cliente}" addTo="#{clienteC.clientes}" unique="true"/>
+                    </p:commandButton>
+                    
+                </h:panelGrid>
+                
+            </p:panel>
 
-                </p:dialog>
+            <p:outputPanel id="clientes">
+                
+                <p:dataTable value="#{clienteC.clientes}" var="cliente" id="booksTable">
 
-                <!--Endereços do Cliente ja add na lista-->
-                <p:dataTable id="dadosEndereco" var="endereco" value="#{clienteC.cliente.enderecos}"
-                             paginator="true" rows="10" emptyMessage="Não há registros na lista"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="10,15,25,50,100" 
-                             rowKey="#{endereco.id}" selection="#{clienteC.endereco}" selectionMode="single" >
-
-                    <p:column headerText="Logradouro" priority="1">
-                        <h:outputText value="#{endereco.logradouro}"/>
+                    <p:column headerText="Nome">
+                        <h:outputText value="#{cliente.nome}" />
                     </p:column>
 
-                    <p:column headerText="Numero" priority="1">
-                        <h:outputText value="#{endereco.numero}"/>
+                    <p:column headerText="Nome Social">
+                        <f:facet name="header">
+                            <h:outputText value="Nome Social" />
+                        </f:facet>
+                        <h:outputText value="#{cliente.nomeSocial}" />
                     </p:column>
 
-                    <p:column headerText="Complemento" priority="1">
-                        <h:outputText value="#{endereco.complemento}" />
-                    </p:column>
-
-                    <p:column headerText="CEP" priority="1">
-                        <h:outputText value="#{endereco.cep}" />
-                    </p:column>
-
-                    <p:column headerText="Bairro" priority="1">
-                        <h:outputText value="#{endereco.bairro}"/>
-                    </p:column>
-
-                    <p:column headerText="Cidade" priority="1">
-                        <h:outputText value="#{endereco.cidade}" />
-                    </p:column>
-
-                    <p:column headerText="UF" priority="1">
-                        <h:outputText value="#{endereco.uf}" />
+                    <p:column headerText="Action">
+                        <p:commandLink value="Remove" update=":form:clientes" process=":form:clientes">
+                            <p:collector value="#{cliente}" removeFrom="#{clienteC.clientes}" unique="true"/>
+                        </p:commandLink>
                     </p:column>
 
                 </p:dataTable>
-
-                <p:contextMenu for="dadosEndereco">
-                    <p:menuitem value="Editar Endereço" update="enderecoView" icon="ui-icon-search" oncomplete="PF('dlg3').show()"/>
-                    <p:menuitem value="Add Caminhão" update="caminhaoView"  icon="ui-icon-search" oncomplete="PF('dlg4').show()"/>
-                    <p:menuitem value="Cancelar" update="dadosEndereco"  icon="ui-icon-search" />
-                </p:contextMenu>
-
-                <!--Modal para add caminhoes do cliente-->
-                <p:dialog id="caminhaoView" header="Add Caminhão" widgetVar="dlg4" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
-
-                    <p:panelGrid id="editarCaminhao" columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-6" styleClass="painel_grid_noborder" >
-
-                        <p:outputLabel for="MotoristaCaminhao" value="Motorista:" />
-                        <p:inputText id="MotoristaCaminhao" value="#{clienteC.caminhao.nomeMotorista}"/>
-
-                        <p:outputLabel for="PlacaCaminhao" value="Placa:" />
-                        <p:inputText id="PlacaCaminhao" value="#{clienteC.caminhao.placaCaminhao}"/>
-
-                        <p:commandButton value="Salvar"/>
-
-                    </p:panelGrid>
-
-                    <p:dataTable id="dadosCaminhao" var="caminhao" value="#{clienteC.endereco.caminhoes}"
-                                 paginator="true" rows="10" emptyMessage="Não há registros na lista"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,15,25,50,100" 
-                                 rowKey="#{caminhao.id}" selection="#{clienteC.caminhao}" selectionMode="single" >
-
-                        <p:column headerText="Motorista" priority="1">
-                            <h:outputText value="#{caminhao.nomeMotorista}"/>
-                        </p:column>
-
-                        <p:column headerText="Placa" priority="1">
-                            <h:outputText value="#{caminhao.placaCaminhao}" />
-                        </p:column>
-
-                    </p:dataTable>
-
-                    <p:contextMenu for="dadosCaminhao">
-                        <p:menuitem value="Editar Caminhão" update="editarCaminhao" icon="ui-icon-search" /> 
-                        <p:menuitem value="Excluir Caminhão" update="dadosCaminhao"  icon="ui-icon-search" />
-                        <p:menuitem value="Cancelar" update="dadosCaminhao"  icon="ui-icon-search" />
-                    </p:contextMenu>
-
-                </p:dialog>
-
-            </h:panelGroup>
-
+                
+            </p:outputPanel>
+            
         </h:form>
-
-
 
     </ui:define>
 
