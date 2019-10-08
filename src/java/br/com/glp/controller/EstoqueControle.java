@@ -11,12 +11,10 @@ import br.com.glp.dao.ProdutoDaoImpl;
 import br.com.glp.model.Produto;
 import java.io.Serializable;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import javax.persistence.PostUpdate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
@@ -30,11 +28,8 @@ public class EstoqueControle implements Serializable{
 
     private Session session;
     private boolean mostrar_toolbar;
-
     private Produto produto;
-
     private ProdutoDao produtoDao;
-
     private DataModel<Produto> modelProdutos;
     private List<Produto> produtos;
 
@@ -53,6 +48,7 @@ public class EstoqueControle implements Serializable{
 
     public void fechar() {
         mostrar_toolbar = !mostrar_toolbar;
+        salvar();
         limpar();
     }
 
