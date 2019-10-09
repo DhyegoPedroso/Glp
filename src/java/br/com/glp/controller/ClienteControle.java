@@ -47,7 +47,6 @@ public class ClienteControle implements Serializable {
 
     private Contato contato;
 
-
     public ClienteControle() {
         clienteDao = new ClienteDaoImpl();
     }
@@ -143,9 +142,6 @@ public class ClienteControle implements Serializable {
 
             clienteDao.salvarOuAlterar(cliente, session);
             Mensagem.salvar("Cliente: " + cliente.getNome());
-            cliente = null;
-            endereco = null;
-            contato = null;
 
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar Cliente:\n" + ex.getMessage());
@@ -158,13 +154,25 @@ public class ClienteControle implements Serializable {
         limpar();
     }
 
-    public void addEndereco(){
+    public void addEndereco() {
+        contato.setEndereco(endereco);
+        endereco.setContato(contato);
+
+        cliente.setEnderecos(enderecos);
+        endereco.setCliente(cliente);
+
         enderecos.add(endereco);
         endereco = new Endereco();
+        contato = new Contato();
     }
-    
-    public void addCaminhao(){
+
+    public void addCaminhao() {
+        caminhao.setEndereco(endereco);
+        
         caminhoes.add(caminhao);
+        
+        endereco.setCaminhoes(caminhoes);
+        
         caminhao = new Caminhao();
     }
 
