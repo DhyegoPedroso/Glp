@@ -13,10 +13,14 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -47,6 +51,28 @@ public class ClienteControle implements Serializable {
 
     private Contato contato;
 
+    /*
+    
+    Teste Binding
+     */
+    private DataTable dataTable;
+
+    public DataTable getDataTable() {
+        return dataTable;
+    }
+
+    public void setDataTable(DataTable dataTable) {
+        this.dataTable = dataTable;
+    }
+
+    public void selecionarLinha() {
+        int indice = dataTable.getRowIndex();
+        JOptionPane.showMessageDialog(null, "Indece selecionad: " + indice);
+    }
+
+    /*
+    Fim do teste Binding
+     */
     public ClienteControle() {
         clienteDao = new ClienteDaoImpl();
     }
@@ -167,13 +193,18 @@ public class ClienteControle implements Serializable {
     }
 
     public void addCaminhao() {
-        caminhao.setEndereco(endereco);
+        selecionarLinha();
         
         caminhoes.add(caminhao);
-        
+        caminhao.setEndereco(endereco);
         endereco.setCaminhoes(caminhoes);
-        
+
         caminhao = new Caminhao();
+
+    }
+
+    public void testeIdListaEndereco() {
+
     }
 
     public void limparTela() {

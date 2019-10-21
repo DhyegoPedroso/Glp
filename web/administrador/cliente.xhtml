@@ -119,9 +119,9 @@
 
                 </p:fieldset>
 
-                <!--Botão para abrir a modal endereço do Cliente-->
                 <p:fieldset legend="Endereço do Cliente" style="margin-bottom:20px; margin-top: 10px">
 
+                    <!--Botão para abrir a modal endereço do Cliente-->
                     <p:commandButton value="Add Endereço" type="button" onclick="PF('dlg3').show();" style="margin-bottom: 10px" /> 
 
                     <p:dialog id="enderecoView" header="Endereço" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
@@ -174,7 +174,15 @@
                     <!--Endereços do Cliente ja add na lista-->
                     <p:outputPanel id="clientes">
 
-                        <p:dataTable id="dadosEndereco" var="endereco" value="#{clienteC.enderecos}"
+                        <!--
+                        
+                        Teste do metodo Binding
+                        
+                        -->
+
+
+                        <p:dataTable id="dadosEndereco" binding="#{clienteC.dataTable}" rowKey="#{endereco.id}"
+                                     var="endereco" value="#{clienteC.enderecos}"
                                      emptyMessage="Não há registros na lista">
 
                             <p:column headerText="Logradouro" priority="1">
@@ -206,7 +214,7 @@
                             </p:column>
 
                             <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
-                                
+
                                 <p:commandButton icon="ui-icon-pencil" type="button" onclick="PF('dlg3').show();" update="enderecoView" title="Alterar Endereço" /> 
 
                                 <p:commandButton icon="ui-icon-trash" actionListener="#{clienteC.excluir()}" update="dadosEndereco" title="Excluir Endereço" >
@@ -214,11 +222,19 @@
                                     <f:setPropertyActionListener target="#{clienteC.endereco}" value="#{endereco}"   />
                                 </p:commandButton>
 
-                                <p:commandButton icon="ui-icon-home" type="button" onclick="PF('dlg4').show();" title="Add Caminhão" /> 
+                                <p:commandButton icon="ui-icon-home" type="button" onclick="PF('dlg4').show();" title="Add Caminhão" 
+                                                 action="#{clienteC.selecionarLinha()}" />
 
                             </p:column>
 
                         </p:dataTable>
+
+
+                        <!--
+                      
+                     Fim Teste do metodo Binding
+                      
+                        -->
 
                     </p:outputPanel>
 
@@ -236,7 +252,7 @@
                         <p:inputText id="PlacaCaminhao" value="#{clienteC.caminhao.placaCaminhao}"/>
 
                         <p:commandButton id="btn_reset_caminhao" value="Reset" type="reset"/>
-                        <p:commandButton id="btn_add_caminhao" value="Add" update="camihoes msgs" action="#{clienteC.addCaminhao()}" /> 
+                        <p:commandButton id="btn_add_caminhao" value="Add" update="caminhaoView camihoes msgs" action="#{clienteC.addCaminhao()}" /> 
 
                     </p:panelGrid>
 
@@ -254,7 +270,7 @@
                             </p:column>
 
                             <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
-                                
+
                                 <p:commandButton icon="ui-icon-pencil" type="button" onclick="PF('dlg3').show();" title="Alterar Endereço" /> 
 
                                 <p:commandButton icon="ui-icon-pencil" title="Alterar Caminhão" process="@this" update="@form" actionListener="#{clienteC.carregarParaAlterar()}">
