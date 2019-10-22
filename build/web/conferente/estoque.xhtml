@@ -12,7 +12,7 @@
 
 
         <!--<p:messages id="mens"  autoUpdate="true" />-->
-        
+
 
         <h:form id="form_pesquisa">
 
@@ -23,15 +23,20 @@
                     <p:toolbarGroup  >
                         <p:commandButton value="Abrir" actionListener
                                          ="#{estoqueC.abrir()}" update="@form" global="false"  />
-                        <p:separator></p:separator>
-                        <p:commandButton value="Verificar" actionListener
-                                         ="#{estoqueC.verificar()}" update="@form" global="false"  />
                     </p:toolbarGroup>
                 </p:toolbar>
-                <p:spacer />
-                <p:dataTable id="dadosEstoque" var="produto" value="#{estoqueC.modelProdutos}" reflow="true"
-                             style="margin-bottom:40px" emptyMessage="Nenhum produto encontrado">
-                
+            </h:panelGroup>
+            <h:panelGroup id="aba2" rendered="#{estoqueC.mostrar_toolbar}" >
+                <p:toolbar styleClass="toolbar">
+                    <p:toolbarGroup  >
+                        <p:commandButton value="Fechar" actionListener
+                                         ="#{estoqueC.fechar()}" update="@form" global="false"   />
+                    </p:toolbarGroup>
+                </p:toolbar>
+            </h:panelGroup>
+            <p:dataTable id="dadosEstoque" var="produto" value="#{estoqueC.modelProdutos}" reflow="true"
+                         style="margin-bottom:40px" emptyMessage="Nenhum produto encontrado">
+
                 <p:ajax event="sort" skipChildren="false" />
                 <p:column headerText="Tipo" sortBy="#{produto.nomeProduto}">
                     <p:outputLabel value="#{produto.nomeProduto}" />
@@ -49,41 +54,7 @@
                     <p:outputLabel value="#{produto.quantidade}" />
                 </p:column>
             </p:dataTable>
-            </h:panelGroup>
-            
-            <h:panelGroup id="aba2" rendered="#{estoqueC.mostrar_toolbar}" >
-                <p:toolbar styleClass="toolbar">
-                    <p:toolbarGroup  >
-                        <p:commandButton value="Fechar" actionListener
-                                         ="#{estoqueC.fechar()}" update="@form" global="false"   />
-                        <p:separator></p:separator>
-                        <p:commandButton value="Verificar" actionListener
-                                         ="#{estoqueC.verificar()}" update="@form" global="false"  />
-                    </p:toolbarGroup>
-                </p:toolbar>
-                <p:spacer />
-                <p:dataTable id="dadosEstoqueAberto" var="produto" value="#{estoqueC.modelProdutos}" reflow="true"
-                             style="margin-bottom:40px" emptyMessage="Nenhum produto encontrado">
-                
-                <p:ajax event="sort" skipChildren="false" />
-                <p:column headerText="Tipo" sortBy="#{produto.nomeProduto}">
-                    <p:inputText value="#{produto.nomeProduto}" />
-                </p:column>
 
-                <p:column headerText="Situação" sortBy="#{produto.situacao}">
-                    <p:inputText value="#{produto.situacao}" />
-                </p:column>
-
-                <p:column headerText="Marca" sortBy="#{produto.marca}">
-                    <p:inputText value="#{produto.marca}" />
-                </p:column>
-
-                <p:column headerText="Quantidade" sortBy="#{produto.quantidade}">
-                    <p:inputText value="#{produto.quantidade}" />
-                </p:column>
-            </p:dataTable>
-            </h:panelGroup>
-            
 
         </h:form>
 

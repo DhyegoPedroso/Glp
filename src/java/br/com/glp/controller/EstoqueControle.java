@@ -8,6 +8,7 @@ package br.com.glp.controller;
 import br.com.glp.dao.HibernateUtil;
 import br.com.glp.dao.ProdutoDao;
 import br.com.glp.dao.ProdutoDaoImpl;
+import br.com.glp.model.Estoque;
 import br.com.glp.model.Produto;
 import java.io.Serializable;
 import java.util.List;
@@ -29,6 +30,7 @@ public class EstoqueControle implements Serializable{
     private Session session;
     private boolean mostrar_toolbar;
     private Produto produto;
+    private Estoque estoque;
     private ProdutoDao produtoDao;
     private DataModel<Produto> modelProdutos;
     private List<Produto> produtos;
