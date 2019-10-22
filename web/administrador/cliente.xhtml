@@ -56,6 +56,10 @@
                         <h:outputText value="#{cliente.cnpj}" />
                     </p:column>
 
+                    <p:column headerText="Unidade" priority="1">
+                        <h:outputText value="#{cliente.endereco.unidade}" />
+                    </p:column>
+
                     <p:column headerText="Data Contratação">
                         <h:outputText value="#{cliente.dtCadastro}">
                             <f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy"/>
@@ -87,6 +91,14 @@
                                  icon="ui-icon-close" />
             </p:confirmDialog>
 
+
+            <!--**-->
+            <!--**-->
+            <!--Tela Cadastro Cliente-->
+            <!--**-->
+            <!--**-->
+
+
             <h:panelGroup id="aba_alterar" rendered="#{clienteC.mostrar_toolbar}">
 
                 <p:toolbar id="toolbar_salvar" styleClass="toolbar">
@@ -100,195 +112,228 @@
 
                 </p:toolbar>
 
-                <!--Cadastra dados do Cliente-->
-                <p:fieldset legend="Dados do Cliente" style="margin-bottom:20px; margin-top: 10px">
+                <p:growl id="growl" sticky="true" showDetail="true"/>
 
-                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" styleClass="painel_grid_noborder" 
-                                 style="width: 100%">
+                <p:panel >
 
-                        <p:outputLabel for="nomeCliente" value="Nome:" />
-                        <p:inputText id="nomeCliente" value="#{clienteC.cliente.nome}" size="40"/>
+                    <p:wizard flowListener="#{clienteC.onFlowProcess}" nextLabel="Próximo" backLabel="Voltar" >
+                        <p:tab id="personal" title="Cliente">
+                            <p:panel header="Detalhes Pessoais">
+                                <p:messages />
+                                <h:panelGrid columns="2" columnClasses="label, value">
+                                    <p:outputLabel for="nomeCliente" value="Nome:" />
+                                    <p:inputText id="nomeCliente" value="#{clienteC.cliente.nome}" size="40"/>
 
-                        <p:outputLabel for="nomeSocialCliente" value="Razão Social:" />
-                        <p:inputText id="nomeSocialCliente" value="#{clienteC.cliente.nomeSocial}" size="40"/>
+                                    <p:outputLabel for="nomeSocialCliente" value="Razão Social:" />
+                                    <p:inputText id="nomeSocialCliente" value="#{clienteC.cliente.nomeSocial}" size="40"/>
 
-                        <p:outputLabel for="cnpjCliente" value="CNPJ:" />
-                        <p:inputMask id="cnpjCliente" value="#{clienteC.cliente.cnpj}" mask="99.999.999/9999-99" size="40" />
+                                    <p:outputLabel for="cnpjCliente" value="CNPJ:" />
+                                    <p:inputMask id="cnpjCliente" value="#{clienteC.cliente.cnpj}" mask="99.999.999/9999-99" size="40" />
 
-                    </p:panelGrid>
+                                    <h:outputText value="Passar para o Último: " />
+                                    <h:selectBooleanCheckbox value="#{clienteC.skip}" />
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
 
-                </p:fieldset>
+                        <p:tab id="address" title="Endereço">
+                            <p:panel header="Detalhes do Endereço">
+                                <p:messages />
+                                <h:panelGrid columns="2" columnClasses="label, value">
 
-                <p:fieldset legend="Endereço do Cliente" style="margin-bottom:20px; margin-top: 10px">
+                                    <p:outputLabel for="unidadeCliente" value="Unidade:" />
+                                    <p:inputText id="unidadeCliente" value="#{clienteC.endereco.unidade}"/>
 
-                    <!--Botão para abrir a modal endereço do Cliente-->
-                    <p:commandButton value="Add Endereço" type="button" onclick="PF('dlg3').show();" style="margin-bottom: 10px" /> 
+                                    <p:outputLabel for="logradouroCliente" value="Logradouro:" />
+                                    <p:inputText id="logradouroCliente" value="#{clienteC.endereco.logradouro}"/>
 
-                    <p:dialog id="enderecoView" header="Endereço" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
+                                    <p:outputLabel for="numeroCliente" value="Número:" />
+                                    <p:inputText id="numeroCliente" value="#{clienteC.endereco.numero}" />
 
-                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-6" styleClass="painel_grid_noborder" >
+                                    <p:outputLabel for="complementoCliente" value="Complemento:" />
+                                    <p:inputText id="complementoCliente" value="#{clienteC.endereco.complemento}"/>
 
-                            <p:outputLabel for="logradouroCliente" value="Logradouro:" />
-                            <p:inputText id="logradouroCliente" value="#{clienteC.endereco.logradouro}"/>
+                                    <p:outputLabel for="cepCliente" value="Cep:" />
+                                    <p:inputMask id="cepCliente" value="#{clienteC.endereco.cep}" mask="99999-999"/>
 
-                            <p:outputLabel for="numeroCliente" value="Número:" />
-                            <p:inputText id="numeroCliente" value="#{clienteC.endereco.numero}" />
+                                    <p:outputLabel for="bairroCliente" value="Bairro:" />
+                                    <p:inputText id="bairroCliente" value="#{clienteC.endereco.bairro}"/>
 
-                            <p:outputLabel for="complementoCliente" value="Complemento:" />
-                            <p:inputText id="complementoCliente" value="#{clienteC.endereco.complemento}"/>
+                                    <p:outputLabel for="cidadeCliente" value="Cidade:" />
+                                    <p:inputText id="cidadeCliente" value="#{clienteC.endereco.cidade}"/>
 
-                            <p:outputLabel for="cepCliente" value="Cep:" />
-                            <p:inputMask id="cepCliente" value="#{clienteC.endereco.cep}" mask="99999-999"/>
+                                    <p:outputLabel for="ufCliente" value="UF:" />
+                                    <p:inputText id="ufCliente" value="#{clienteC.endereco.uf}" size="2"/>
 
-                            <p:outputLabel for="bairroCliente" value="Bairro:" />
-                            <p:inputText id="bairroCliente" value="#{clienteC.endereco.bairro}"/>
+                                    <p:outputLabel for="paisCliente" value="Pais:" />
+                                    <p:inputText id="paisCliente" value="#{clienteC.endereco.pais}"/>
 
-                            <p:outputLabel for="cidadeCliente" value="Cidade:" />
-                            <p:inputText id="cidadeCliente" value="#{clienteC.endereco.cidade}"/>
+                                    <h:outputText value="Passar para o Último: " />
+                                    <h:selectBooleanCheckbox value="#{clienteC.skip}" />
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
 
-                            <p:outputLabel for="ufCliente" value="UF:" />
-                            <p:inputText id="ufCliente" value="#{clienteC.endereco.uf}" size="2"/>
+                        <p:tab id="contact" title="Contato">
+                            <p:panel header="Informações de Contato">
+                                <p:messages />
+                                <h:panelGrid columns="2" columnClasses="label, value">
+                                    <p:outputLabel for="telefoneCliente" value="Telefone: " />
+                                    <p:inputMask id="telefoneCliente" mask="(99) 9999-9999" value="#{clienteC.contato.telefone}"/>
 
-                            <p:outputLabel for="paisCliente" value="Pais:" />
-                            <p:inputText id="paisCliente" value="#{clienteC.endereco.pais}"/>
+                                    <p:outputLabel for="celularCliente" value="Celular: " />
+                                    <p:inputMask id="celularCliente" mask="(99) 99999-9999" value="#{clienteC.contato.celular}"/>
 
-                            <p:outputLabel for="telefoneCliente" value="Telefone: " />
-                            <p:inputMask id="telefoneCliente" mask="(99) 9999-9999" value="#{clienteC.contato.telefone}"/>
+                                    <p:outputLabel for="whatsappCliente" value="Whatsapp:" />
+                                    <p:selectBooleanButton id="whatsappCliente" value="#{clienteC.contato.whatsapp}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
 
-                            <p:outputLabel for="celularCliente" value="Celular: " />
-                            <p:inputMask id="celularCliente" mask="(99) 99999-9999" value="#{clienteC.contato.celular}"/>
+                                    <p:outputLabel for="emailCliente" value="E-mail: " />
+                                    <p:inputText id="emailCliente" value="#{clienteC.contato.email}"/>
 
-                            <p:outputLabel for="whatsappCliente" value="Whatsapp:" />
-                            <p:selectBooleanButton id="whatsappCliente" value="#{clienteC.contato.whatsapp}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+                                    <h:outputText value="Passar para o Último: " />
+                                    <h:selectBooleanCheckbox value="#{clienteC.skip}" />
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
 
-                            <p:outputLabel for="emailCliente" value="E-mail: " />
-                            <p:inputText id="emailCliente" value="#{clienteC.contato.email}"/>
+                        <p:tab id="truck" title="Caminhão">
+                            <p:panel header="Informações do Motorista">
+                                <p:messages />
+                                <h:panelGrid id="caminhaoView" columns="2" columnClasses="label, value">
+                                    <p:outputLabel for="MotoristaCaminhao" value="Motorista:" />
+                                    <p:inputText id="MotoristaCaminhao" value="#{clienteC.caminhao.nomeMotorista}"/>
 
-                            <p:commandButton id="btn_reset_endereco" value="Reset" type="reset"/>
-                            <p:commandButton id="btn_add_endereco" value="Add" update="clientes msgs enderecoView"  action="#{clienteC.addEndereco()}" /> 
+                                    <p:outputLabel for="PlacaCaminhao" value="Placa:" />
+                                    <p:inputText id="PlacaCaminhao" value="#{clienteC.caminhao.placaCaminhao}"/>
 
-                        </p:panelGrid>
+                                    <p:commandButton id="btn_reset_caminhao" value="Reset" type="reset"/>
+                                    <p:commandButton id="btn_add_caminhao" value="Add" update="caminhaoView dadosCaminhao" action="#{clienteC.addCaminhao()}" /> 
 
-                    </p:dialog>
 
-                    <!--Endereços do Cliente ja add na lista-->
-                    <p:outputPanel id="clientes">
+                                    <h:outputText value="Passar para o Último: " />
+                                    <h:selectBooleanCheckbox value="#{clienteC.skip}" />
 
-                        <!--
-                        
-                        Teste do metodo Binding
-                        
-                        -->
+                                </h:panelGrid>
 
+                                <p:dataTable id="dadosCaminhao" var="caminhao" value="#{clienteC.caminhoes}"
+                                             emptyMessage="Não há registros na lista" style="margin-top: 10px">
 
-                        <p:dataTable id="dadosEndereco" binding="#{clienteC.dataTable}" rowKey="#{endereco.id}"
-                                     var="endereco" value="#{clienteC.enderecos}"
-                                     emptyMessage="Não há registros na lista">
+                                    <p:column headerText="Motorista" priority="1">
+                                        <h:outputText value="#{caminhao.nomeMotorista}"/>
+                                    </p:column>
 
-                            <p:column headerText="Logradouro" priority="1">
-                                <h:outputText value="#{endereco.logradouro}"/>
-                            </p:column>
+                                    <p:column headerText="Placa" priority="1">
+                                        <h:outputText value="#{caminhao.placaCaminhao}"/>
+                                    </p:column>
 
-                            <p:column headerText="Numero" priority="1">
-                                <h:outputText value="#{endereco.numero}"/>
-                            </p:column>
+                                    <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
 
-                            <p:column headerText="Complemento" priority="1">
-                                <h:outputText value="#{endereco.complemento}" />
-                            </p:column>
+                                        <p:commandButton icon="ui-icon-pencil" title="Alterar Caminhão" process="@this" update="dadosCaminhao" actionListener="#{clienteC.carregarCaminhao()}">
+                                            <f:setPropertyActionListener target="#{clienteC.caminhao}" value="#{caminhao}"   />          
+                                        </p:commandButton>
 
-                            <p:column headerText="CEP" priority="1">
-                                <h:outputText value="#{endereco.cep}" />
-                            </p:column>
+                                        <p:commandButton icon="ui-icon-trash" actionListener="#{clienteC.excluirCaminhao()}" update="dadosCaminhao" title="Excluir Caminhão" >
+                                            <p:confirm header="Confirmação" message="Tem certeza exclusão?" icon="ui-icon-alert" />
+                                            <f:setPropertyActionListener target="#{clienteC.caminhao}" value="#{caminhao}"   />
+                                        </p:commandButton>
 
-                            <p:column headerText="Bairro" priority="1">
-                                <h:outputText value="#{endereco.bairro}"/>
-                            </p:column>
+                                    </p:column>
 
-                            <p:column headerText="Cidade" priority="1">
-                                <h:outputText value="#{endereco.cidade}" />
-                            </p:column>
+                                </p:dataTable>
 
-                            <p:column headerText="UF" priority="1">
-                                <h:outputText value="#{endereco.uf}" />
-                            </p:column>
+                            </p:panel>
+                        </p:tab>
 
-                            <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
+                        <p:tab id="confirm" title="Confirmação">
 
-                                <p:commandButton icon="ui-icon-pencil" type="button" onclick="PF('dlg3').show();" update="enderecoView" title="Alterar Endereço" /> 
+                            <p:panel header="Confirmação">
 
-                                <p:commandButton icon="ui-icon-trash" actionListener="#{clienteC.excluir()}" update="dadosEndereco" title="Excluir Endereço" >
-                                    <p:confirm header="Confirmação" message="Tem certeza exclusão?" icon="ui-icon-alert" />
-                                    <f:setPropertyActionListener target="#{clienteC.endereco}" value="#{endereco}"   />
-                                </p:commandButton>
+                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-6, ui-grid-col-6" styleClass="painel_grid_noborder" >
 
-                                <p:commandButton icon="ui-icon-home" type="button" onclick="PF('dlg4').show();" title="Add Caminhão" 
-                                                 action="#{clienteC.selecionarLinha()}" />
+                                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6, ui-grid-col-6" styleClass="painel_grid_noborder" >
 
-                            </p:column>
+                                        <h:outputText value="Nome: " />
+                                        <h:outputText value="#{clienteC.cliente.nome}" styleClass="outputLabel"/>
 
-                        </p:dataTable>
+                                        <h:outputText value="Nome Social: " />
+                                        <h:outputText value="#{clienteC.cliente.nomeSocial}" styleClass="outputLabel"/>
 
+                                        <h:outputText value="CNPJ: " />
+                                        <h:outputText value="#{clienteC.cliente.cnpj}" styleClass="outputLabel"/>
 
-                        <!--
-                      
-                     Fim Teste do metodo Binding
-                      
-                        -->
+                                    </p:panelGrid>
 
-                    </p:outputPanel>
+                                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6, ui-grid-col-6" styleClass="painel_grid_noborder" >
 
-                </p:fieldset>
+                                        <h:outputText value="Unidade: " />
+                                        <h:outputText value="#{clienteC.endereco.unidade}" styleClass="outputLabel"/>
 
-                <!--Modal para add caminhoes do cliente-->
-                <p:dialog id="caminhaoView" header="Caminhão" widgetVar="dlg4" showEffect="explode" hideEffect="bounce" height="50%" width="35%">
+                                        <h:outputText value="Logradouro: " />
+                                        <h:outputText value="#{clienteC.endereco.logradouro}" styleClass="outputLabel"/>
 
-                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-6" styleClass="painel_grid_noborder" >
+                                        <h:outputText value="Número: " />
+                                        <h:outputText value="#{clienteC.endereco.numero}" styleClass="outputLabel"/>
 
-                        <p:outputLabel for="MotoristaCaminhao" value="Motorista:" />
-                        <p:inputText id="MotoristaCaminhao" value="#{clienteC.caminhao.nomeMotorista}"/>
+                                        <h:outputText value="Complemento: " />
+                                        <h:outputText value="#{clienteC.endereco.complemento}" styleClass="outputLabel"/>
 
-                        <p:outputLabel for="PlacaCaminhao" value="Placa:" />
-                        <p:inputText id="PlacaCaminhao" value="#{clienteC.caminhao.placaCaminhao}"/>
+                                        <h:outputText value="Cep: " />
+                                        <h:outputText value="#{clienteC.endereco.cep}" styleClass="outputLabel"/>
 
-                        <p:commandButton id="btn_reset_caminhao" value="Reset" type="reset"/>
-                        <p:commandButton id="btn_add_caminhao" value="Add" update="caminhaoView camihoes msgs" action="#{clienteC.addCaminhao()}" /> 
+                                        <h:outputText value="Bairro: " />
+                                        <h:outputText value="#{clienteC.endereco.bairro}" styleClass="outputLabel"/>
 
-                    </p:panelGrid>
+                                        <h:outputText value="Cidade: " />
+                                        <h:outputText value="#{clienteC.endereco.cidade}" styleClass="outputLabel"/>
 
-                    <p:outputPanel id="camihoes">
+                                        <h:outputText value="UF: " />
+                                        <h:outputText value="#{clienteC.endereco.uf}" styleClass="outputLabel"/>
 
-                        <p:dataTable id="dadosCaminhao" var="caminhao" value="#{clienteC.caminhoes}"
-                                     emptyMessage="Não há registros na lista" style="margin-top: 10px">
+                                        <h:outputText value="País: " />
+                                        <h:outputText value="#{clienteC.endereco.pais}" styleClass="outputLabel"/>
 
-                            <p:column headerText="Motorista" priority="1">
-                                <h:outputText value="#{caminhao.nomeMotorista}"/>
-                            </p:column>
+                                    </p:panelGrid>
 
-                            <p:column headerText="Placa" priority="1">
-                                <h:outputText value="#{caminhao.placaCaminhao}"/>
-                            </p:column>
+                                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6, ui-grid-col-6" styleClass="painel_grid_noborder" >
 
-                            <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
+                                        <h:outputText value="Telfone: " />
+                                        <h:outputText value="#{clienteC.contato.telefone}" styleClass="outputLabel"/>
 
-                                <p:commandButton icon="ui-icon-pencil" type="button" onclick="PF('dlg3').show();" title="Alterar Endereço" /> 
+                                        <h:outputText value="Celular: " />
+                                        <h:outputText value="#{clienteC.contato.celular}" styleClass="outputLabel"/>
 
-                                <p:commandButton icon="ui-icon-pencil" title="Alterar Caminhão" process="@this" update="@form" actionListener="#{clienteC.carregarParaAlterar()}">
-                                    <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />          
-                                </p:commandButton>
+                                        <h:outputText value="Whatsapp: " />
+                                        <h:outputText value="#{clienteC.contato.whatsapp}" styleClass="outputLabel"/>
 
-                                <p:commandButton icon="ui-icon-trash" actionListener="#{clienteC.excluir()}" update="dadosCaminhao" title="Excluir Caminhão" >
-                                    <p:confirm header="Confirmação" message="Tem certeza exclusão?" icon="ui-icon-alert" />
-                                    <f:setPropertyActionListener target="#{clienteC.cliente}" value="#{cliente}"   />
-                                </p:commandButton>
+                                        <h:outputText value="E-mail: " />
+                                        <h:outputText value="#{clienteC.contato.email}" styleClass="outputLabel"/>
 
-                            </p:column>
+                                    </p:panelGrid>
 
-                        </p:dataTable>
+                                    <p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="painel_grid_noborder" >
 
-                    </p:outputPanel>
+                                        <p:dataTable var="caminhao" value="#{clienteC.caminhoes}"
+                                                     emptyMessage="Não há registros na lista" style="margin-top: 10px">
 
-                </p:dialog>
+                                            <p:column headerText="Motorista" priority="1">
+                                                <h:outputText value="#{caminhao.nomeMotorista}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Placa" priority="1">
+                                                <h:outputText value="#{caminhao.placaCaminhao}"/>
+                                            </p:column>
+
+                                        </p:dataTable>
+
+                                    </p:panelGrid>
+
+                                </p:panelGrid>
+
+                                <p:commandButton value="Salvar" action="#{clienteC.salvar()}" update="growl" process="@this"/>
+                            </p:panel>
+                        </p:tab>
+                    </p:wizard>
+                </p:panel>
 
             </h:panelGroup>
 

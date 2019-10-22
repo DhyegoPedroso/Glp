@@ -29,6 +29,9 @@ public class Endereco implements Serializable {
     private Long id;
 
     @Column(nullable = false)
+    private String unidade;
+
+    @Column(nullable = false)
     private String logradouro;
 
     @Column(nullable = false)
@@ -58,14 +61,16 @@ public class Endereco implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "endereco", cascade = CascadeType.ALL)
     private List<Caminhao> caminhoes;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "idCliente")
     private Cliente cliente;
 
     public Endereco() {
     }
 
-    public Endereco(String logradouro, Integer numero, String complemento, String bairro, String cep, String cidade, String uf, String pais) {
+    public Endereco(Long id, String unidade, String logradouro, Integer numero, String complemento, String bairro, String cep, String cidade, String uf, String pais, Contato contato, List<Caminhao> caminhoes, Cliente cliente) {
+        this.id = id;
+        this.unidade = unidade;
         this.logradouro = logradouro;
         this.numero = numero;
         this.complemento = complemento;
@@ -74,6 +79,9 @@ public class Endereco implements Serializable {
         this.cidade = cidade;
         this.uf = uf;
         this.pais = pais;
+        this.contato = contato;
+        this.caminhoes = caminhoes;
+        this.cliente = cliente;
     }
 
     public String getCidade() {
@@ -170,6 +178,14 @@ public class Endereco implements Serializable {
 
     public void setCaminhoes(List<Caminhao> caminhoes) {
         this.caminhoes = caminhoes;
+    }
+
+    public String getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(String unidade) {
+        this.unidade = unidade;
     }
 
     @Override

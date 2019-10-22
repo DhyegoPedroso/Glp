@@ -1,5 +1,7 @@
 package br.com.glp.controller;
 
+import br.com.glp.dao.CaminhaoDao;
+import br.com.glp.dao.CaminhaoDaoImpl;
 import br.com.glp.dao.ClienteDao;
 import br.com.glp.dao.ClienteDaoImpl;
 import br.com.glp.dao.HibernateUtil;
@@ -13,14 +15,11 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.html.HtmlDataTable;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.primefaces.component.datatable.DataTable;
-import org.primefaces.event.SelectEvent;
+import org.primefaces.event.FlowEvent;
 
 /**
  *
@@ -38,8 +37,6 @@ public class ClienteControle implements Serializable {
     private ClienteDao clienteDao;
 
     private Endereco endereco;
-    private List<Endereco> enderecos;
-    private DataModel<Endereco> modelEnderecos;
 
     private Cliente cliente;
     private List<Cliente> clientes;
@@ -51,28 +48,8 @@ public class ClienteControle implements Serializable {
 
     private Contato contato;
 
-    /*
-    
-    Teste Binding
-     */
-    private DataTable dataTable;
+    private boolean skip;
 
-    public DataTable getDataTable() {
-        return dataTable;
-    }
-
-    public void setDataTable(DataTable dataTable) {
-        this.dataTable = dataTable;
-    }
-
-    public void selecionarLinha() {
-        int indice = dataTable.getRowIndex();
-        JOptionPane.showMessageDialog(null, "Indece selecionad: " + indice);
-    }
-
-    /*
-    Fim do teste Binding
-     */
     public ClienteControle() {
         clienteDao = new ClienteDaoImpl();
     }
@@ -103,17 +80,35 @@ public class ClienteControle implements Serializable {
     public void carregarParaAlterar() {
         mostrar_toolbar = !mostrar_toolbar;
         cliente = modelClientes.getRowData();
-        enderecos = cliente.getEnderecos();
+        endereco = cliente.getEndereco();
+        contato = endereco.getContato();
+        caminhoes = endereco.getCaminhoes();
     }
 
-    public void carregarTabelaEndereco() {
-        endereco = modelEnderecos.getRowData();
-        enderecos = cliente.getEnderecos();
-    }
+    public void carregarCaminhao() {
 
-    public void carregarTabelaCaminhao() {
+        if (modelCaminhoes == null) {
+            modelCaminhoes = new ListDataModel<>(caminhoes);
+        }
+
         caminhao = modelCaminhoes.getRowData();
+    }
 
+    public void removerCaminhao() {
+
+    }
+
+    public boolean isSkip() {
+        return skip;
+    }
+
+    public String onFlowProcess(FlowEvent event) {
+        if (skip) {
+            skip = false;   //reset in case user goes back
+            return "confirm";
+        } else {
+            return event.getNewStep();
+        }
     }
 
     public void pesquisar() {
@@ -158,6 +153,26 @@ public class ClienteControle implements Serializable {
         }
     }
 
+    public void excluirCaminhao() {
+        caminhao = modelCaminhoes.getRowData();
+        abreSessao();
+        
+        try {
+            
+            CaminhaoDao caminhaoDao = new CaminhaoDaoImpl();
+            
+            caminhaoDao.remover(caminhao, session);
+            caminhoes.remove(caminhao);
+            modelCaminhoes = new ListDataModel(caminhoes);
+            Mensagem.excluir("Motorista");
+            limpar();
+        } catch (Exception e) {
+            System.out.println("erro ao excluir: " + e.getMessage());
+        } finally {
+            session.close();
+        }
+    }
+
     public void salvar() {
         try {
             abreSessao();
@@ -165,9 +180,17 @@ public class ClienteControle implements Serializable {
             if (cliente.getId() == null) {
                 cliente.setDtCadastro(new Date());
             }
+            endereco.setCliente(cliente);
+            cliente.setEndereco(endereco);
+
+            contato.setEndereco(endereco);
+            endereco.setContato(contato);
 
             clienteDao.salvarOuAlterar(cliente, session);
             Mensagem.salvar("Cliente: " + cliente.getNome());
+
+            endereco = new Endereco();
+            contato = new Contato();
 
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar Cliente:\n" + ex.getMessage());
@@ -180,31 +203,13 @@ public class ClienteControle implements Serializable {
         limpar();
     }
 
-    public void addEndereco() {
-        contato.setEndereco(endereco);
-        endereco.setContato(contato);
-
-        cliente.setEnderecos(enderecos);
-        endereco.setCliente(cliente);
-
-        enderecos.add(endereco);
-        endereco = new Endereco();
-        contato = new Contato();
-    }
-
     public void addCaminhao() {
-        selecionarLinha();
-        
+
         caminhoes.add(caminhao);
         caminhao.setEndereco(endereco);
         endereco.setCaminhoes(caminhoes);
 
         caminhao = new Caminhao();
-
-    }
-
-    public void testeIdListaEndereco() {
-
     }
 
     public void limparTela() {
@@ -253,14 +258,6 @@ public class ClienteControle implements Serializable {
 
     public void setModelClientes(DataModel<Cliente> modelClientes) {
         this.modelClientes = modelClientes;
-    }
-
-    public DataModel<Endereco> getModelEnderecos() {
-        return modelEnderecos;
-    }
-
-    public void setModelEnderecos(DataModel<Endereco> modelEnderecos) {
-        this.modelEnderecos = modelEnderecos;
     }
 
     public DataModel<Caminhao> getModelCaminhoes() {
@@ -322,17 +319,6 @@ public class ClienteControle implements Serializable {
         this.contato = contato;
     }
 
-    public List<Endereco> getEnderecos() {
-        if (enderecos == null) {
-            enderecos = new ArrayList<>();
-        }
-        return enderecos;
-    }
-
-    public void setEnderecos(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
-    }
-
     public List<Caminhao> getCaminhoes() {
         if (caminhoes == null) {
             caminhoes = new ArrayList<>();
@@ -342,5 +328,9 @@ public class ClienteControle implements Serializable {
 
     public void setCaminhoes(List<Caminhao> caminhoes) {
         this.caminhoes = caminhoes;
+    }
+
+    public void setSkip(boolean skip) {
+        this.skip = skip;
     }
 }

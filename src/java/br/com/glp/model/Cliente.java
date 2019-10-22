@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -19,8 +20,8 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name = "idPessoa")
 public class Cliente extends Pessoa implements Serializable {
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cliente", cascade = CascadeType.ALL)
-    private List<Endereco> enderecos;
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "cliente", cascade = CascadeType.ALL)
+    private Endereco endereco;
 
     @Column(nullable = false)
     private String cnpj;
@@ -31,7 +32,8 @@ public class Cliente extends Pessoa implements Serializable {
     public Cliente() {
     }
 
-    public Cliente(String cnpj, String nomeSocial) {
+    public Cliente(Endereco endereco, String cnpj, String nomeSocial) {
+        this.endereco = endereco;
         this.cnpj = cnpj;
         this.nomeSocial = nomeSocial;
     }
@@ -52,12 +54,12 @@ public class Cliente extends Pessoa implements Serializable {
         this.nomeSocial = nomeSocial;
     }
 
-    public List<Endereco> getEnderecos() {
-        return enderecos;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public void setEnderecos(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
 }
