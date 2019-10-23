@@ -6,6 +6,7 @@
 package br.com.glp.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,28 +26,24 @@ public class Estoque implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    private String tipo;
+    private Date data;
+    
+    @Column(nullable = false)
+    private String hora;
 
     @Column(nullable = false)
     private String situacao;
 
-    @Column(nullable = false)
-    private String marca;
-    
-    @Column(nullable = false)
-    private Integer quantidade;
-
     public Estoque() {
     }
 
-    public Estoque(Long id, String tipo, String situacao, String marca, Integer quantidade) {
+    public Estoque(Long id, Date data, String hora, String situacao) {
         this.id = id;
-        this.tipo = tipo;
+        this.data = data;
+        this.hora = hora;
         this.situacao = situacao;
-        this.marca = marca;
-        this.quantidade = quantidade;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -55,12 +52,20 @@ public class Estoque implements Serializable {
         this.id = id;
     }
 
-    public String getTipo() {
-        return tipo;
+    public Date getData() {
+        return data;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setData(Date data) {
+        this.data = data;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 
     public String getSituacao() {
@@ -71,24 +76,9 @@ public class Estoque implements Serializable {
         this.situacao = situacao;
     }
 
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public Integer getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
-    }
     
     
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
