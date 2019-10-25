@@ -108,6 +108,10 @@ public class ProdutoControle implements Serializable {
     public void salvar() {
         try {
             abreSessao();
+            if (produto.getId() == null) {
+                produto.setQuantidade(0);
+                produto.setSituacao("Vazio");
+            }
             produtoDao.salvarOuAlterar(produto, session);
             limpar();
 

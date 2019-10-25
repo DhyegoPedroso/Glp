@@ -13,7 +13,9 @@
 
         <h:form id="form_pesquisa">
 
-           <p:messages id="mens"  autoUpdate="true" />
+            <p:messages id="mens"  >
+                <p:autoUpdate/>
+            </p:messages>
 
             <h:panelGroup id="aba1" rendered="#{!produtoC.mostrar_toolbar}" >
 
@@ -41,15 +43,8 @@
                         <h:outputText value="#{produto.nomeProduto}"/>
                     </p:column>
 
-                    <p:column headerText="Quantidade" priority="1">
-                        <h:outputText value="#{produto.quantidade}" />
-                    </p:column>
-
                     <p:column headerText="Marca" priority="1">
                         <h:outputText value="#{produto.marca}" />
-                    </p:column>
-                    <p:column headerText="Situação" priority="1">
-                        <h:outputText value="#{produto.situacao}" />
                     </p:column>
 
                     <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
@@ -96,10 +91,6 @@
                         <p:outputLabel for="nomeProduto" value="Nome: " />
                         <p:inputText id="nomeProduto" value="#{produtoC.produto.nomeProduto}" size="49"/>
 
-                        <p:outputLabel for="quantidade" value="Quantidade: " />
-                        <p:inputText id="quantidade" value="#{produtoC.produto.quantidade}"
-                                     requiredMessage="Quantidade é obrigatório" required="true" size="49"/>
-
                         <p:outputLabel for="marca" value="Marca: " />
                         <p:selectOneMenu id="marca" value="#{produtoC.produto.marca}" required="true" style="size: auto">
                             <f:selectItem itemLabel="Selecione uma Marca" itemValue="" />
@@ -109,14 +100,6 @@
                             <f:selectItem itemLabel="ServGás" itemValue="ServGás" />
                             <f:selectItem itemLabel="SuperGasBras" itemValue="SuperGasBras" />
                             <f:selectItem itemLabel="UltraGaz" itemValue="UltraGaz" />
-                        </p:selectOneMenu>
-
-                        <p:outputLabel for="situacao" value="Situação: " />
-                        <p:selectOneMenu id="situacao" value="#{produtoC.produto.situacao}" required="true" style="size: auto">
-                            <f:selectItem itemLabel="Selecione uma Situação" itemValue="" />
-                            <f:selectItem itemLabel="Cheio" itemValue="Cheio" />
-                            <f:selectItem itemLabel="Vazio" itemValue="Vazio" />
-                            <f:selectItem itemLabel="Avariado" itemValue="Avariado" />
                         </p:selectOneMenu>
 
                     </p:panelGrid>
