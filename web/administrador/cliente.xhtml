@@ -122,10 +122,10 @@
                                 <p:messages />
                                 <h:panelGrid columns="2" columnClasses="label, value">
                                     <p:outputLabel for="nomeCliente" value="Nome:" />
-                                    <p:inputText id="nomeCliente" value="#{clienteC.cliente.nome}" size="40"/>
+                                    <p:inputText id="nomeCliente" maxlength="20" value="#{clienteC.cliente.nome}" size="40"/>
 
                                     <p:outputLabel for="nomeSocialCliente" value="Razão Social:" />
-                                    <p:inputText id="nomeSocialCliente" value="#{clienteC.cliente.nomeSocial}" size="40"/>
+                                    <p:inputText id="nomeSocialCliente" maxlength="40" value="#{clienteC.cliente.nomeSocial}" size="40"/>
 
                                     <p:outputLabel for="cnpjCliente" value="CNPJ:" />
                                     <p:inputMask id="cnpjCliente" value="#{clienteC.cliente.cnpj}" mask="99.999.999/9999-99" size="40" />
@@ -142,31 +142,31 @@
                                 <h:panelGrid columns="2" columnClasses="label, value">
 
                                     <p:outputLabel for="unidadeCliente" value="Unidade:" />
-                                    <p:inputText id="unidadeCliente" value="#{clienteC.endereco.unidade}"/>
+                                    <p:inputText id="unidadeCliente" maxlength="11" value="#{clienteC.endereco.unidade}"/>
 
                                     <p:outputLabel for="logradouroCliente" value="Logradouro:" />
-                                    <p:inputText id="logradouroCliente" value="#{clienteC.endereco.logradouro}"/>
+                                    <p:inputText id="logradouroCliente" maxlength="30" value="#{clienteC.endereco.logradouro}"/>
 
                                     <p:outputLabel for="numeroCliente" value="Número:" />
-                                    <p:inputText id="numeroCliente" value="#{clienteC.endereco.numero}" />
+                                    <p:inputText id="numeroCliente" maxlength="5" value="#{clienteC.endereco.numero}" />
 
                                     <p:outputLabel for="complementoCliente" value="Complemento:" />
-                                    <p:inputText id="complementoCliente" value="#{clienteC.endereco.complemento}"/>
+                                    <p:inputText id="complementoCliente" maxlength="30" value="#{clienteC.endereco.complemento}"/>
 
                                     <p:outputLabel for="cepCliente" value="Cep:" />
                                     <p:inputMask id="cepCliente" value="#{clienteC.endereco.cep}" mask="99999-999"/>
 
                                     <p:outputLabel for="bairroCliente" value="Bairro:" />
-                                    <p:inputText id="bairroCliente" value="#{clienteC.endereco.bairro}"/>
+                                    <p:inputText id="bairroCliente" maxlength="20" value="#{clienteC.endereco.bairro}"/>
 
                                     <p:outputLabel for="cidadeCliente" value="Cidade:" />
-                                    <p:inputText id="cidadeCliente" value="#{clienteC.endereco.cidade}"/>
+                                    <p:inputText id="cidadeCliente" maxlength="20" value="#{clienteC.endereco.cidade}"/>
 
                                     <p:outputLabel for="ufCliente" value="UF:" />
-                                    <p:inputText id="ufCliente" value="#{clienteC.endereco.uf}" size="2"/>
+                                    <p:inputMask id="ufCliente" maxlength="2" mask="aa" style="text-transform: uppercase" value="#{clienteC.endereco.uf}" size="2"/>
 
                                     <p:outputLabel for="paisCliente" value="Pais:" />
-                                    <p:inputText id="paisCliente" value="#{clienteC.endereco.pais}"/>
+                                    <p:inputText id="paisCliente" maxlength="15" value="#{clienteC.endereco.pais}"/>
 
                                     <h:outputText value="Passar para o Último: " />
                                     <h:selectBooleanCheckbox value="#{clienteC.skip}" />
@@ -188,7 +188,7 @@
                                     <p:selectBooleanButton id="whatsappCliente" value="#{clienteC.contato.whatsapp}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
 
                                     <p:outputLabel for="emailCliente" value="E-mail: " />
-                                    <p:inputText id="emailCliente" value="#{clienteC.contato.email}"/>
+                                    <p:inputText id="emailCliente" maxlength="30" value="#{clienteC.contato.email}"/>
 
                                     <h:outputText value="Passar para o Último: " />
                                     <h:selectBooleanCheckbox value="#{clienteC.skip}" />
@@ -201,21 +201,20 @@
                                 <p:messages />
                                 <h:panelGrid id="caminhaoView" columns="2" columnClasses="label, value">
                                     <p:outputLabel for="MotoristaCaminhao" value="Motorista:" />
-                                    <p:inputText id="MotoristaCaminhao" value="#{clienteC.caminhao.nomeMotorista}"/>
+                                    <p:inputText id="MotoristaCaminhao" maxlength="40" value="#{clienteC.caminhao.nomeMotorista}"/>
 
                                     <p:outputLabel for="PlacaCaminhao" value="Placa:" />
-                                    <p:inputText id="PlacaCaminhao" value="#{clienteC.caminhao.placaCaminhao}"/>
+                                    <p:inputText id="PlacaCaminhao" maxlength="7" value="#{clienteC.caminhao.placaCaminhao}"/>
 
                                     <p:commandButton id="btn_reset_caminhao" value="Reset" type="reset"/>
-                                    <p:commandButton id="btn_add_caminhao" value="Add" update="caminhaoView dadosCaminhao" action="#{clienteC.addCaminhao()}" /> 
-
+                                    <p:commandButton id="btn_add_caminhao" value="Add" update="dadosCaminhao" action="#{clienteC.addCaminhao()}" /> 
 
                                     <h:outputText value="Passar para o Último: " />
                                     <h:selectBooleanCheckbox value="#{clienteC.skip}" />
 
                                 </h:panelGrid>
 
-                                <p:dataTable id="dadosCaminhao" var="caminhao" value="#{clienteC.caminhoes}"
+                                <p:dataTable id="dadosCaminhao" var="caminhao" value="#{clienteC.modelCaminhoes}"
                                              emptyMessage="Não há registros na lista" style="margin-top: 10px">
 
                                     <p:column headerText="Motorista" priority="1">
@@ -228,11 +227,11 @@
 
                                     <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
 
-                                        <p:commandButton icon="ui-icon-pencil" title="Alterar Caminhão" process="@this" update="dadosCaminhao" actionListener="#{clienteC.carregarCaminhao()}">
+                                        <p:commandButton icon="ui-icon-pencil" title="Alterar Caminhão" process="@this" update=":form_pesquisa:caminhaoView" actionListener="#{clienteC.carregarCaminhao()}">
                                             <f:setPropertyActionListener target="#{clienteC.caminhao}" value="#{caminhao}"   />          
                                         </p:commandButton>
 
-                                        <p:commandButton icon="ui-icon-trash" actionListener="#{clienteC.excluirCaminhao()}" update="dadosCaminhao" title="Excluir Caminhão" >
+                                        <p:commandButton icon="ui-icon-trash" actionListener="#{clienteC.excluirCaminhao()}" update=":form_pesquisa:dadosCaminhao" title="Excluir Caminhão" >
                                             <p:confirm header="Confirmação" message="Tem certeza exclusão?" icon="ui-icon-alert" />
                                             <f:setPropertyActionListener target="#{clienteC.caminhao}" value="#{caminhao}"   />
                                         </p:commandButton>
@@ -240,6 +239,7 @@
                                     </p:column>
 
                                 </p:dataTable>
+
 
                             </p:panel>
                         </p:tab>

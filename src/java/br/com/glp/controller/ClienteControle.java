@@ -16,6 +16,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.DataModel;
+import javax.faces.model.DataModelListener;
 import javax.faces.model.ListDataModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -82,10 +83,14 @@ public class ClienteControle implements Serializable {
         cliente = modelClientes.getRowData();
         endereco = cliente.getEndereco();
         contato = endereco.getContato();
-        caminhoes = endereco.getCaminhoes();
+        modelCaminhoes = new ListDataModel<>(endereco.getCaminhoes());
     }
 
     public void carregarCaminhao() {
+
+        if (caminhoes == null) {
+            caminhoes = new ArrayList();
+        }
 
         if (modelCaminhoes == null) {
             modelCaminhoes = new ListDataModel<>(caminhoes);
@@ -154,13 +159,13 @@ public class ClienteControle implements Serializable {
     }
 
     public void excluirCaminhao() {
+
         caminhao = modelCaminhoes.getRowData();
         abreSessao();
-        
+
         try {
-            
+
             CaminhaoDao caminhaoDao = new CaminhaoDaoImpl();
-            
             caminhaoDao.remover(caminhao, session);
             caminhoes.remove(caminhao);
             modelCaminhoes = new ListDataModel(caminhoes);
@@ -205,10 +210,18 @@ public class ClienteControle implements Serializable {
 
     public void addCaminhao() {
 
+        if (caminhoes == null) {
+            caminhoes = new ArrayList();
+        }
+
+        if (modelCaminhoes == null) {
+            modelCaminhoes = new ListDataModel<>(caminhoes);
+        }
+
         caminhoes.add(caminhao);
         caminhao.setEndereco(endereco);
         endereco.setCaminhoes(caminhoes);
-
+        
         caminhao = new Caminhao();
     }
 
