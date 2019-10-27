@@ -5,6 +5,8 @@ import br.com.glp.dao.ClienteDaoImpl;
 import br.com.glp.dao.HibernateUtil;
 import br.com.glp.dao.PedidoDao;
 import br.com.glp.dao.PedidoDaoImpl;
+import br.com.glp.dao.ProdutoDao;
+import br.com.glp.dao.ProdutoDaoImpl;
 import br.com.glp.model.Caminhao;
 import br.com.glp.model.Cliente;
 import br.com.glp.model.ItemPedido;
@@ -14,10 +16,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import javax.faces.model.SelectItem;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
@@ -36,15 +40,24 @@ public class PedidoController implements Serializable {
     private Produto produto;
     private ItemPedido itemPedido;
     private List<ItemPedido> itemPedidos;
+    private List<SelectItem> produtos;
+    private List<SelectItem> situacoes;
     private List<Pedido> pedidos;
     private List<Cliente> clientes;
     private DataModel<Pedido> modelPedido;
     private Cliente cliente;
+    private ClienteDao clienteDao;
     private Caminhao caminhao;
 
     public PedidoController() {
         pedidoDao = new PedidoDaoImpl();
     }
+    
+//    @PostConstruct
+//    public void inicializar() {
+//       carregaSituacao();
+//        carregaTipo();
+//    }
 
     private void abreSessao() {
         if (session == null || !session.isOpen()) {
@@ -52,13 +65,17 @@ public class PedidoController implements Serializable {
         } else if (!session.isOpen()) {
             session = HibernateUtil.abreSessao();
         }
+       
     }
 
     public void novo() {
         if (pedido == null) {
             getPedido();
             pedido.setCadastro(new Date());
+            
         }
+        
+        
         mostrar_Toolbar = !mostrar_Toolbar;
     }
 
@@ -107,26 +124,74 @@ public class PedidoController implements Serializable {
          } finally {
             session.close();
         }
+        
          
     }
     
-    public List<String> completeCliente(String query){
+    public void limpar(){
+        
+    }
+    
+    public List<Cliente> pesquisaCliente(String query) {
         abreSessao();
-        List<String> autoCompletes = new ArrayList<>();
+        clienteDao = new ClienteDaoImpl();
         try {
-            ClienteDao clienteDao = new ClienteDaoImpl();
             clientes = clienteDao.pesquisaPorNome(query, session);
-            
-            for(Cliente cliente1 : clientes){
-                autoCompletes.add(cliente1.getNome());
-            }
-            
-        } catch (HibernateException e) {
-            System.out.println("erro ao pesquisar cliente");
+        } catch (HibernateException he) {
+            System.out.println("Erro no cliente " + he.getMessage());
+        } finally {
+            session.close();
+        }
+        return clientes;
+    }
+    
+    public void atualizarCliente(){
+        clienteDao = new ClienteDaoImpl();
+        try {
+            abreSessao();
+            cliente = clienteDao.pesquisaEntidadeId(cliente.getId(), session);
+        } catch (HibernateException ex) {
+            System.out.println("Erro ao pesqusiar por id para atualizar o cliente " + ex.getMessage());
         }finally{
             session.close();
         }
-        return autoCompletes;
+    }
+    
+       
+    private void carregaTipo() {
+        List<Produto> todosProdutos;
+        try {
+           abreSessao();
+            produtos = new ArrayList();
+
+            ProdutoDao produtoDao = new ProdutoDaoImpl();
+         todosProdutos = produtoDao.listaTodos(session);
+           todosProdutos.stream().forEach((prod) -> {
+                produtos.add(new SelectItem(prod.getId(), prod.getNomeProduto()));
+           });
+        } catch (HibernateException hi) {
+            System.out.println("Erro ao carregar os produtos " + hi.getMessage());
+       } finally {
+            session.close();
+       }
+    }
+    
+     private void carregaSituacao() {
+        List<Produto> tipoSituacao;
+        try {
+            abreSessao();
+            situacoes = new ArrayList();
+
+            ProdutoDao produtoDao = new ProdutoDaoImpl();
+            tipoSituacao = produtoDao.listaTodos(session);
+            tipoSituacao.stream().forEach((sit) -> {
+                situacoes.add(new SelectItem(sit.getId(), sit.getSituacao()));
+            });
+        } catch (HibernateException hi) {
+            System.out.println("Erro ao carregar os tipos de situacao " + hi.getMessage());
+        } finally {
+            session.close();
+        }
     }
     
 //    public void carregarDadosCliente(){
@@ -134,6 +199,16 @@ public class PedidoController implements Serializable {
 //            
 //        }
 //    }
+
+    public ClienteDao getClienteDao() {
+        return clienteDao;
+    }
+
+    public void setClienteDao(ClienteDao clienteDao) {
+        this.clienteDao = clienteDao;
+    }
+     
+     
     public Produto getProduto() {
         return produto;
     }
@@ -145,6 +220,15 @@ public class PedidoController implements Serializable {
     public void excluir() {
         abreSessao();
     }
+
+    public List<SelectItem> getSituacoes() {
+        return situacoes;
+    }
+
+    public void setSituacoes(List<SelectItem> situacoes) {
+        this.situacoes = situacoes;
+    }
+    
 
     public boolean isMostrar_Toolbar() {
         return mostrar_Toolbar;
@@ -188,6 +272,22 @@ public class PedidoController implements Serializable {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public List<SelectItem> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<SelectItem> produtos) {
+        this.produtos = produtos;
+    }
+
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
     }
 
     public PedidoDao getPedidoDao() {

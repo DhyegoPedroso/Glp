@@ -10,23 +10,24 @@
 
     <ui:define name="content">
 
+        <h1>Movimentação</h1>
+
         <h:form id="form_pesquisa">
 
-            <p:messages id="mens">
-                <p:autoUpdate/>
-            </p:messages>
+            <!--<p:messages id="mens" autoUpdate="true" />-->
 
 
             <h:panelGroup id="aba1" rendered="#{!pedidoC.mostrar_Toolbar}" >
 
                 <p:toolbar styleClass="toolbar">
 
-                    <p:toolbarGroup  >
+                    <p:toolbarGroup style="margin-top: 5px">
 
                         <p:commandButton value="Pesquisar" actionListener="#{pedidoC.pesquisar()}"
-                                         update="dadosTabelas" process="@this panelGridPesq" />
+                                         update="dadosTabelas" process="@this panelGridPesq" style="alignment-adjust: auto;  margin-bottom: 15px; height: auto; width: 120px"/>
                         <p:separator></p:separator>
-                        <p:commandButton value="Novo" actionListener="#{pedidoC.novo}" update="@form" global="false"  />
+                        <p:commandButton value="Novo" actionListener="#{pedidoC.novo}" style="alignment-adjust: auto;  margin-bottom: 15px; height: auto; width: 120px" update="@form" global="false" 
+                                         />
 
                     </p:toolbarGroup>
 
@@ -43,7 +44,7 @@
                 <p:dataTable id="dadosTabelas" value="#{pedidoC.modelPedido}" var="cliente" reflow="true"
                              style="margin-top: 20px;"  emptyMessage="Nenhum pedido encontrado">
 
-                    <p:column headerText="Cliente (Nome Fantasia)" priority="1">
+                    <p:column headerText="Cliente " priority="1">
                         <h:outputText value="#{pedidoC.cliente.nome}"/>
                     </p:column>
 
@@ -57,7 +58,7 @@
 
                     <p:column headerText="Nome do motorista">
                         <h:outputText value="#{pedidoC.caminhao.nomeMotorista}">
-                            <f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy"/>
+                            <!--                            <f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy"/>-->
                         </h:outputText>
                     </p:column>
 
@@ -97,6 +98,8 @@
                     <p:toolbarGroup  >
                         <p:commandButton value="Salvar" action="#{pedidoC.salvar()}" update="aba_alterar" />
                         <p:separator></p:separator>
+                        <p:commandButton value="Limpar" action="#{pedidoC.limpar()}" update="aba_alterar" />
+                        <p:separator></p:separator>
                         <p:commandButton value="Cancelar" actionListener="#{pedidoC.novaPesquisa}" immediate="true"
                                          update="@form" global="false" />
                     </p:toolbarGroup>
@@ -104,24 +107,40 @@
                 </p:toolbar>
 
                 <!--Cadastra dados do Pedido-->
-                <p:fieldset legend="Dados do Pedido" style="margin-bottom:20px; margin-top: 10px">
+                <p:fieldset legend="Dados do Pedido" style="margin-bottom:20px; margin-top: 15px">
 
-                    <p:panelGrid id="novo_salvar" columns="6"   >
-                        <p:outputLabel value="Data: "/>
-                        <p:outputLabel value="#{pedidoC.pedido.cadastro}" >                             
-                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
+                    <p:panelGrid columns="6" 
+                                 styleClass="ui-paneilgrid-blak"  style="margin-bottom:20px; margin-top: 15px">
+
+                        <p:outputLabel  value="Data: " >
+                            <h:outputText  value="#{pedidoC.pedido.cadastro}" >
+                                <f:convertDateTime for="data" pattern="dd-MM-yyyy" />
+                            </h:outputText>
                         </p:outputLabel>
+
+                        <p:outputLabel value="Hora: " >
+                            <p:outputLabel  style="margin-left: 5px" value="#{pedidoC.pedido.cadastro}" >                             
+                                <f:convertDateTime pattern="HH:mm" />
+                            </p:outputLabel>
+                        </p:outputLabel>
+                        
+                    </p:panelGrid>
+
+                    <p:panelGrid  columns="3" layout="grid" >
 
                         <p:outputLabel value="Nota Fiscal: ">                        
                             <p:inputText id="nota" value="#{pedidoC.pedido.notaFiscal}"/>
+                            
                         </p:outputLabel>
 
                         <p:outputLabel value="Cliente" for="cliente" />
 
-                        <p:autoComplete id="cliente" forceSelection="true" minQueryLength="4" rendered="#{pedidoC.cliente.id == null}" value="#{pedidoC.cliente.nome}"
-                                        completeMethod="#{pedidoC.completeCliente}" effect="fade"
-                                        />
-                        <p:inputText id="cliente2" rendered="#{clienteC.cliente.id !=null}" readonly="true" value="#{pedidoC.cliente.nome}"/>
+                          
+                            <p:autoComplete id="cliente" minQueryLength="3" value="#{pedidoC.cliente.id}"
+                                            completeMethod="#{pedidoC.pesquisaCliente}" effect="fade"
+                                      >
+<!--                                <p:ajax event="itemSelect" update="cnpj" listener="#{pedidoC.atualizarCliente}"/>-->
+                    </p:autoComplete>
 
 
                         <p:outputLabel value="CNPJ: ">
@@ -131,7 +150,7 @@
                         </p:outputLabel>
 
                         <p:outputLabel value="Placa do Veículo: ">
-                            <p:outputLabel value="#{pedidoC.caminhao.placaCaminhao}" />
+                            <p:inputText value="#{pedidoC.caminhao.placaCaminhao}" />
 
                         </p:outputLabel>
 
@@ -139,10 +158,62 @@
                             <p:inputText   id="nomeMot" value="#{pedidoC.caminhao.nomeMotorista}"/>
                         </p:outputLabel>
 
-
-
                     </p:panelGrid>
+                </p:fieldset>
+                <p:fieldset legend="ENTRADA" style="margin-bottom:20px; margin-top: 15px">
+                    <h:panelGrid columns="3" >
+                        <p:selectOneMenu styleClass="form-control"  
+                                         id="tipo" value="#{pedidoC.produto.nomeProduto}" >
+                            <f:selectItem itemLabel="P13" itemValue="P13" />
+                                <f:selectItem itemLabel="P20" itemValue="P20" />
+                                <f:selectItem itemLabel="P45" itemValue="P45" />
+                        </p:selectOneMenu>
 
+                        <p:selectOneMenu  styleClass="form-control"  
+                                          id="situacao" value="#{pedidoC.produto.situacao}" >
+                            <f:selectItem itemLabel="Cheio" itemValue="Cheio" />
+                            <f:selectItem itemLabel="Vazio" itemValue="Vazio" />
+                            <f:selectItem itemLabel="Avariado" itemValue="Avariado" />
+                           
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="quanti" value="Quantidade: ">
+                            <p:inputText   id="quanti" value="#{pedidoC.produto.quantidade}"/>
+                            
+                        </p:outputLabel>
+
+                        
+
+                    </h:panelGrid>
+                </p:fieldset>
+
+                <p:fieldset legend="SAIDA" style="margin-bottom:20px; margin-top: 15px">
+                    <h:panelGrid columns="3" >
+                        
+                     
+                        <p:selectOneMenu styleClass="form-control"  
+                                         id="tipo2" value="#{pedidoC.produto.nomeProduto}" >
+                            <f:selectItem itemLabel="P13" itemValue="P13" />
+                                <f:selectItem itemLabel="P20" itemValue="P20" />
+                                <f:selectItem itemLabel="P45" itemValue="P45" />
+                        </p:selectOneMenu>
+
+                        <p:selectOneMenu  styleClass="form-control"  
+                                          id="situacao2" value="#{pedidoC.produto.situacao}" >
+                            <f:selectItem itemLabel="Cheio" itemValue="Cheio" />
+                            <f:selectItem itemLabel="Vazio" itemValue="Vazio" />
+                            <f:selectItem itemLabel="Avariado" itemValue="Avariado" />
+                           
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="quanti2" value="Quantidade: ">
+                            <p:inputText   id="quanti2" value="#{pedidoC.produto.quantidade}"/>
+                            
+                        </p:outputLabel>
+
+                        
+
+                    </h:panelGrid>
                 </p:fieldset>
 
 
