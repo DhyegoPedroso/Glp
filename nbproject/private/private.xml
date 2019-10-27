@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/01%20-%20Faculdade/01%20-%20TCS/SistemaGlp/src/java/br/com/glp/model/Endereco.java</file>
+            <file>file:/E:/01%20-%20Faculdade/01%20-%20TCS/SistemaGlp/web/conferente/pedido.xhtml</file>
             <file>file:/E:/01%20-%20Faculdade/01%20-%20TCS/SistemaGlp/web/administrador/cliente.xhtml</file>
-            <file>file:/E:/01%20-%20Faculdade/01%20-%20TCS/SistemaGlp/src/java/br/com/glp/controller/ClienteControle.java</file>
-            <file>file:/E:/01%20-%20Faculdade/01%20-%20TCS/SistemaGlp/src/java/br/com/glp/model/Cliente.java</file>
+            <file>file:/E:/01%20-%20Faculdade/01%20-%20TCS/SistemaGlp/src/java/br/com/glp/controller/PedidoController.java</file>
+            <file>file:/E:/01%20-%20Faculdade/01%20-%20TCS/SistemaGlp/web/administrador/funcionario.xhtml</file>
         </group>
     </open-files>
 </project-private>

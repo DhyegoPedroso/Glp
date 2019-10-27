@@ -14,14 +14,12 @@ import br.com.glp.model.Pedido;
 import br.com.glp.model.Produto;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import javax.faces.model.SelectItem;
+import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
@@ -35,29 +33,31 @@ public class PedidoController implements Serializable {
 
     private boolean mostrar_Toolbar;
     private Session session;
+
     private PedidoDao pedidoDao;
-    private Pedido pedido;
-    private Produto produto;
-    private ItemPedido itemPedido;
-    private List<ItemPedido> itemPedidos;
-    private List<SelectItem> produtos;
-    private List<SelectItem> situacoes;
+    private ClienteDao clienteDao;
+
     private List<Pedido> pedidos;
     private List<Cliente> clientes;
+    private List<Produto> produtos;
+    private List<Produto> produtosEntrada;
+    private List<Produto> produtosSaida;
+
     private DataModel<Pedido> modelPedido;
+    private DataModel<Produto> modelProdutoEntrada;
+    private DataModel<Pedido> modelProdutoSaida;
+
+    private ItemPedido itemPedido;
+    private Pedido pedido;
+    private Produto produto;
     private Cliente cliente;
-    private ClienteDao clienteDao;
     private Caminhao caminhao;
+
+    private String movimentacao;
 
     public PedidoController() {
         pedidoDao = new PedidoDaoImpl();
     }
-    
-//    @PostConstruct
-//    public void inicializar() {
-//       carregaSituacao();
-//        carregaTipo();
-//    }
 
     private void abreSessao() {
         if (session == null || !session.isOpen()) {
@@ -65,26 +65,21 @@ public class PedidoController implements Serializable {
         } else if (!session.isOpen()) {
             session = HibernateUtil.abreSessao();
         }
-       
     }
 
     public void novo() {
-        if (pedido == null) {
-            getPedido();
-            pedido.setCadastro(new Date());
-            
-        }
-        
-        
         mostrar_Toolbar = !mostrar_Toolbar;
+        limpar();
     }
 
     public void novaPesquisa() {
         mostrar_Toolbar = !mostrar_Toolbar;
+        limpar();
     }
 
     public void preparaAlterar() {
         mostrar_Toolbar = !mostrar_Toolbar;
+        limpar();
     }
 
     public void carregarParaAlterar() {
@@ -112,93 +107,158 @@ public class PedidoController implements Serializable {
 
     public void salvar() {
         try {
-            abreSessao();
-            pedido.setCadastro(new Date());
-            pedido.setCliente(cliente);
 
-            pedidoDao.salvarOuAlterar(pedido, session);
-            Mensagem.salvar("Pedido: " + pedido.getCliente());
-            pedido = null;
+            cliente.setId(cliente.getId());
+
+            JOptionPane.showMessageDialog(null, "ID: " + cliente.getId());
+
+//            abreSessao();
+//            pedido.setCadastro(new Date());
+//            pedido.setCliente(cliente);
+//
+//            pedidoDao.salvarOuAlterar(pedido, session);
+//            Mensagem.salvar("Pedido: " + pedido.getCliente());
+//            pedido = null;
         } catch (HibernateException ex) {
-          System.err.println("Erro ao Salvar pedido:\n" + ex.getMessage());
-         } finally {
+            System.err.println("Erro ao Salvar pedido:\n" + ex.getMessage());
+        } finally {
             session.close();
         }
-        
-         
+
     }
-    
-    public void limpar(){
-        
-    }
-    
-    public List<Cliente> pesquisaCliente(String query) {
+
+    public void excluir() {
         abreSessao();
-        clienteDao = new ClienteDaoImpl();
+    }
+
+    public void addItemProduto() {
+
+        if (movimentacao.equalsIgnoreCase("Entrada")) {
+            if (produtosEntrada == null) {
+                produtosEntrada = new ArrayList<>();
+            }
+            produtosEntrada.add(produto);
+        } else {
+            if (produtosSaida == null) {
+                produtosSaida = new ArrayList<>();
+            }
+            produtosSaida.add(produto);
+        }
+
+    }
+
+    public void reset() {
+        setMovimentacao("Selecione uma Situação");
+    }
+
+    public List<String> completeCliente(String query) {
+        abreSessao();
+        List<String> autoCompletes = new ArrayList<>();
         try {
+            ClienteDao clienteDao = new ClienteDaoImpl();
             clientes = clienteDao.pesquisaPorNome(query, session);
-        } catch (HibernateException he) {
-            System.out.println("Erro no cliente " + he.getMessage());
+
+            for (Cliente cliente1 : clientes) {
+                autoCompletes.add("ID: " + cliente1.getId() + " - " + cliente1.getNome() + " - CNPJ: " + cliente1.getCnpj());
+            }
+
+        } catch (HibernateException e) {
+            System.err.println("Erro ao pesquisar cliente");
         } finally {
             session.close();
         }
-        return clientes;
+        return autoCompletes;
     }
-    
-    public void atualizarCliente(){
-        clienteDao = new ClienteDaoImpl();
-        try {
-            abreSessao();
-            cliente = clienteDao.pesquisaEntidadeId(cliente.getId(), session);
-        } catch (HibernateException ex) {
-            System.out.println("Erro ao pesqusiar por id para atualizar o cliente " + ex.getMessage());
-        }finally{
-            session.close();
-        }
-    }
-    
-       
-    private void carregaTipo() {
-        List<Produto> todosProdutos;
-        try {
-           abreSessao();
-            produtos = new ArrayList();
 
-            ProdutoDao produtoDao = new ProdutoDaoImpl();
-         todosProdutos = produtoDao.listaTodos(session);
-           todosProdutos.stream().forEach((prod) -> {
-                produtos.add(new SelectItem(prod.getId(), prod.getNomeProduto()));
-           });
-        } catch (HibernateException hi) {
-            System.out.println("Erro ao carregar os produtos " + hi.getMessage());
-       } finally {
-            session.close();
-       }
-    }
-    
-     private void carregaSituacao() {
-        List<Produto> tipoSituacao;
+    public List<String> completeProduto(String query) {
+        abreSessao();
+        List<String> autoCompletes = new ArrayList<>();
         try {
-            abreSessao();
-            situacoes = new ArrayList();
-
             ProdutoDao produtoDao = new ProdutoDaoImpl();
-            tipoSituacao = produtoDao.listaTodos(session);
-            tipoSituacao.stream().forEach((sit) -> {
-                situacoes.add(new SelectItem(sit.getId(), sit.getSituacao()));
-            });
-        } catch (HibernateException hi) {
-            System.out.println("Erro ao carregar os tipos de situacao " + hi.getMessage());
+            produtos = produtoDao.pesquisaPorNome(query, session);
+
+            for (Produto produto1 : produtos) {
+                autoCompletes.add("ID: " + produto1.getId() + " - " + produto1.getNomeProduto() + " - Marca: " + produto1.getMarca() + " - Situação: " + produto1.getSituacao());
+            }
+
+        } catch (HibernateException e) {
+            System.err.println("Erro ao pesquisar cliente");
         } finally {
             session.close();
         }
+        return autoCompletes;
     }
-    
-//    public void carregarDadosCliente(){
-//        try{
-//            
-//        }
-//    }
+
+    public void limpar() {
+        pedido = new Pedido();
+        cliente = new Cliente();
+        produto = new Produto();
+        caminhao = new Caminhao();
+    }
+
+//    Gett e Settes
+    public Pedido getPedido() {
+        if (pedido == null) {
+            pedido = new Pedido();
+        }
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    public ItemPedido getItemPedido() {
+        if (itemPedido == null) {
+            itemPedido = new ItemPedido();
+        }
+        return itemPedido;
+    }
+
+    public void setItemPedido(ItemPedido itemPedido) {
+        this.itemPedido = itemPedido;
+    }
+
+    public Cliente getCliente() {
+        if (cliente == null) {
+            cliente = new Cliente();
+        }
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Produto getProduto() {
+        if (produto == null) {
+            produto = new Produto();
+        }
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public Caminhao getCaminhao() {
+        if (caminhao == null) {
+            caminhao = new Caminhao();
+        }
+        return caminhao;
+    }
+
+    public void setCaminhao(Caminhao caminhao) {
+        this.caminhao = caminhao;
+    }
+
+    public String getMovimentacao() {
+        return movimentacao;
+    }
+
+    public void setMovimentacao(String movimentacao) {
+        this.movimentacao = movimentacao;
+    }
 
     public ClienteDao getClienteDao() {
         return clienteDao;
@@ -207,28 +267,6 @@ public class PedidoController implements Serializable {
     public void setClienteDao(ClienteDao clienteDao) {
         this.clienteDao = clienteDao;
     }
-     
-     
-    public Produto getProduto() {
-        return produto;
-    }
-
-    public void setProduto(Produto produto) {
-        this.produto = produto;
-    }
-
-    public void excluir() {
-        abreSessao();
-    }
-
-    public List<SelectItem> getSituacoes() {
-        return situacoes;
-    }
-
-    public void setSituacoes(List<SelectItem> situacoes) {
-        this.situacoes = situacoes;
-    }
-    
 
     public boolean isMostrar_Toolbar() {
         return mostrar_Toolbar;
@@ -246,39 +284,11 @@ public class PedidoController implements Serializable {
         this.session = session;
     }
 
-    public Pedido getPedido() {
-        if (pedido == null) {
-            pedido = new Pedido();
-        }
-
-        return pedido;
-    }
-
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-    }
-
-    public ItemPedido getItemPedido() {
-        return itemPedido;
-    }
-
-    public void setItemPedido(ItemPedido itemPedido) {
-        this.itemPedido = itemPedido;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public List<SelectItem> getProdutos() {
+    public List<Produto> getProdutos() {
         return produtos;
     }
 
-    public void setProdutos(List<SelectItem> produtos) {
+    public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
     }
 
@@ -298,14 +308,6 @@ public class PedidoController implements Serializable {
         this.pedidoDao = pedidoDao;
     }
 
-    public List<ItemPedido> getItemPedidos() {
-        return itemPedidos;
-    }
-
-    public void setItemPedidos(List<ItemPedido> itemPedidos) {
-        this.itemPedidos = itemPedidos;
-    }
-
     public List<Pedido> getPedidos() {
         return pedidos;
     }
@@ -322,12 +324,36 @@ public class PedidoController implements Serializable {
         this.modelPedido = modelPedido;
     }
 
-    public Caminhao getCaminhao() {
-        return caminhao;
+    public DataModel<Produto> getModelProdutoEntrada() {
+        return modelProdutoEntrada;
     }
 
-    public void setCaminhao(Caminhao caminhao) {
-        this.caminhao = caminhao;
+    public void setModelProdutoEntrada(DataModel<Produto> modelProdutoEntrada) {
+        this.modelProdutoEntrada = modelProdutoEntrada;
+    }
+
+    public DataModel<Pedido> getModelProdutoSaida() {
+        return modelProdutoSaida;
+    }
+
+    public void setModelProdutoSaida(DataModel<Pedido> modelProdutoSaida) {
+        this.modelProdutoSaida = modelProdutoSaida;
+    }
+
+    public List<Produto> getProdutosEntrada() {
+        return produtosEntrada;
+    }
+
+    public void setProdutosEntrada(List<Produto> produtosEntrada) {
+        this.produtosEntrada = produtosEntrada;
+    }
+
+    public List<Produto> getProdutosSaida() {
+        return produtosSaida;
+    }
+
+    public void setProdutosSaida(List<Produto> produtosSaida) {
+        this.produtosSaida = produtosSaida;
     }
 
 }

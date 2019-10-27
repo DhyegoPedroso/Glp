@@ -20,13 +20,13 @@ public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long> implements Client
 
     @Override
     public List<Cliente> listaTodos(Session session) throws HibernateException {
-        return session.createQuery("from Cliente c").list(); 
+        return session.createQuery("from Cliente c").list();
     }
 
     @Override
     public List<Cliente> pesquisaPorNome(String nome, Session session) throws HibernateException {
         Query consulta = session.createQuery("from Cliente c where c.nome like :nome");
-        consulta.setParameter("nome", nome + "%");
+        consulta.setParameter("nome", "%" + nome + "%");
         return consulta.list();
     }
 
@@ -34,15 +34,15 @@ public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long> implements Client
     public Cliente pesquisarCNPJ(String cnpj, Session session) throws HibernateException {
         Query consulta = session.createQuery("from Cliente c where cnpj = :cnpj");
         consulta.setParameter("cnpj", cnpj);
-        return (Cliente)consulta.uniqueResult();
+        return (Cliente) consulta.uniqueResult();
     }
 
     @Override
     public List<Cliente> pesquisarNomeSocial(String nomeSocial, Session session) throws HibernateException {
 
         Query consulta = session.createQuery("from Cliente where nomeSocial like :nomeSocial");
-        consulta.setParameter("nomeSocial","%" + nomeSocial + "%");
+        consulta.setParameter("nomeSocial", "%" + nomeSocial + "%");
         return consulta.list();
     }
-    
+
 }

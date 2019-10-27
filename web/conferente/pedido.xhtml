@@ -10,24 +10,23 @@
 
     <ui:define name="content">
 
-        <h1>Movimentação</h1>
-
         <h:form id="form_pesquisa">
 
-            <!--<p:messages id="mens" autoUpdate="true" />-->
+            <p:messages id="mens" >
+                <p:autoUpdate/>
+            </p:messages>
 
 
             <h:panelGroup id="aba1" rendered="#{!pedidoC.mostrar_Toolbar}" >
 
                 <p:toolbar styleClass="toolbar">
 
-                    <p:toolbarGroup style="margin-top: 5px">
+                    <p:toolbarGroup>
 
                         <p:commandButton value="Pesquisar" actionListener="#{pedidoC.pesquisar()}"
-                                         update="dadosTabelas" process="@this panelGridPesq" style="alignment-adjust: auto;  margin-bottom: 15px; height: auto; width: 120px"/>
+                                         update="dadosTabelas" process="@this panelGridPesq" />
                         <p:separator></p:separator>
-                        <p:commandButton value="Novo" actionListener="#{pedidoC.novo}" style="alignment-adjust: auto;  margin-bottom: 15px; height: auto; width: 120px" update="@form" global="false" 
-                                         />
+                        <p:commandButton value="Novo" actionListener="#{pedidoC.novo}" update="@form" global="false" />
 
                     </p:toolbarGroup>
 
@@ -35,9 +34,9 @@
 
                 <p:panelGrid id="panelGridPesq" columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-10" styleClass="painel_grid_noborder" >
 
-                    <!--                    <p:outputLabel for="pesqNome" value="Funcionario: "/>
-                                        <p:inputText id="pesqNome" value="# {pedidoC.pedido.nome}" style="margin-left: 5px"/>
-                                        <p:spacer />-->
+                    <p:outputLabel for="pesqNome" value="Cliente: "/>
+                    <p:inputText id="pesqNome" value="#{pedidoC.cliente.nome}" style="margin-left: 5px"/>
+                    <p:spacer />
 
                 </p:panelGrid>
 
@@ -57,19 +56,17 @@
                     </p:column>
 
                     <p:column headerText="Nome do motorista">
-                        <h:outputText value="#{pedidoC.caminhao.nomeMotorista}">
-                            <!--                            <f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy"/>-->
-                        </h:outputText>
+                        <h:outputText value="#{pedidoC.caminhao.nomeMotorista}"/>
                     </p:column>
 
                     <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
                         <p:commandButton icon="ui-icon-pencil" title="Alterar" process="@this" update="@form" actionListener="#{pedidoC.carregarParaAlterar()}">
-                            <!--<f:setPropertyActionListener target="# {pedidoC.cliente}" value="# {cliente}"   />-->          
+                            <f:setPropertyActionListener target="# {pedidoC.cliente}" value="# {cliente}"   />          
                         </p:commandButton>
 
                         <p:commandButton icon="ui-icon-trash" actionListener="#{pedidoC.excluir()}" update="dadosTabelas" title="Excluir" >
                             <p:confirm header="Confirmação" message="Tem certeza exclusão?" icon="ui-icon-alert" />
-                            <!--<f:setPropertyActionListener target="# {pedidoC.cliente}" value="# {cliente}"   />-->
+                            <f:setPropertyActionListener target="# {pedidoC.cliente}" value="# {cliente}"   />
                         </p:commandButton>
 
                     </p:column>
@@ -77,8 +74,6 @@
                 </p:dataTable>
 
             </h:panelGroup> 
-
-
 
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 
@@ -109,8 +104,8 @@
                 <!--Cadastra dados do Pedido-->
                 <p:fieldset legend="Dados do Pedido" style="margin-bottom:20px; margin-top: 15px">
 
-                    <p:panelGrid columns="6" 
-                                 styleClass="ui-paneilgrid-blak"  style="margin-bottom:20px; margin-top: 15px">
+                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-10" 
+                                 styleClass="painel_grid_noborder" style="width: 100%; min-width: 50%" >
 
                         <p:outputLabel  value="Data: " >
                             <h:outputText  value="#{pedidoC.pedido.cadastro}" >
@@ -123,103 +118,114 @@
                                 <f:convertDateTime pattern="HH:mm" />
                             </p:outputLabel>
                         </p:outputLabel>
-                        
-                    </p:panelGrid>
-
-                    <p:panelGrid  columns="3" layout="grid" >
-
-                        <p:outputLabel value="Nota Fiscal: ">                        
-                            <p:inputText id="nota" value="#{pedidoC.pedido.notaFiscal}"/>
-                            
-                        </p:outputLabel>
-
-                        <p:outputLabel value="Cliente" for="cliente" />
-
-                          
-                            <p:autoComplete id="cliente" minQueryLength="3" value="#{pedidoC.cliente.id}"
-                                            completeMethod="#{pedidoC.pesquisaCliente}" effect="fade"
-                                      >
-<!--                                <p:ajax event="itemSelect" update="cnpj" listener="#{pedidoC.atualizarCliente}"/>-->
-                    </p:autoComplete>
-
-
-                        <p:outputLabel value="CNPJ: ">
-                            <p:inputText   id="CNPJ" value="#{pedidoC.cliente.cnpj}"/>
-
-
-                        </p:outputLabel>
-
-                        <p:outputLabel value="Placa do Veículo: ">
-                            <p:inputText value="#{pedidoC.caminhao.placaCaminhao}" />
-
-                        </p:outputLabel>
-
-                        <p:outputLabel for="nomeMot" value="Nome do Motorista: ">
-                            <p:inputText   id="nomeMot" value="#{pedidoC.caminhao.nomeMotorista}"/>
-                        </p:outputLabel>
 
                     </p:panelGrid>
-                </p:fieldset>
-                <p:fieldset legend="ENTRADA" style="margin-bottom:20px; margin-top: 15px">
-                    <h:panelGrid columns="3" >
-                        <p:selectOneMenu styleClass="form-control"  
-                                         id="tipo" value="#{pedidoC.produto.nomeProduto}" >
-                            <f:selectItem itemLabel="P13" itemValue="P13" />
-                                <f:selectItem itemLabel="P20" itemValue="P20" />
-                                <f:selectItem itemLabel="P45" itemValue="P45" />
-                        </p:selectOneMenu>
 
-                        <p:selectOneMenu  styleClass="form-control"  
-                                          id="situacao" value="#{pedidoC.produto.situacao}" >
-                            <f:selectItem itemLabel="Cheio" itemValue="Cheio" />
-                            <f:selectItem itemLabel="Vazio" itemValue="Vazio" />
-                            <f:selectItem itemLabel="Avariado" itemValue="Avariado" />
-                           
-                        </p:selectOneMenu>
+                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-2, ui-grid-col-9" 
+                                 styleClass="painel_grid_noborder" style="width: 100%; min-width: 50%" >
 
-                        <p:outputLabel for="quanti" value="Quantidade: ">
-                            <p:inputText   id="quanti" value="#{pedidoC.produto.quantidade}"/>
-                            
-                        </p:outputLabel>
+                        <p:outputLabel value="Nota Fiscal: "/>                        
+                        <p:inputText id="nota" value="#{pedidoC.pedido.notaFiscal}" size="70"/>
 
-                        
+                        <p:outputLabel value="Cliente: " for="cliente" />
+                        <p:autoComplete id="cliente"  forceSelection="true" size="70" minQueryLength="3" rendered="#{pedidoC.cliente.id == null}"
+                                        value="#{pedidoC.cliente.nome}" completeMethod="#{pedidoC.completeCliente}"/>
+                        <p:inputText id="nome2"   rendered="#{pedidoC.cliente.id != null}" readonly="true"
+                                     value="#{pedidoC.cliente.nome}" />
 
-                    </h:panelGrid>
+                        <p:outputLabel value="CNPJ: "/>
+                        <p:inputText   id="CNPJ" value="#{pedidoC.cliente.cnpj}" size="70"/>
+
+                        <p:outputLabel value="Placa do Veículo: "/>
+                        <p:inputText value="#{pedidoC.caminhao.placaCaminhao}" size="70" />
+
+                        <p:outputLabel for="nomeMot" value="Nome do Motorista: "/>
+                        <p:inputText  id="nomeMot" value="#{pedidoC.caminhao.nomeMotorista}" size="70"/>
+
+                    </p:panelGrid>
+
                 </p:fieldset>
 
-                <p:fieldset legend="SAIDA" style="margin-bottom:20px; margin-top: 15px">
-                    <h:panelGrid columns="3" >
-                        
-                     
-                        <p:selectOneMenu styleClass="form-control"  
-                                         id="tipo2" value="#{pedidoC.produto.nomeProduto}" >
-                            <f:selectItem itemLabel="P13" itemValue="P13" />
-                                <f:selectItem itemLabel="P20" itemValue="P20" />
-                                <f:selectItem itemLabel="P45" itemValue="P45" />
+                <p:fieldset legend="Entrada e Saída" style="margin-bottom:20px; margin-top: 15px">
+
+                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-2, ui-grid-col-9" 
+                                 styleClass="painel_grid_noborder" style="width: 100%; min-width: 50%">
+
+                        <p:outputLabel value="Produto: " for="produto" />
+                        <p:autoComplete id="produto"  forceSelection="true" size="70" minQueryLength="3" rendered="#{pedidoC.produto.id == null}"
+                                        value="#{pedidoC.produto.nomeProduto}" completeMethod="#{pedidoC.completeProduto}"/>
+                        <p:inputText id="produto2"   rendered="#{pedidoC.produto.id != null}" readonly="true"
+                                     value="#{pedidoC.produto.nomeProduto}" />
+
+                        <h:outputLabel for="tipoMovimentacao" value="Movimentação:  " />
+                        <p:selectOneMenu styleClass="form-control" id="tipoMovimentacao" value="#{pedidoC.movimentacao}" required="true" 
+                                         requiredMessage="Situação é obrigatório"  >
+                            <f:selectItem itemLabel="Selecione uma Situação" itemValue="" />
+                            <f:selectItem itemLabel="Entrada" itemValue="Entrada" />
+                            <f:selectItem itemLabel="Saída" itemValue="Saida" />
                         </p:selectOneMenu>
 
-                        <p:selectOneMenu  styleClass="form-control"  
-                                          id="situacao2" value="#{pedidoC.produto.situacao}" >
-                            <f:selectItem itemLabel="Cheio" itemValue="Cheio" />
-                            <f:selectItem itemLabel="Vazio" itemValue="Vazio" />
-                            <f:selectItem itemLabel="Avariado" itemValue="Avariado" />
-                           
-                        </p:selectOneMenu>
+                        <p:outputLabel for="quanti" value="Quantidade: "/>
+                        <p:inputText   id="quanti" value="#{pedidoC.produto.quantidade}" size="15"/>
 
-                        <p:outputLabel for="quanti2" value="Quantidade: ">
-                            <p:inputText   id="quanti2" value="#{pedidoC.produto.quantidade}"/>
-                            
-                        </p:outputLabel>
+                        <p:commandButton id="btn_reset_produto" value="Reset" type="reset" actionListener="#{pedidoC.addItemProduto()}"/>
+                        <p:commandButton id="btn_add_produto" value="Add" update="dadosMoviEntrada, dadosMoviSaida" action="#{pedidoC.addItemProduto()}" />
 
-                        
+                    </p:panelGrid>
 
-                    </h:panelGrid>
                 </p:fieldset>
 
+                <p:dataTable id="dadosMoviEntrada" value="#{pedidoC.modelProdutoEntrada}" var="produto" reflow="true"
+                             style="margin-top: 20px;" emptyMessage="Nenhum produto adicionado">
+
+                    <f:facet name="header">
+                        Produtos Entrada
+                    </f:facet>
+
+                    <p:column headerText="Produto " priority="1">
+                        <h:outputText value="#{pedidoC.produto.nomeProduto}"/>
+                    </p:column>
+
+                    <p:column headerText="Marca" priority="1">
+                        <h:outputText value="#{pedidoC.produto.marca}"/>
+                    </p:column>
+
+                    <p:column headerText="Situação" priority="1">
+                        <h:outputText value="#{pedidoC.produto.situacao}" />
+                    </p:column>
+
+                    <p:column headerText="Quantidade" priority="1">
+                        <h:outputText value="#{pedidoC.produto.quantidade}" />
+                    </p:column>
+                    
+                </p:dataTable>
+
+                <p:dataTable id="dadosMoviSaida" value="#{pedidoC.modelProdutoSaida}" var="produto" reflow="true"
+                             style="margin-top: 20px;" emptyMessage="Nenhum produto adicionado" >
+
+                    <f:facet name="header">
+                        Produtos Saída
+                    </f:facet>
+
+                    <p:column headerText="Produto " priority="1">
+                        <h:outputText value="#{pedidoC.produto.nomeProduto}"/>
+                    </p:column>
+
+                    <p:column headerText="Marca" priority="1">
+                        <h:outputText value="#{pedidoC.produto.marca}"/>
+                    </p:column>
+
+                    <p:column headerText="Situação" priority="1">
+                        <h:outputText value="#{pedidoC.produto.situacao}" />
+                    </p:column>
+
+                    <p:column headerText="Quantidade" priority="1">
+                        <h:outputText value="#{pedidoC.produto.quantidade}" />
+                    </p:column>
+
+                </p:dataTable>
 
             </h:panelGroup>
-
-
 
         </h:form>
 

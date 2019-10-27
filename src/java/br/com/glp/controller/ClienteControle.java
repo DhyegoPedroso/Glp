@@ -16,7 +16,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.DataModel;
-import javax.faces.model.DataModelListener;
 import javax.faces.model.ListDataModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -32,8 +31,6 @@ public class ClienteControle implements Serializable {
 
     private Session session;
     private boolean mostrar_toolbar;
-    private boolean mostrarTabelaEndereco;
-    private boolean mostrarTabelaCaminhao;
 
     private ClienteDao clienteDao;
 
@@ -99,10 +96,6 @@ public class ClienteControle implements Serializable {
         caminhao = modelCaminhoes.getRowData();
     }
 
-    public void removerCaminhao() {
-
-    }
-
     public boolean isSkip() {
         return skip;
     }
@@ -140,6 +133,7 @@ public class ClienteControle implements Serializable {
         contato = new Contato();
         endereco = new Endereco();
         caminhao = new Caminhao();
+        caminhoes = new ArrayList<>();
     }
 
     public void excluir() {
@@ -194,9 +188,6 @@ public class ClienteControle implements Serializable {
             clienteDao.salvarOuAlterar(cliente, session);
             Mensagem.salvar("Cliente: " + cliente.getNome());
 
-            endereco = new Endereco();
-            contato = new Contato();
-
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar Cliente:\n" + ex.getMessage());
         } catch (Exception e) {
@@ -221,7 +212,7 @@ public class ClienteControle implements Serializable {
         caminhoes.add(caminhao);
         caminhao.setEndereco(endereco);
         endereco.setCaminhoes(caminhoes);
-        
+
         caminhao = new Caminhao();
     }
 
@@ -295,22 +286,6 @@ public class ClienteControle implements Serializable {
 
     public void setMostrar_toolbar(boolean mostrar_toolbar) {
         this.mostrar_toolbar = mostrar_toolbar;
-    }
-
-    public boolean isMostrarTabelaEndereco() {
-        return mostrarTabelaEndereco;
-    }
-
-    public void setMostrarTabelaEndereco(boolean mostrarTabelaEndereco) {
-        this.mostrarTabelaEndereco = mostrarTabelaEndereco;
-    }
-
-    public boolean isMostrarTabelaCaminhao() {
-        return mostrarTabelaCaminhao;
-    }
-
-    public void setMostrarTabelaCaminhao(boolean mostrarTabelaCaminhao) {
-        this.mostrarTabelaCaminhao = mostrarTabelaCaminhao;
     }
 
     public Session getSession() {
