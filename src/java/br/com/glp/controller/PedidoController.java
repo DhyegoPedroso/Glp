@@ -14,6 +14,7 @@ import br.com.glp.model.Pedido;
 import br.com.glp.model.Produto;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -40,12 +41,12 @@ public class PedidoController implements Serializable {
     private List<Pedido> pedidos;
     private List<Cliente> clientes;
     private List<Produto> produtos;
-    private List<Produto> produtosEntrada;
-    private List<Produto> produtosSaida;
+    private List<ItemPedido> produtosEntrada;
+    private List<ItemPedido> produtosSaida;
 
     private DataModel<Pedido> modelPedido;
-    private DataModel<Produto> modelProdutoEntrada;
-    private DataModel<Pedido> modelProdutoSaida;
+    private DataModel<ItemPedido> modelProdutoEntrada;
+    private DataModel<ItemPedido> modelProdutoSaida;
 
     private ItemPedido itemPedido;
     private Pedido pedido;
@@ -108,17 +109,13 @@ public class PedidoController implements Serializable {
     public void salvar() {
         try {
 
-            cliente.setId(cliente.getId());
+            carregarDadosCliente();
+            abreSessao();
+            pedido.setCadastro(new Date());
+            pedido.setCliente(cliente);
 
             JOptionPane.showMessageDialog(null, "ID: " + cliente.getId());
 
-//            abreSessao();
-//            pedido.setCadastro(new Date());
-//            pedido.setCliente(cliente);
-//
-//            pedidoDao.salvarOuAlterar(pedido, session);
-//            Mensagem.salvar("Pedido: " + pedido.getCliente());
-//            pedido = null;
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar pedido:\n" + ex.getMessage());
         } finally {
@@ -131,35 +128,19 @@ public class PedidoController implements Serializable {
         abreSessao();
     }
 
-    public void addItemProduto() {
-
-        if (movimentacao.equalsIgnoreCase("Entrada")) {
-            if (produtosEntrada == null) {
-                produtosEntrada = new ArrayList<>();
-            }
-            produtosEntrada.add(produto);
-        } else {
-            if (produtosSaida == null) {
-                produtosSaida = new ArrayList<>();
-            }
-            produtosSaida.add(produto);
-        }
-
-    }
-
     public void reset() {
         setMovimentacao("Selecione uma Situação");
     }
 
     public List<String> completeCliente(String query) {
-        abreSessao();
         List<String> autoCompletes = new ArrayList<>();
+        abreSessao();
         try {
-            ClienteDao clienteDao = new ClienteDaoImpl();
+            clienteDao = new ClienteDaoImpl();
             clientes = clienteDao.pesquisaPorNome(query, session);
 
             for (Cliente cliente1 : clientes) {
-                autoCompletes.add("ID: " + cliente1.getId() + " - " + cliente1.getNome() + " - CNPJ: " + cliente1.getCnpj());
+                autoCompletes.add(cliente1.getId() + " - " + cliente1.getNome() + " cnpj: " + cliente1.getCnpj());
             }
 
         } catch (HibernateException e) {
@@ -170,15 +151,36 @@ public class PedidoController implements Serializable {
         return autoCompletes;
     }
 
+    public Cliente carregarDadosCliente() {
+
+        try {
+
+            String[] textoSeparado1 = cliente.getNome().split(" - ");
+            cliente.setId(Long.parseLong(textoSeparado1[0]));
+
+            abreSessao();
+            clienteDao = new ClienteDaoImpl();
+
+            cliente = clienteDao.pesquisaEntidadeId(cliente.getId(), session);
+
+        } catch (HibernateException e) {
+            System.err.println("Erro ao carregar Cliente");
+        } finally {
+            session.close();
+        }
+
+        return cliente;
+    }
+
     public List<String> completeProduto(String query) {
-        abreSessao();
         List<String> autoCompletes = new ArrayList<>();
+        abreSessao();
         try {
             ProdutoDao produtoDao = new ProdutoDaoImpl();
             produtos = produtoDao.pesquisaPorNome(query, session);
 
             for (Produto produto1 : produtos) {
-                autoCompletes.add("ID: " + produto1.getId() + " - " + produto1.getNomeProduto() + " - Marca: " + produto1.getMarca() + " - Situação: " + produto1.getSituacao());
+                autoCompletes.add(produto1.getId() + " - " + produto1.getNomeProduto() + " - Marca: " + produto1.getMarca() + " - Situação: " + produto1.getSituacao());
             }
 
         } catch (HibernateException e) {
@@ -187,6 +189,59 @@ public class PedidoController implements Serializable {
             session.close();
         }
         return autoCompletes;
+    }
+
+    public Produto carregarDadosProduto() {
+
+        try {
+
+            String[] textoSeparado1 = produto.getNomeProduto().split(" - ");
+            produto.setId(Long.parseLong(textoSeparado1[0]));
+
+            abreSessao();
+            ProdutoDao produtoDao = new ProdutoDaoImpl();
+
+            produto = produtoDao.pesquisaEntidadeId(produto.getId(), session);
+
+        } catch (HibernateException e) {
+            System.err.println("Erro ao carregar Produto");
+        } finally {
+            session.close();
+        }
+        return produto;
+    }
+
+    public void addItemProduto() {
+        carregarDadosProduto();
+
+        if (movimentacao.equalsIgnoreCase("Entrada")) {
+
+            if (produtosEntrada == null) {
+                produtosEntrada = new ArrayList<>();
+            }
+
+            if (modelProdutoEntrada == null) {
+                modelProdutoEntrada = new ListDataModel<>(produtosEntrada);
+            }
+
+            itemPedido.setProduto(produto);
+            itemPedido.setQuantidade(itemPedido.getQuantidade());
+
+            produtosEntrada.add(itemPedido);
+
+        } else {
+            carregarDadosProduto();
+
+            if (produtosSaida == null) {
+                produtosSaida = new ArrayList<>();
+            }
+
+            if (modelProdutoSaida == null) {
+                modelProdutoSaida = new ListDataModel<>(produtosSaida);
+            }
+
+            produtosSaida.add(itemPedido);
+        }
     }
 
     public void limpar() {
@@ -324,35 +379,35 @@ public class PedidoController implements Serializable {
         this.modelPedido = modelPedido;
     }
 
-    public DataModel<Produto> getModelProdutoEntrada() {
+    public DataModel<ItemPedido> getModelProdutoEntrada() {
         return modelProdutoEntrada;
     }
 
-    public void setModelProdutoEntrada(DataModel<Produto> modelProdutoEntrada) {
+    public void setModelProdutoEntrada(DataModel<ItemPedido> modelProdutoEntrada) {
         this.modelProdutoEntrada = modelProdutoEntrada;
     }
 
-    public DataModel<Pedido> getModelProdutoSaida() {
+    public DataModel<ItemPedido> getModelProdutoSaida() {
         return modelProdutoSaida;
     }
 
-    public void setModelProdutoSaida(DataModel<Pedido> modelProdutoSaida) {
+    public void setModelProdutoSaida(DataModel<ItemPedido> modelProdutoSaida) {
         this.modelProdutoSaida = modelProdutoSaida;
     }
 
-    public List<Produto> getProdutosEntrada() {
+    public List<ItemPedido> getProdutosEntrada() {
         return produtosEntrada;
     }
 
-    public void setProdutosEntrada(List<Produto> produtosEntrada) {
+    public void setProdutosEntrada(List<ItemPedido> produtosEntrada) {
         this.produtosEntrada = produtosEntrada;
     }
 
-    public List<Produto> getProdutosSaida() {
+    public List<ItemPedido> getProdutosSaida() {
         return produtosSaida;
     }
 
-    public void setProdutosSaida(List<Produto> produtosSaida) {
+    public void setProdutosSaida(List<ItemPedido> produtosSaida) {
         this.produtosSaida = produtosSaida;
     }
 

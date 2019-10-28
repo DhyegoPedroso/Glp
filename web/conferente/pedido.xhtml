@@ -148,7 +148,7 @@
 
                 <p:fieldset legend="Entrada e Saída" style="margin-bottom:20px; margin-top: 15px">
 
-                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-2, ui-grid-col-9" 
+                    <p:panelGrid id="movi" columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-2, ui-grid-col-9" 
                                  styleClass="painel_grid_noborder" style="width: 100%; min-width: 50%">
 
                         <p:outputLabel value="Produto: " for="produto" />
@@ -168,7 +168,7 @@
                         <p:outputLabel for="quanti" value="Quantidade: "/>
                         <p:inputText   id="quanti" value="#{pedidoC.produto.quantidade}" size="15"/>
 
-                        <p:commandButton id="btn_reset_produto" value="Reset" type="reset" actionListener="#{pedidoC.addItemProduto()}"/>
+                        <p:commandButton id="btn_reset_produto" value="Reset" type="reset" update="movi" actionListener="#{pedidoC.addItemProduto()}"/>
                         <p:commandButton id="btn_add_produto" value="Add" update="dadosMoviEntrada, dadosMoviSaida" action="#{pedidoC.addItemProduto()}" />
 
                     </p:panelGrid>
@@ -182,22 +182,26 @@
                         Produtos Entrada
                     </f:facet>
 
+                    <p:column headerText="ID " priority="1">
+                        <h:outputText value="#{pedidoC.itemPedido.produto.id}"/>
+                    </p:column>
+
                     <p:column headerText="Produto " priority="1">
-                        <h:outputText value="#{pedidoC.produto.nomeProduto}"/>
+                        <h:outputText value="#{pedidoC.itemPedido.produto.nomeProduto}"/>
                     </p:column>
 
                     <p:column headerText="Marca" priority="1">
-                        <h:outputText value="#{pedidoC.produto.marca}"/>
+                        <h:outputText value="#{pedidoC.itemPedido.produto.marca}"/>
                     </p:column>
 
                     <p:column headerText="Situação" priority="1">
-                        <h:outputText value="#{pedidoC.produto.situacao}" />
+                        <h:outputText value="#{pedidoC.itemPedido.produto.situacao}" />
                     </p:column>
 
                     <p:column headerText="Quantidade" priority="1">
-                        <h:outputText value="#{pedidoC.produto.quantidade}" />
+                        <h:outputText value="#{pedidoC.itemPedido.quantidade}" />
                     </p:column>
-                    
+
                 </p:dataTable>
 
                 <p:dataTable id="dadosMoviSaida" value="#{pedidoC.modelProdutoSaida}" var="produto" reflow="true"
@@ -206,6 +210,10 @@
                     <f:facet name="header">
                         Produtos Saída
                     </f:facet>
+
+                    <p:column headerText="ID " priority="1">
+                        <h:outputText value="#{pedidoC.produto.id}"/>
+                    </p:column>
 
                     <p:column headerText="Produto " priority="1">
                         <h:outputText value="#{pedidoC.produto.nomeProduto}"/>
