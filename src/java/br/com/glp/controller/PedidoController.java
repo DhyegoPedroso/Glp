@@ -5,6 +5,8 @@ import br.com.glp.dao.CaminhaoDaoImpl;
 import br.com.glp.dao.ClienteDao;
 import br.com.glp.dao.ClienteDaoImpl;
 import br.com.glp.dao.HibernateUtil;
+import br.com.glp.dao.ItemPedidoDao;
+import br.com.glp.dao.ItemPedidoDaoImpl;
 import br.com.glp.dao.PedidoDao;
 import br.com.glp.dao.PedidoDaoImpl;
 import br.com.glp.dao.ProdutoDao;
@@ -43,12 +45,10 @@ public class PedidoController implements Serializable {
     private List<Cliente> clientes;
     private List<Produto> produtos;
     private List<Caminhao> caminhoes;
-    private List<ItemPedido> produtosEntrada;
-    private List<ItemPedido> produtosSaida;
+    private List<ItemPedido> itemProdutos;
 
     private DataModel<Pedido> modelPedido;
-    private DataModel<ItemPedido> modelProdutoEntrada;
-    private DataModel<ItemPedido> modelProdutoSaida;
+    private DataModel<ItemPedido> modelItemProdutos;
 
     private ItemPedido itemPedido;
     private Pedido pedido;
@@ -114,23 +114,29 @@ public class PedidoController implements Serializable {
             abreSessao();
             pedido.setCadastro(new Date());
             pedido.setCliente(cliente);
-            pedido.setItemPedidos(produtosSaida);
-            pedido.setItemPedidos(produtosEntrada);
-            itemPedido.setPedido(pedido);
+            pedido.setItemPedidos(itemProdutos);
             pedidoDao.salvarOuAlterar(pedido, session);
 
-//            ItemPedidoDao itemPedidoDao = new ItemPedidoDaoImpl();
-//
-//            produtosEntrada.stream().map((produtosEntrada1) -> {
-//                produtosEntrada1.setPedido(pedido);
-//                return produtosEntrada1;
-//            }).forEachOrdered((produtosEntrada1) -> {
-//                itemPedidoDao.salvarOuAlterar(produtosEntrada1, session);
-//            });
-//            
-//            for (ItemPedido itemPedido1 : produtosSaida) {
-//
-//            }
+            ProdutoDao produtoDao = new ProdutoDaoImpl();
+            
+            //For para fazer Update do produtos que estão entrando e saindo do estoque
+            for (int item = 0; item < itemProdutos.size(); item++) {
+
+                produto = produtoDao.pesquisaEntidadeId(itemProdutos.get(item).getProduto().getId(), session);
+
+                if (!itemProdutos.get(item).getMovimentação().equalsIgnoreCase("Entrada")) {
+                    
+                    produto.setQuantidade(produto.getQuantidade() - itemProdutos.get(item).getQuantidade());
+                    produtoDao.salvarOuAlterar(produto, session);
+
+                } else {
+                    
+                    produto.setQuantidade(produto.getQuantidade() + itemProdutos.get(item).getQuantidade());
+                    produtoDao.salvarOuAlterar(produto, session);
+
+                }
+
+            }
             limpar();
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar pedido:\n" + ex.getMessage());
@@ -229,39 +235,22 @@ public class PedidoController implements Serializable {
 
     public void addItemProduto() {
 
-        carregarDadosProduto();
-
-        if (movimentacao.equalsIgnoreCase("Entrada")) {
-
-            if (produtosEntrada == null) {
-                produtosEntrada = new ArrayList<>();
-            }
-
-            if (modelProdutoEntrada == null) {
-                modelProdutoEntrada = new ListDataModel<>(produtosEntrada);
-            }
-
-            itemPedido.setProduto(produto);
-            itemPedido.setQuantidade(itemPedido.getQuantidade());
-
-            produtosEntrada.add(itemPedido);
-
-        } else {
-
-            if (produtosSaida == null) {
-                produtosSaida = new ArrayList<>();
-            }
-
-            if (modelProdutoSaida == null) {
-                modelProdutoSaida = new ListDataModel<>(produtosSaida);
-            }
-
-            itemPedido.setProduto(produto);
-            itemPedido.setQuantidade(itemPedido.getQuantidade());
-
-            produtosSaida.add(itemPedido);
-
+        if (itemProdutos == null) {
+            itemProdutos = new ArrayList<>();
         }
+
+        if (modelItemProdutos == null) {
+            modelItemProdutos = new ListDataModel<>(itemProdutos);
+        }
+
+        itemPedido.setProduto(produto);
+        itemPedido.setQuantidade(itemPedido.getQuantidade());
+        itemPedido.setPedido(pedido);
+        itemProdutos.add(itemPedido);
+
+        itemPedido = new ItemPedido();
+        produto = new Produto();
+
     }
 
     public List<String> completeCaminhao(String query) {
@@ -441,44 +430,28 @@ public class PedidoController implements Serializable {
         this.modelPedido = modelPedido;
     }
 
-    public DataModel<ItemPedido> getModelProdutoEntrada() {
-        return modelProdutoEntrada;
-    }
-
-    public void setModelProdutoEntrada(DataModel<ItemPedido> modelProdutoEntrada) {
-        this.modelProdutoEntrada = modelProdutoEntrada;
-    }
-
-    public DataModel<ItemPedido> getModelProdutoSaida() {
-        return modelProdutoSaida;
-    }
-
-    public void setModelProdutoSaida(DataModel<ItemPedido> modelProdutoSaida) {
-        this.modelProdutoSaida = modelProdutoSaida;
-    }
-
-    public List<ItemPedido> getProdutosEntrada() {
-        return produtosEntrada;
-    }
-
-    public void setProdutosEntrada(List<ItemPedido> produtosEntrada) {
-        this.produtosEntrada = produtosEntrada;
-    }
-
-    public List<ItemPedido> getProdutosSaida() {
-        return produtosSaida;
-    }
-
-    public void setProdutosSaida(List<ItemPedido> produtosSaida) {
-        this.produtosSaida = produtosSaida;
-    }
-
     public List<Caminhao> getCaminhoes() {
         return caminhoes;
     }
 
     public void setCaminhoes(List<Caminhao> caminhoes) {
         this.caminhoes = caminhoes;
+    }
+
+    public List<ItemPedido> getItemProdutos() {
+        return itemProdutos;
+    }
+
+    public void setItemProdutos(List<ItemPedido> itemProdutos) {
+        this.itemProdutos = itemProdutos;
+    }
+
+    public DataModel<ItemPedido> getModelItemProdutos() {
+        return modelItemProdutos;
+    }
+
+    public void setModelItemProdutos(DataModel<ItemPedido> modelItemProdutos) {
+        this.modelItemProdutos = modelItemProdutos;
     }
 
 }
