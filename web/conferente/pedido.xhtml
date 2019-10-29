@@ -104,7 +104,7 @@
                 <!--Cadastra dados do Pedido-->
                 <p:fieldset legend="Dados do Pedido" style="margin-bottom:20px; margin-top: 15px">
 
-                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-10" 
+                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" 
                                  styleClass="painel_grid_noborder" style="width: 100%; min-width: 50%" >
 
                         <p:outputLabel  value="Data: " >
@@ -121,23 +121,26 @@
 
                     </p:panelGrid>
 
-                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-2, ui-grid-col-9" 
+                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" 
                                  styleClass="painel_grid_noborder" style="width: 100%; min-width: 50%" >
 
                         <p:outputLabel value="Nota Fiscal: "/>                        
                         <p:inputText id="nota" value="#{pedidoC.pedido.notaFiscal}" size="70"/>
 
                         <p:outputLabel value="Cliente: " for="cliente" />
-                        <p:autoComplete id="cliente"  forceSelection="true" size="70" minQueryLength="3" rendered="#{pedidoC.cliente.id == null}"
-                                        value="#{pedidoC.cliente.nome}" completeMethod="#{pedidoC.completeCliente}"/>
-                        <p:inputText id="nome2"   rendered="#{pedidoC.cliente.id != null}" readonly="true"
-                                     value="#{pedidoC.cliente.nome}" />
+                        <p:autoComplete id="cliente"  forceSelection="true" size="70" minQueryLength="3" 
+                                        value="#{pedidoC.cliente.nomeSocial}" completeMethod="#{pedidoC.completeCliente}" >
+                            <p:ajax event="itemSelect" update="CNPJ, cliente" listener="#{pedidoC.carregarDadosCliente()}"/>
+                        </p:autoComplete>
 
                         <p:outputLabel value="CNPJ: "/>
                         <p:inputText   id="CNPJ" value="#{pedidoC.cliente.cnpj}" size="70"/>
 
                         <p:outputLabel value="Placa do Veículo: "/>
-                        <p:inputText value="#{pedidoC.caminhao.placaCaminhao}" size="70" />
+                        <p:autoComplete id="placaCami"  forceSelection="true" size="70" minQueryLength="1" 
+                                        value="#{pedidoC.caminhao.placaCaminhao}" completeMethod="#{pedidoC.completeCaminhao}" >
+                            <p:ajax event="itemSelect" update="nomeMot, placaCami" listener="#{pedidoC.carregarDadosCaminhao()}"/>
+                        </p:autoComplete>
 
                         <p:outputLabel for="nomeMot" value="Nome do Motorista: "/>
                         <p:inputText  id="nomeMot" value="#{pedidoC.caminhao.nomeMotorista}" size="70"/>
@@ -148,14 +151,14 @@
 
                 <p:fieldset legend="Entrada e Saída" style="margin-bottom:20px; margin-top: 15px">
 
-                    <p:panelGrid id="movi" columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-2, ui-grid-col-9" 
+                    <p:panelGrid id="movi" columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" 
                                  styleClass="painel_grid_noborder" style="width: 100%; min-width: 50%">
 
                         <p:outputLabel value="Produto: " for="produto" />
-                        <p:autoComplete id="produto"  forceSelection="true" size="70" minQueryLength="3" rendered="#{pedidoC.produto.id == null}"
-                                        value="#{pedidoC.produto.nomeProduto}" completeMethod="#{pedidoC.completeProduto}"/>
-                        <p:inputText id="produto2"   rendered="#{pedidoC.produto.id != null}" readonly="true"
-                                     value="#{pedidoC.produto.nomeProduto}" />
+                        <p:autoComplete id="produto"  forceSelection="true" size="70" minQueryLength="3" 
+                                        value="#{pedidoC.produto.nomeProduto}" completeMethod="#{pedidoC.completeProduto}">
+                            <p:ajax event="itemSelect" listener="#{pedidoC.carregarDadosProduto()}"/>
+                        </p:autoComplete>
 
                         <h:outputLabel for="tipoMovimentacao" value="Movimentação:  " />
                         <p:selectOneMenu styleClass="form-control" id="tipoMovimentacao" value="#{pedidoC.movimentacao}" required="true" 
@@ -166,16 +169,16 @@
                         </p:selectOneMenu>
 
                         <p:outputLabel for="quanti" value="Quantidade: "/>
-                        <p:inputText   id="quanti" value="#{pedidoC.produto.quantidade}" size="15"/>
+                        <p:inputText   id="quanti" value="#{pedidoC.itemPedido.quantidade}" size="15"/>
 
-                        <p:commandButton id="btn_reset_produto" value="Reset" type="reset" update="movi" actionListener="#{pedidoC.addItemProduto()}"/>
+                        <p:commandButton id="btn_reset_produto" value="Reset" type="reset" update="@form" actionListener="#{pedidoC.limpar()}"/>
                         <p:commandButton id="btn_add_produto" value="Add" update="dadosMoviEntrada, dadosMoviSaida" action="#{pedidoC.addItemProduto()}" />
 
                     </p:panelGrid>
 
                 </p:fieldset>
 
-                <p:dataTable id="dadosMoviEntrada" value="#{pedidoC.modelProdutoEntrada}" var="produto" reflow="true"
+                <p:dataTable id="dadosMoviEntrada" value="#{pedidoC.modelProdutoEntrada}" var="itemPedido" reflow="true"
                              style="margin-top: 20px;" emptyMessage="Nenhum produto adicionado">
 
                     <f:facet name="header">
@@ -183,28 +186,28 @@
                     </f:facet>
 
                     <p:column headerText="ID " priority="1">
-                        <h:outputText value="#{pedidoC.itemPedido.produto.id}"/>
+                        <h:outputText value="#{itemPedido.produto.id}"/>
                     </p:column>
 
                     <p:column headerText="Produto " priority="1">
-                        <h:outputText value="#{pedidoC.itemPedido.produto.nomeProduto}"/>
+                        <h:outputText value="#{itemPedido.produto.nomeProduto}"/>
                     </p:column>
 
                     <p:column headerText="Marca" priority="1">
-                        <h:outputText value="#{pedidoC.itemPedido.produto.marca}"/>
+                        <h:outputText value="#{itemPedido.produto.marca}"/>
                     </p:column>
 
                     <p:column headerText="Situação" priority="1">
-                        <h:outputText value="#{pedidoC.itemPedido.produto.situacao}" />
+                        <h:outputText value="#{itemPedido.produto.situacao}" />
                     </p:column>
 
                     <p:column headerText="Quantidade" priority="1">
-                        <h:outputText value="#{pedidoC.itemPedido.quantidade}" />
+                        <h:outputText value="#{itemPedido.quantidade}" />
                     </p:column>
 
                 </p:dataTable>
 
-                <p:dataTable id="dadosMoviSaida" value="#{pedidoC.modelProdutoSaida}" var="produto" reflow="true"
+                <p:dataTable id="dadosMoviSaida" value="#{pedidoC.modelProdutoSaida}" var="itemPedido" reflow="true"
                              style="margin-top: 20px;" emptyMessage="Nenhum produto adicionado" >
 
                     <f:facet name="header">
@@ -212,23 +215,23 @@
                     </f:facet>
 
                     <p:column headerText="ID " priority="1">
-                        <h:outputText value="#{pedidoC.produto.id}"/>
+                        <h:outputText value="#{itemPedido.produto.id}"/>
                     </p:column>
 
                     <p:column headerText="Produto " priority="1">
-                        <h:outputText value="#{pedidoC.produto.nomeProduto}"/>
+                        <h:outputText value="#{itemPedido.produto.nomeProduto}"/>
                     </p:column>
 
                     <p:column headerText="Marca" priority="1">
-                        <h:outputText value="#{pedidoC.produto.marca}"/>
+                        <h:outputText value="#{itemPedido.produto.marca}"/>
                     </p:column>
 
                     <p:column headerText="Situação" priority="1">
-                        <h:outputText value="#{pedidoC.produto.situacao}" />
+                        <h:outputText value="#{itemPedido.produto.situacao}" />
                     </p:column>
 
                     <p:column headerText="Quantidade" priority="1">
-                        <h:outputText value="#{pedidoC.produto.quantidade}" />
+                        <h:outputText value="#{itemPedido.quantidade}" />
                     </p:column>
 
                 </p:dataTable>

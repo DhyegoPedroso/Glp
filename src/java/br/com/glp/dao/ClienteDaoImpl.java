@@ -39,7 +39,6 @@ public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long> implements Client
 
     @Override
     public List<Cliente> pesquisarNomeSocial(String nomeSocial, Session session) throws HibernateException {
-
         Query consulta = session.createQuery("from Cliente where nomeSocial like :nomeSocial");
         consulta.setParameter("nomeSocial", "%" + nomeSocial + "%");
         return consulta.list();
