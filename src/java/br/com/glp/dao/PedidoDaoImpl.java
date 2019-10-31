@@ -15,7 +15,7 @@ import org.hibernate.Session;
  *
  * @author Pedrão Master
  */
-public class PedidoDaoImpl extends BaseDaoImpl<Pedido, Long> implements PedidoDao{
+public class PedidoDaoImpl extends BaseDaoImpl<Pedido, Long> implements PedidoDao {
 
     @Override
     public Pedido pesquisaEntidadeId(Long id, Session session) throws HibernateException {
@@ -28,11 +28,15 @@ public class PedidoDaoImpl extends BaseDaoImpl<Pedido, Long> implements PedidoDa
     }
 
     @Override
-    public List<Pedido> pesquisaPorNome(String nome, Session session) throws HibernateException {
-       Query consulta = session.createQuery("from Cliente c where c.nome like :nome");
-        consulta.setParameter("nome", nome + "%");
+    public List<Pedido> pesquisaPorNome(String nomeSocial, Session session) throws HibernateException {
+        return null;
+    }
+
+    @Override
+    public List<Pedido> pesquisaPedidoNomeSocial(String nomeSocial, Session session) throws HibernateException {
+         Query consulta = session.createQuery("select p from Pedido p join p.cliente c where c.nomeSocial like :nomeSocial");
+        consulta.setParameter("nomeSocial", "%" + nomeSocial + "%");
         return consulta.list();
     }
 
-    
 }

@@ -35,38 +35,33 @@
                 <p:panelGrid id="panelGridPesq" columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-10" styleClass="painel_grid_noborder" >
 
                     <p:outputLabel for="pesqNome" value="Cliente: "/>
-                    <p:inputText id="pesqNome" value="#{pedidoC.cliente.nome}" style="margin-left: 5px"/>
+                    <p:inputText id="pesqNome" value="#{pedidoC.nomePesquisa}" style="margin-left: 5px"/>
                     <p:spacer />
 
                 </p:panelGrid>
 
-                <p:dataTable id="dadosTabelas" value="#{pedidoC.modelPedido}" var="cliente" reflow="true"
+                <p:dataTable id="dadosTabelas" value="#{pedidoC.modelPedido}" var="pedido" reflow="true"
                              style="margin-top: 20px;"  emptyMessage="Nenhum pedido encontrado">
 
                     <p:column headerText="Cliente " priority="1">
-                        <h:outputText value="#{pedidoC.cliente.nome}"/>
+                        <h:outputText value="#{pedido.cliente.nomeSocial}"/>
                     </p:column>
 
                     <p:column headerText="CNPJ" priority="1">
-                        <h:outputText value="#{pedidoC.cliente.cnpj}"/>
+                        <h:outputText value="#{pedido.cliente.cnpj}"/>
                     </p:column>
 
                     <p:column headerText="Placa do veículo" priority="1">
-                        <h:outputText value="#{pedidoC.caminhao.placaCaminhao}" />
+                        <h:outputText value="#{pedido.caminhao.placaCaminhao}" />
                     </p:column>
 
                     <p:column headerText="Nome do motorista">
-                        <h:outputText value="#{pedidoC.caminhao.nomeMotorista}"/>
+                        <h:outputText value="#{pedido.caminhao.nomeMotorista}"/>
                     </p:column>
 
                     <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
                         <p:commandButton icon="ui-icon-pencil" title="Alterar" process="@this" update="@form" actionListener="#{pedidoC.carregarParaAlterar()}">
-                            <f:setPropertyActionListener target="# {pedidoC.cliente}" value="# {cliente}"   />          
-                        </p:commandButton>
-
-                        <p:commandButton icon="ui-icon-trash" actionListener="#{pedidoC.excluir()}" update="dadosTabelas" title="Excluir" >
-                            <p:confirm header="Confirmação" message="Tem certeza exclusão?" icon="ui-icon-alert" />
-                            <f:setPropertyActionListener target="# {pedidoC.cliente}" value="# {cliente}"   />
+                            <f:setPropertyActionListener target="#{pedidoC.pedido}" value="#{pedido}"   />          
                         </p:commandButton>
 
                     </p:column>
@@ -104,25 +99,16 @@
                 <!--Cadastra dados do Pedido-->
                 <p:fieldset legend="Dados do Pedido" style="margin-bottom:20px; margin-top: 15px">
 
-                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" 
+                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-5, ui-grid-col-5" 
                                  styleClass="painel_grid_noborder" style="width: 100%; min-width: 50%" >
 
-                        <p:outputLabel  value="Data: " >
-                            <h:outputText  value="#{pedidoC.pedido.cadastro}" >
-                                <f:convertDateTime for="data" pattern="dd-MM-yyyy" />
-                            </h:outputText>
-                        </p:outputLabel>
+                        <p:outputLabel  value="Horario do Pedido: " rendered="#{pedidoC.pedido.id == null}"/>
+                        <p:clock pattern="dd.MM.yyyy - HH:mm:ss"  rendered="#{pedidoC.pedido.id == null}"/>
 
-                        <p:outputLabel value="Hora: " >
-                            <p:outputLabel  style="margin-left: 5px" value="#{pedidoC.pedido.cadastro}" >                             
-                                <f:convertDateTime pattern="HH:mm" />
-                            </p:outputLabel>
-                        </p:outputLabel>
-
-                    </p:panelGrid>
-
-                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-8" 
-                                 styleClass="painel_grid_noborder" style="width: 100%; min-width: 50%" >
+                        <p:outputLabel value="Horario do Pedido: " rendered="#{pedidoC.pedido.id != null}"/>    
+                        <h:outputText  value="#{pedidoC.pedido.cadastro}"  rendered="#{pedidoC.pedido.id != null}">
+                            <f:convertDateTime for="data" pattern="dd-MM-yyyy - HH:mm:ss" />
+                        </h:outputText>
 
                         <p:outputLabel value="Nota Fiscal: "/>                        
                         <p:inputText id="nota" value="#{pedidoC.pedido.notaFiscal}" size="70"/>
@@ -137,7 +123,7 @@
                         <p:inputText   id="CNPJ" value="#{pedidoC.cliente.cnpj}" size="70"/>
 
                         <p:outputLabel value="Placa do Veículo: "/>
-                        <p:autoComplete id="placaCami"  forceSelection="true" size="70" minQueryLength="1" 
+                        <p:autoComplete id="placaCami"  forceSelection="true" size="70" minQueryLength="0" onfocus="true"
                                         value="#{pedidoC.caminhao.placaCaminhao}" completeMethod="#{pedidoC.completeCaminhao}" >
                             <p:ajax event="itemSelect" update="nomeMot, placaCami" listener="#{pedidoC.carregarDadosCaminhao()}"/>
                         </p:autoComplete>
@@ -161,8 +147,7 @@
                         </p:autoComplete>
 
                         <h:outputLabel for="tipoMovimentacao" value="Movimentação:  " />
-                        <p:selectOneMenu styleClass="form-control" id="tipoMovimentacao" value="#{pedidoC.itemPedido.movimentação}" required="true" 
-                                         requiredMessage="Situação é obrigatório"  >
+                        <p:selectOneMenu styleClass="form-control" id="tipoMovimentacao" value="#{pedidoC.itemPedido.movimentação}" >
                             <f:selectItem itemLabel="Selecione uma Situação" itemValue="" />
                             <f:selectItem itemLabel="Entrada" itemValue="Entrada" />
                             <f:selectItem itemLabel="Saída" itemValue="Saida" />
@@ -171,8 +156,8 @@
                         <p:outputLabel for="quanti" value="Quantidade: "/>
                         <p:inputText   id="quanti" value="#{pedidoC.itemPedido.quantidade}" size="15"/>
 
-                        <p:commandButton id="btn_reset_produto" value="Reset" type="reset" update="@form" actionListener="#{pedidoC.limpar()}"/>
-                        <p:commandButton id="btn_add_produto" value="Add" update="dadosMovi" action="#{pedidoC.addItemProduto()}" />
+                        <p:spacer/>
+                        <p:commandButton id="btn_add_produto" value="Add" update="dadosMovi, movi" action="#{pedidoC.addItemProduto()}" />
 
                     </p:panelGrid>
 
@@ -182,7 +167,7 @@
                              style="margin-top: 20px;" emptyMessage="Nenhum produto adicionado">
 
                     <f:facet name="header">
-                        Produtos Entrada
+                        Produtos
                     </f:facet>
 
                     <p:column headerText="ID " priority="1">
@@ -204,7 +189,7 @@
                     <p:column headerText="Quantidade" priority="1">
                         <h:outputText value="#{itemPedido.quantidade}" />
                     </p:column>
-                    
+
                     <p:column headerText="Movimentação" priority="1">
                         <h:outputText value="#{itemPedido.movimentação}" />
                     </p:column>

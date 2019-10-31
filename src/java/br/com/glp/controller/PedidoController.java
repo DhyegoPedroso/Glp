@@ -5,8 +5,6 @@ import br.com.glp.dao.CaminhaoDaoImpl;
 import br.com.glp.dao.ClienteDao;
 import br.com.glp.dao.ClienteDaoImpl;
 import br.com.glp.dao.HibernateUtil;
-import br.com.glp.dao.ItemPedidoDao;
-import br.com.glp.dao.ItemPedidoDaoImpl;
 import br.com.glp.dao.PedidoDao;
 import br.com.glp.dao.PedidoDaoImpl;
 import br.com.glp.dao.ProdutoDao;
@@ -57,6 +55,7 @@ public class PedidoController implements Serializable {
     private Caminhao caminhao;
 
     private String movimentacao;
+    private String nomePesquisa;
 
     public PedidoController() {
         pedidoDao = new PedidoDaoImpl();
@@ -88,6 +87,9 @@ public class PedidoController implements Serializable {
     public void carregarParaAlterar() {
         mostrar_Toolbar = !mostrar_Toolbar;
         pedido = modelPedido.getRowData();
+        cliente = pedido.getCliente();
+        caminhao = pedido.getCaminhao();
+        modelItemProdutos = new ListDataModel<>(pedido.getItemPedidos());
     }
 
     public void pesquisar() {
@@ -95,10 +97,8 @@ public class PedidoController implements Serializable {
         try {
             abreSessao();
 
-            if (!pedido.getCliente().getNome().equals("")) {
-                pedidos = pedidoDao.pesquisaPorNome(pedido.getCliente().getNome(), session);
-            } else {
-                pedidos = pedidoDao.listaTodos(session);
+            if (!getNomePesquisa().equals("")) {
+                pedidos = pedidoDao.pesquisaPedidoNomeSocial(getNomePesquisa(), session);
             }
             modelPedido = new ListDataModel(pedidos);
         } catch (HibernateException ex) {
@@ -112,38 +112,43 @@ public class PedidoController implements Serializable {
         try {
 
             abreSessao();
-            pedido.setCadastro(new Date());
+
+            if (pedido.getId() == null) {
+                pedido.setCadastro(new Date());
+            }
             pedido.setCliente(cliente);
             pedido.setItemPedidos(itemProdutos);
+            pedido.setCaminhao(caminhao);
+
+            updateEstoque();
+
             pedidoDao.salvarOuAlterar(pedido, session);
 
-            ProdutoDao produtoDao = new ProdutoDaoImpl();
-            
-            //For para fazer Update do produtos que estão entrando e saindo do estoque
-            for (int item = 0; item < itemProdutos.size(); item++) {
-
-                produto = produtoDao.pesquisaEntidadeId(itemProdutos.get(item).getProduto().getId(), session);
-
-                if (!itemProdutos.get(item).getMovimentação().equalsIgnoreCase("Entrada")) {
-                    
-                    produto.setQuantidade(produto.getQuantidade() - itemProdutos.get(item).getQuantidade());
-                    produtoDao.salvarOuAlterar(produto, session);
-
-                } else {
-                    
-                    produto.setQuantidade(produto.getQuantidade() + itemProdutos.get(item).getQuantidade());
-                    produtoDao.salvarOuAlterar(produto, session);
-
-                }
-
-            }
             limpar();
+            Mensagem.salvar("Pedido");
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar pedido:\n" + ex.getMessage());
+            Mensagem.mensagemError("Erro ao tentar salvar o pedido");
         } finally {
             session.close();
         }
 
+    }
+
+    public void updateEstoque() {
+        ProdutoDao produtoDao = new ProdutoDaoImpl();
+        for (int item = 0; item < itemProdutos.size(); item++) {
+
+            produto = produtoDao.pesquisaEntidadeId(itemProdutos.get(item).getProduto().getId(), session);
+
+            if (!itemProdutos.get(item).getMovimentação().equalsIgnoreCase("Entrada")) {
+                produto.setQuantidade(produto.getQuantidade() - itemProdutos.get(item).getQuantidade());
+                produtoDao.salvarOuAlterar(produto, session);
+            } else {
+                produto.setQuantidade(produto.getQuantidade() + itemProdutos.get(item).getQuantidade());
+                produtoDao.salvarOuAlterar(produto, session);
+            }
+        }
     }
 
     public void excluir() {
@@ -243,13 +248,19 @@ public class PedidoController implements Serializable {
             modelItemProdutos = new ListDataModel<>(itemProdutos);
         }
 
-        itemPedido.setProduto(produto);
-        itemPedido.setQuantidade(itemPedido.getQuantidade());
-        itemPedido.setPedido(pedido);
-        itemProdutos.add(itemPedido);
+        if (itemPedido.getMovimentação().equalsIgnoreCase("")) {
+            Mensagem.selecioneMovimentacao();
+        } else if (!itemPedido.getMovimentação().equalsIgnoreCase("Entrada") && itemPedido.getQuantidade() > produto.getQuantidade()) {
+            Mensagem.estoqueInsuficiente(itemPedido.getQuantidade(), produto.getQuantidade());
+        } else {
+            itemPedido.setProduto(produto);
+            itemPedido.setQuantidade(itemPedido.getQuantidade());
+            itemPedido.setPedido(pedido);
+            itemProdutos.add(itemPedido);
 
-        itemPedido = new ItemPedido();
-        produto = new Produto();
+            itemPedido = new ItemPedido();
+            produto = new Produto();
+        }
 
     }
 
@@ -258,7 +269,8 @@ public class PedidoController implements Serializable {
         abreSessao();
         try {
             CaminhaoDao caminhaoDao = new CaminhaoDaoImpl();
-            caminhoes = caminhaoDao.pesquisaPlaca(query, session);
+//            caminhoes = caminhaoDao.pesquisaPlaca(query, session);
+            caminhoes = caminhaoDao.pesquisaCaminhaoCliente(cliente.getId(), session);
 
             for (Caminhao caminhao1 : caminhoes) {
                 autoCompletes.add(caminhao1.getId() + " - " + caminhao1.getPlacaCaminhao() + " - " + caminhao1.getNomeMotorista());
@@ -299,7 +311,9 @@ public class PedidoController implements Serializable {
         cliente = new Cliente();
         produto = new Produto();
         caminhao = new Caminhao();
+        itemProdutos = new ArrayList<>();
         setMovimentacao("Selecione uma Situação");
+        modelItemProdutos = new ListDataModel<>(itemProdutos);
     }
 
 //    Gett e Settes
@@ -452,6 +466,14 @@ public class PedidoController implements Serializable {
 
     public void setModelItemProdutos(DataModel<ItemPedido> modelItemProdutos) {
         this.modelItemProdutos = modelItemProdutos;
+    }
+
+    public String getNomePesquisa() {
+        return nomePesquisa;
+    }
+
+    public void setNomePesquisa(String nomePesquisa) {
+        this.nomePesquisa = nomePesquisa;
     }
 
 }

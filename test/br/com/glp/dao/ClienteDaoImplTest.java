@@ -30,11 +30,21 @@ public class ClienteDaoImplTest {
         List<Caminhao> caminhoes = new ArrayList<>();
         List<Endereco> enderecos = new ArrayList<>();
 
-
     }
 
     @Test
     public void testPesquisaEntidadeId() {
+
+        try {
+            session = HibernateUtil.abreSessao();
+
+            cliente = clienteDao.pesquisaEntidadeId(6l, session);
+
+            System.out.println("ID: " + cliente.getId());
+
+        } catch (Exception e) {
+        }
+
     }
 
     @Test

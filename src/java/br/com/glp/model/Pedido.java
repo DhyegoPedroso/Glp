@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,20 +31,24 @@ import javax.persistence.TemporalType;
 public class Pedido implements Serializable {
 
     private static final long serialVersionUID = 1L;
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date cadastro;
-    
+
     @ManyToOne
     @JoinColumn(name = "idCliente")
     private Cliente cliente;
-    
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+
+    @ManyToOne
+    @JoinColumn(name = "idCaminhao")
+    private Caminhao caminhao;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itemPedidos;
-    
+
     @Column
     private String notaFiscal;
 
@@ -58,8 +63,6 @@ public class Pedido implements Serializable {
         this.notaFiscal = notaFiscal;
     }
 
-
-    
     public Long getId() {
         return id;
     }
@@ -91,8 +94,22 @@ public class Pedido implements Serializable {
     public void setItemPedidos(List<ItemPedido> itemPedidos) {
         this.itemPedidos = itemPedidos;
     }
-    
-    
+
+    public String getNotaFiscal() {
+        return notaFiscal;
+    }
+
+    public void setNotaFiscal(String notaFiscal) {
+        this.notaFiscal = notaFiscal;
+    }
+
+    public Caminhao getCaminhao() {
+        return caminhao;
+    }
+
+    public void setCaminhao(Caminhao caminhao) {
+        this.caminhao = caminhao;
+    }
 
     @Override
     public int hashCode() {
@@ -119,12 +136,4 @@ public class Pedido implements Serializable {
         return "br.com.glp.model.Pedido[ id=" + id + " ]";
     }
 
-    public String getNotaFiscal() {
-        return notaFiscal;
-    }
-
-    public void setNotaFiscal(String notaFiscal) {
-        this.notaFiscal = notaFiscal;
-    }
-    
 }

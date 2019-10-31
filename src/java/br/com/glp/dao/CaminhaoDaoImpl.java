@@ -37,5 +37,12 @@ public class CaminhaoDaoImpl extends BaseDaoImpl<Caminhao, Long> implements Cami
         consulta.setParameter("placaCaminhao", placaCaminhao + "%");
         return consulta.list();
     }
+    
+    @Override
+    public List<Caminhao> pesquisaCaminhaoCliente(Long idCliente, Session session) throws HibernateException {
+        Query consulta = session.createQuery("SELECT c FROM Caminhao c JOIN c.endereco.cliente cec WHERE cec.id = :idCliente ");
+        consulta.setParameter("idCliente", idCliente );
+        return consulta.list();
+    }
 
 }

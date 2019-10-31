@@ -13,4 +13,6 @@ public interface CaminhaoDao extends BaseDao<Caminhao, Long> {
     
     public List<Caminhao> pesquisaPlaca(String placaCaminhao, Session session) throws HibernateException;
     
+    public List<Caminhao> pesquisaCaminhaoCliente(Long idCliente, Session session) throws HibernateException;
+    
 }

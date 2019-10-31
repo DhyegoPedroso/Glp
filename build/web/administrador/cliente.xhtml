@@ -35,7 +35,7 @@
 
                 <p:panelGrid id="panelGridPesq" columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-10" styleClass="painel_grid_noborder" >
 
-                    <p:outputLabel for="pesqNome" value="Funcionario: "/>
+                    <p:outputLabel for="pesqNome" value="Cliente: "/>
                     <p:inputText id="pesqNome" value="#{clienteC.cliente.nome}" style="margin-left: 5px"/>
                     <p:spacer />
 
@@ -329,7 +329,6 @@
 
                                 </p:panelGrid>
 
-                                <p:commandButton value="Salvar" action="#{clienteC.salvar()}" update="growl" process="@this"/>
                             </p:panel>
                         </p:tab>
                     </p:wizard>
