@@ -10,30 +10,20 @@
 
     <ui:define name="content">
 
-
-        <!--<p:messages id="mens"  autoUpdate="true" />-->
-
-
         <h:form id="form_pesquisa">
 
-            <!--<p:messages id="mens"  autoUpdate="true" />-->
+            <p:messages id="mens" >
+                <p:autoUpdate/>
+            </p:messages>
 
             <h:panelGroup id="aba1" rendered="#{!estoqueC.mostrar_toolbar}" >
                 <p:toolbar styleClass="toolbar">
                     <p:toolbarGroup  >
-                        <p:commandButton value="Abrir" actionListener
-                                         ="#{estoqueC.abrir()}" update="@form" global="false"  />
+                        <p:commandButton value="#{estoqueC.estoque.id == null ? 'Abrir Estoque' : 'Fechar Estoque'}" actionListener="#{estoqueC.abrir()}" update="@form" global="false"  />
                     </p:toolbarGroup>
                 </p:toolbar>
             </h:panelGroup>
-            <h:panelGroup id="aba2" rendered="#{estoqueC.mostrar_toolbar}" >
-                <p:toolbar styleClass="toolbar">
-                    <p:toolbarGroup  >
-                        <p:commandButton value="Fechar" actionListener
-                                         ="#{estoqueC.fechar()}" update="@form" global="false"   />
-                    </p:toolbarGroup>
-                </p:toolbar>
-            </h:panelGroup>
+
             <p:dataTable id="dadosEstoque" var="produto" value="#{estoqueC.modelProdutos}" reflow="true"
                          style="margin-bottom:40px" emptyMessage="Nenhum produto encontrado">
 
@@ -54,7 +44,6 @@
                     <p:outputLabel value="#{produto.quantidade}" />
                 </p:column>
             </p:dataTable>
-
 
         </h:form>
 

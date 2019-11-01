@@ -1,16 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.glp.controller;
 
+import br.com.glp.dao.EstoqueDao;
+import br.com.glp.dao.EstoqueDaoImpl;
 import br.com.glp.dao.HibernateUtil;
 import br.com.glp.dao.ProdutoDao;
 import br.com.glp.dao.ProdutoDaoImpl;
 import br.com.glp.model.Estoque;
 import br.com.glp.model.Produto;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -25,15 +23,18 @@ import org.hibernate.Session;
  */
 @ManagedBean(name = "estoqueC")
 @ViewScoped
-public class EstoqueControle implements Serializable{
+public class EstoqueControle implements Serializable {
 
     private Session session;
-    private boolean mostrar_toolbar;
     private Produto produto;
     private Estoque estoque;
+    
+    private EstoqueDao estoqueDao;
     private ProdutoDao produtoDao;
+    
     private DataModel<Produto> modelProdutos;
     private List<Produto> produtos;
+    private boolean mostrar_toolbar;
 
     public EstoqueControle() {
         pesquisar();
@@ -48,79 +49,36 @@ public class EstoqueControle implements Serializable{
         }
     }
 
-    public void fechar() {
-        mostrar_toolbar = !mostrar_toolbar;
-        salvar();
-        limpar();
-    }
-
     public void abrir() {
-        mostrar_toolbar = !mostrar_toolbar;
-        limpar();
+        
+        try {
+        
+        abreSessao();
+        
+        EstoqueDao estoqueDao = new EstoqueDaoImpl();
+        
+        estoque.setData(new Date());
+        estoque.setSituacao("Aberto");
+        estoqueDao.salvarOuAlterar(estoque, session);
+            
+        } catch (Exception e) {
+            session.close();
+        }
+        
+        
     }
 
-    public void novaPesquisa() {
-        mostrar_toolbar = !mostrar_toolbar;
-        limpar();
-    }
-
-    public void preparaAlterar() {
-        mostrar_toolbar = !mostrar_toolbar;
-        limpar();
-    }
-
-    public void carregarParaAlterar() {
-        mostrar_toolbar = !mostrar_toolbar;
-        produto = modelProdutos.getRowData();
-    }
-
-    public void limpar() {
-        produto = new Produto();
-        produto.setMarca("Selecione uma Marca");
-        produto.setSituacao("Selecione uma Situação");
-
-    }
 
     public void pesquisar() {
 //        mostrar_toolbar = !mostrar_toolbar;
         produtoDao = new ProdutoDaoImpl();
         try {
             abreSessao();
-            produtos = produtoDao.listaTodos(session);    
+            produtos = produtoDao.listaTodos(session);
             modelProdutos = new ListDataModel(produtos);
         } catch (HibernateException ex) {
             System.err.println("Erro pesquisa Produto:\n" + ex.getMessage());
         } finally {
-            session.close();
-        }
-    }
-
-    public void excluir() {
-        produto = modelProdutos.getRowData();
-        abreSessao();
-        try {
-            produtoDao.remover(produto, session);
-            produtos.remove(produto);
-            modelProdutos = new ListDataModel(produtos);
-            Mensagem.excluir("Produto");
-            limpar();
-        } catch (Exception e) {
-            System.out.println("erro ao excluir: " + e.getMessage());
-        } finally {
-            session.close();
-        }
-    }
-
-    public void salvar() {
-        try {
-            abreSessao();
-            produtoDao.salvarOuAlterar(produto, session);
-            limpar();
-
-        } catch (HibernateException ex) {
-            Mensagem.mensagemError("Erro ao salvar\nTente novamente");
-        } finally {
-            produto = new Produto();
             session.close();
         }
     }
@@ -150,14 +108,6 @@ public class EstoqueControle implements Serializable{
         this.produto = produto;
     }
 
-    public ProdutoDao getProdutoDao() {
-        return produtoDao;
-    }
-
-    public void setProdutoDao(ProdutoDao produtoDao) {
-        this.produtoDao = produtoDao;
-    }
-
     public DataModel<Produto> getModelProdutos() {
         return modelProdutos;
     }
@@ -172,6 +122,17 @@ public class EstoqueControle implements Serializable{
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
+    }
+
+    public Estoque getEstoque() {
+        if (estoque == null) {
+            estoque = new Estoque();
+        }
+        return estoque;
+    }
+
+    public void setEstoque(Estoque estoque) {
+        this.estoque = estoque;
     }
 
 }

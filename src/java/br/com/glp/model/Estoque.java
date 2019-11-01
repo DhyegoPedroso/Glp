@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.glp.model;
 
 import java.io.Serializable;
@@ -12,12 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
- * @author Alunos
+ * @author Dhyego Pedroso
  */
 @Entity
+@Table(name = "estoque")
 public class Estoque implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,20 +24,21 @@ public class Estoque implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
+    @Temporal(TemporalType.DATE)
     private Date data;
-    
-    @Column(nullable = false)
-    private String hora;
 
-    @Column(nullable = false)
+    @Column
+    @Temporal(TemporalType.TIME)
+    private Date hora;
+
+    @Column
     private String situacao;
 
     public Estoque() {
     }
 
-    public Estoque(Long id, Date data, String hora, String situacao) {
-        this.id = id;
+    public Estoque(Date data, Date hora, String situacao) {
         this.data = data;
         this.hora = hora;
         this.situacao = situacao;
@@ -60,11 +60,11 @@ public class Estoque implements Serializable {
         this.data = data;
     }
 
-    public String getHora() {
+    public Date getHora() {
         return hora;
     }
 
-    public void setHora(String hora) {
+    public void setHora(Date hora) {
         this.hora = hora;
     }
 
@@ -76,9 +76,6 @@ public class Estoque implements Serializable {
         this.situacao = situacao;
     }
 
-    
-    
-    
     @Override
     public int hashCode() {
         int hash = 0;
