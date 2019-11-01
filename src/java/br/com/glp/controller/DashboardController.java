@@ -1,18 +1,19 @@
 package br.com.glp.controller;
 
+import br.com.glp.dao.HibernateUtil;
+import br.com.glp.dao.ItemPedidoDao;
+import br.com.glp.dao.ItemPedidoDaoImpl;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import org.primefaces.event.CloseEvent;
-import org.primefaces.event.DashboardReorderEvent;
-import org.primefaces.event.ToggleEvent;
-import org.primefaces.model.DashboardColumn;
-import org.primefaces.model.DashboardModel;
-import org.primefaces.model.DefaultDashboardColumn;
-import org.primefaces.model.DefaultDashboardModel;
+import org.hibernate.Session;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.BarChartSeries;
+import org.primefaces.model.chart.CartesianChartModel;
 
 /**
  *
@@ -22,51 +23,75 @@ import org.primefaces.model.DefaultDashboardModel;
 @ViewScoped
 public class DashboardController implements Serializable {
 
-    private DashboardModel model;
+    private CartesianChartModel graficoProdutosMes;
+    private CartesianChartModel graficoQuantidadeMes;
+    private CartesianChartModel graficoProdutosAno;
+    private CartesianChartModel graficoQuantidadeAno;
+    private Session session;
+
+    private ItemPedidoDao itemPedidoDao;
 
     @PostConstruct
     public void init() {
-        model = new DefaultDashboardModel();
-        DashboardColumn column1 = new DefaultDashboardColumn();
-        DashboardColumn column2 = new DefaultDashboardColumn();
-
-        column1.addWidget("ano");
-        column1.addWidget("produtoAno");
-
-        column2.addWidget("mes");
-        column2.addWidget("produtoMes");
-
-
-        model.addColumn(column1);
-        model.addColumn(column2);
+        createCombinedModelQuantidadeAno();
+        createCombinedModelQuantidadeMes();
+        createCombinedModelProdutosAno();
+        createCombinedModelProdutosMes();
     }
 
-    public void handleReorder(DashboardReorderEvent event) {
-        FacesMessage message = new FacesMessage();
-        message.setSeverity(FacesMessage.SEVERITY_INFO);
-        message.setSummary("Reordered: " + event.getWidgetId());
-        message.setDetail("Item index: " + event.getItemIndex() + ", Column index: " + event.getColumnIndex() + ", Sender index: " + event.getSenderColumnIndex());
-
-        addMessage(message);
+    public DashboardController() {
+        itemPedidoDao = new ItemPedidoDaoImpl();
     }
 
-    public void handleClose(CloseEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panel Closed", "Closed panel id:'" + event.getComponent().getId() + "'");
-
-        addMessage(message);
+    private void abreSessao() {
+        if (session == null) {
+            session = HibernateUtil.abreSessao();
+        } else if (!session.isOpen()) {
+            session = HibernateUtil.abreSessao();
+        }
     }
 
-    public void handleToggle(ToggleEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, event.getComponent().getId() + " toggled", "Status:" + event.getVisibility().name());
-
-        addMessage(message);
+    public CartesianChartModel getGraficoProdutosMes() {
+        return graficoProdutosMes;
     }
 
-    private void addMessage(FacesMessage message) {
-        FacesContext.getCurrentInstance().addMessage(null, message);
+    public CartesianChartModel getGraficoQuantidadeMes() {
+        return graficoQuantidadeMes;
     }
 
-    public DashboardModel getModel() {
-        return model;
+    public CartesianChartModel getGraficoProdutosAno() {
+        return graficoProdutosAno;
+    }
+
+    public CartesianChartModel getGraficoQuantidadeAno() {
+        return graficoQuantidadeAno;
+    }
+
+    private void createCombinedModelQuantidadeAno() {
+        try {
+
+        } catch (Exception e) {
+        }
+    }
+
+    private void createCombinedModelProdutosAno() {
+        try {
+
+        } catch (Exception e) {
+        }
+    }
+
+    private void createCombinedModelQuantidadeMes() {
+        try {
+
+        } catch (Exception e) {
+        }
+    }
+
+    private void createCombinedModelProdutosMes() {
+        try {
+
+        } catch (Exception e) {
+        }
     }
 }

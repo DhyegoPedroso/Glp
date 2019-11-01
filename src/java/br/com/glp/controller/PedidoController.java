@@ -27,7 +27,7 @@ import org.hibernate.Session;
 
 /**
  *
- * @author Dhyego Pedroso e Pedrão
+ * @author Dhyego Pedroso
  */
 @ManagedBean(name = "pedidoC")
 @ViewScoped

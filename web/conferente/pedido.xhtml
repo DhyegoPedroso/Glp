@@ -102,10 +102,9 @@
                     <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-5, ui-grid-col-5" 
                                  styleClass="painel_grid_noborder" style="width: 100%; min-width: 50%" >
 
-                        <p:outputLabel  value="Horario do Pedido: " rendered="#{pedidoC.pedido.id == null}"/>
+                        <p:outputLabel  value="Horario do Pedido: "/>
                         <p:clock pattern="dd.MM.yyyy - HH:mm:ss"  rendered="#{pedidoC.pedido.id == null}"/>
 
-                        <p:outputLabel value="Horario do Pedido: " rendered="#{pedidoC.pedido.id != null}"/>    
                         <h:outputText  value="#{pedidoC.pedido.cadastro}"  rendered="#{pedidoC.pedido.id != null}">
                             <f:convertDateTime for="data" pattern="dd-MM-yyyy - HH:mm:ss" />
                         </h:outputText>

@@ -28,27 +28,27 @@
 
             <p:growl id="msgs" showDetail="true" />
 
-            <p:dashboard id="board" model="#{dashboardC.model}">
-                <p:ajax event="reorder" listener="#{dashboardC.handleReorder}" update="msgs" />
 
-                <p:panel id="ano" header="Ano">
-                    <h:outputText value="Grafico dos meses corrente ao Ano" />
+<!--                <p:panel id="ano" header="Ano">
+                    <p:chart type="bar" model="#{dashboardC.graficoQuantidadeAno}" style="height:300px" widgetVar="chart" />
+                    <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
                 </p:panel>
 
                 <p:panel id="mes" header="Mes">
-                    <h:outputText value="Grafico do mes atual" />
+                    <p:chart type="bar" model="#{dashboardC.graficoQuantidadeMes}" style="height:300px" widgetVar="chart" />
+                    <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
                 </p:panel>
 
                 <p:panel id="produtoAno" header="Produto Ano">
-                    <h:outputText value="Grafico dos produtos mais vendidos por meses do ano corrente"  />
-                </p:panel>
-                
-                 <p:panel id="produtoMes" header="Produto Mês">
-                    <h:outputText value="Grafico dos produtos mais vendido do mes atual" />
+                    <p:chart type="bar" model="#{dashboardC.graficoProdutosAno}" style="height:300px" widgetVar="chart" />
+                    <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
                 </p:panel>
 
+                <p:panel id="produtoMes" header="Produto Mês">
+                    <p:chart type="bar" model="#{dashboardC.graficoProdutosMes}" style="height:300px" widgetVar="chart" />
+                    <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
+                </p:panel>-->
 
-            </p:dashboard>
 
             <div style="clear:both" />
         </h:form>

@@ -19,7 +19,7 @@
             <h:panelGroup id="aba1" rendered="#{!estoqueC.mostrar_toolbar}" >
                 <p:toolbar styleClass="toolbar">
                     <p:toolbarGroup  >
-                        <p:commandButton value="#{estoqueC.estoque.id == null ? 'Abrir Estoque' : 'Fechar Estoque'}" actionListener="#{estoqueC.abrir()}" update="@form" global="false"  />
+                        <p:commandButton value="#{estoqueC.estoque.id == null ? 'Abrir Estoque' : 'Fechar Estoque'}" actionListener="#{estoqueC.abrir()}" />
                     </p:toolbarGroup>
                 </p:toolbar>
             </h:panelGroup>
