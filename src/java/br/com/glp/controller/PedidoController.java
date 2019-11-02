@@ -103,6 +103,7 @@ public class PedidoController implements Serializable {
             modelPedido = new ListDataModel(pedidos);
         } catch (HibernateException ex) {
             System.err.println("Erro pesquisa Pedido:\n" + ex.getMessage());
+            Mensagem.mensagemError("Erro ao pesquisar pedido");
         } finally {
             session.close();
         }
@@ -125,7 +126,7 @@ public class PedidoController implements Serializable {
             pedidoDao.salvarOuAlterar(pedido, session);
 
             limpar();
-            Mensagem.salvar("Pedido");
+            Mensagem.salvar("Pedido " + pedido.getNotaFiscal());
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar pedido:\n" + ex.getMessage());
             Mensagem.mensagemError("Erro ao tentar salvar o pedido");
@@ -149,10 +150,6 @@ public class PedidoController implements Serializable {
                 produtoDao.salvarOuAlterar(produto, session);
             }
         }
-    }
-
-    public void excluir() {
-        abreSessao();
     }
 
     public List<String> completeCliente(String query) {

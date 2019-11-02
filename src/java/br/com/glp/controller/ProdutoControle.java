@@ -10,7 +10,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import javax.faces.model.SelectItem;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
@@ -77,6 +76,7 @@ public class ProdutoControle implements Serializable {
             modelProdutos = new ListDataModel(produtos);
         } catch (HibernateException ex) {
             System.err.println("Erro pesquisa Produto:\n" + ex.getMessage());
+            Mensagem.mensagemError("Erro ao pesquisar produto");
         } finally {
             session.close();
         }
@@ -96,10 +96,11 @@ public class ProdutoControle implements Serializable {
             produtoDao.remover(produto, session);
             produtos.remove(produto);
             modelProdutos = new ListDataModel(produtos);
-            Mensagem.excluir("Produto");
+            Mensagem.excluir("Produto " + produto.getNomeProduto());
             limpar();
         } catch (Exception e) {
             System.out.println("erro ao excluir: " + e.getMessage());
+            Mensagem.mensagemError("Erro ao excluir produto " + produto.getNomeProduto());
         } finally {
             session.close();
         }
@@ -110,13 +111,14 @@ public class ProdutoControle implements Serializable {
             abreSessao();
             if (produto.getId() == null) {
                 produto.setQuantidade(0);
-                produto.setSituacao("Vazio");
             }
             produtoDao.salvarOuAlterar(produto, session);
             limpar();
+            Mensagem.salvar("Produto " + getProduto().getNomeProduto());
 
         } catch (HibernateException ex) {
             Mensagem.mensagemError("Erro ao salvar\nTente novamente");
+            Mensagem.mensagemError("Erro ao salvar produto");
         } finally {
             produto = new Produto();
             session.close();

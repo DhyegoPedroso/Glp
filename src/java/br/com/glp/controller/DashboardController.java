@@ -4,15 +4,10 @@ import br.com.glp.dao.HibernateUtil;
 import br.com.glp.dao.ItemPedidoDao;
 import br.com.glp.dao.ItemPedidoDaoImpl;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.hibernate.Session;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.BarChartModel;
-import org.primefaces.model.chart.BarChartSeries;
 import org.primefaces.model.chart.CartesianChartModel;
 
 /**

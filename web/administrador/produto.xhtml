@@ -47,6 +47,10 @@
                         <h:outputText value="#{produto.marca}" />
                     </p:column>
 
+                    <p:column headerText="Situação" priority="1">
+                        <h:outputText value="#{produto.situacao}" />
+                    </p:column>
+
                     <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
                         <p:commandButton icon="ui-icon-pencil" title="Alterar" process="@this" update="@form" actionListener="#{produtoC.carregarParaAlterar()}">
                             <f:setPropertyActionListener target="#{produtoC.produto}" value="#{produto}"   />          
@@ -100,6 +104,14 @@
                             <f:selectItem itemLabel="ServGás" itemValue="ServGás" />
                             <f:selectItem itemLabel="SuperGasBras" itemValue="SuperGasBras" />
                             <f:selectItem itemLabel="UltraGaz" itemValue="UltraGaz" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="situacao" value="Situação: " />
+                        <p:selectOneMenu id="situacao" value="#{produtoC.produto.situacao}" required="true" style="size: auto">
+                            <f:selectItem itemLabel="Selecione uma Situação" itemValue="" />
+                            <f:selectItem itemLabel="Cheio" itemValue="Cheio" />
+                            <f:selectItem itemLabel="Vazio" itemValue="Vazio" />
+                            <f:selectItem itemLabel="Avariado" itemValue="Avariado" />
                         </p:selectOneMenu>
 
                     </p:panelGrid>

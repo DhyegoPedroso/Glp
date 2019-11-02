@@ -10,40 +10,78 @@
 
     <ui:define name="content">
 
-        <h:form id="form_pesquisa">
+        <h:form id="formEstoque">
 
             <p:messages id="mens" >
                 <p:autoUpdate/>
             </p:messages>
 
-            <h:panelGroup id="aba1" rendered="#{!estoqueC.mostrar_toolbar}" >
+            <p:panelGrid id="tabelaProduto" columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="painel_grid_noborder"  >
+
+
                 <p:toolbar styleClass="toolbar">
                     <p:toolbarGroup  >
-                        <p:commandButton value="#{estoqueC.estoque.id == null ? 'Abrir Estoque' : 'Fechar Estoque'}" actionListener="#{estoqueC.abrir()}" />
+                        <p:commandButton value="Pesquisar" actionListener="#{estoqueC.pesquisar()}"
+                                         update="dadosEstoque" process="@this panelGridPesq" />
                     </p:toolbarGroup>
                 </p:toolbar>
-            </h:panelGroup>
 
-            <p:dataTable id="dadosEstoque" var="produto" value="#{estoqueC.modelProdutos}" reflow="true"
-                         style="margin-bottom:40px" emptyMessage="Nenhum produto encontrado">
+                <p:panelGrid id="panelGridPesq" columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-10" 
+                             styleClass="painel_grid_noborder" >
 
-                <p:ajax event="sort" skipChildren="false" />
-                <p:column headerText="Tipo" sortBy="#{produto.nomeProduto}">
-                    <p:outputLabel value="#{produto.nomeProduto}" />
-                </p:column>
+                    <p:outputLabel for="pesqNome" value="Produto: "/>
+                    <p:inputText id="pesqNome" value="#{estoqueC.produto.nomeProduto}" style="margin-left: 5px"/>
+                    <p:spacer />
 
-                <p:column headerText="Situação" sortBy="#{produto.situacao}">
-                    <p:outputLabel value="#{produto.situacao}" />
-                </p:column>
+                </p:panelGrid>
 
-                <p:column headerText="Marca" sortBy="#{produto.marca}">
-                    <p:outputLabel value="#{produto.marca}" />
-                </p:column>
+                <p:dataTable id="dadosEstoque" var="produto" value="#{estoqueC.modelProdutos}" reflow="true"
+                             style="margin-bottom:40px" emptyMessage="Nenhum produto encontrado">
 
-                <p:column headerText="Quantidade" sortBy="#{produto.quantidade}">
-                    <p:outputLabel value="#{produto.quantidade}" />
-                </p:column>
-            </p:dataTable>
+                    <p:column headerText="Tipo" sortBy="#{produto.nomeProduto}">
+                        <p:outputLabel value="#{produto.nomeProduto}" />
+                    </p:column>
+
+                    <p:column headerText="Situação" sortBy="#{produto.situacao}">
+                        <p:outputLabel value="#{produto.situacao}" />
+                    </p:column>
+
+                    <p:column headerText="Marca" sortBy="#{produto.marca}">
+                        <p:outputLabel value="#{produto.marca}" />
+                    </p:column>
+
+                    <p:column headerText="Quantidade" sortBy="#{produto.quantidade}">
+                        <p:outputLabel value="#{produto.quantidade}" />
+                    </p:column>
+
+                    <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
+                        <p:commandButton icon="ui-icon-pencil" title="Alterar" update="@form" process="@this" 
+                                       actionListener="#{estoqueC.carregarParaAlterar()}"
+                                        oncomplete="PF('modalAlterarProduto').show();">
+                            <f:setPropertyActionListener target="#{estoqueC.produto}" value="#{produto}"   />          
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+                
+<!--                   onclick="PF('modalAlterarProduto').show();" type="button"
+                   -->
+
+            </p:panelGrid>
+
+            <p:dialog header="Alterar Quantidade do Produto" widgetVar="modalAlterarProduto" showEffect="explode" hideEffect="bounce" height="100">
+
+                <p:panelGrid id="alterarProduto" columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-4, ui-grid-col-4" styleClass="painel_grid_noborder"  >
+
+                    <p:outputLabel for="quantidadeProduto" value="Quantidade: " />
+                    <p:inputText id="quantidadeProduto" value="#{estoqueC.produto.quantidade}" size="15"/>
+
+                    <p:commandButton value="Salvar" action="#{estoqueC.alterar()}" update="@form" />
+                    <p:commandButton value="Fechar" immediate="true" update="@form" global="false" />
+
+                </p:panelGrid>
+
+            </p:dialog>
 
         </h:form>
 

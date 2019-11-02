@@ -96,6 +96,7 @@ public class FuncionarioControl implements Serializable {
             modelFuncionarios = new ListDataModel(funcionarios);
         } catch (HibernateException ex) {
             System.err.println("Erro pesquisa Funcionario:\n" + ex.getMessage());
+            Mensagem.mensagemError("Erro ao pesquisar funcionário");
         } finally {
             session.close();
         }
@@ -132,10 +133,11 @@ public class FuncionarioControl implements Serializable {
             funcionarioDao.remover(funcionario, session);
             funcionarios.remove(funcionario);
             modelFuncionarios = new ListDataModel(funcionarios);
-            Mensagem.excluir("Funcionario");
+            Mensagem.excluir("Funcionario " + funcionario.getNome());
             limpar();
         } catch (Exception e) {
             System.out.println("erro ao excluir: " + e.getMessage());
+            Mensagem.mensagemError("Erro ao excluir funcionário" + funcionario.getNome());
         } finally {
             session.close();
         }
@@ -177,6 +179,7 @@ public class FuncionarioControl implements Serializable {
 
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar funcionario:\n" + ex.getMessage());
+                 Mensagem.mensagemError("Erro ao tentar salvar funcionário");
         } catch (Exception e) {
             System.out.println("Erro no salvar funcionarioDao Controle "
                     + e.getMessage());

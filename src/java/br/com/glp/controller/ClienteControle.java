@@ -123,6 +123,7 @@ public class ClienteControle implements Serializable {
             modelClientes = new ListDataModel(clientes);
         } catch (HibernateException ex) {
             System.err.println("Erro pesquisa Cliente:\n" + ex.getMessage());
+            Mensagem.mensagemError("Erro ao pesquisar cliente");
         } finally {
             session.close();
         }
@@ -143,10 +144,11 @@ public class ClienteControle implements Serializable {
             clienteDao.remover(cliente, session);
             clientes.remove(cliente);
             modelClientes = new ListDataModel(clientes);
-            Mensagem.excluir("Cliente");
+            Mensagem.excluir("Cliente " + cliente.getNome());
             limpar();
         } catch (Exception e) {
             System.out.println("erro ao excluir: " + e.getMessage());
+            Mensagem.mensagemError("Erro ao excluir cliente " + cliente.getNome());
         } finally {
             session.close();
         }
@@ -190,6 +192,7 @@ public class ClienteControle implements Serializable {
 
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar Cliente:\n" + ex.getMessage());
+            Mensagem.mensagemError("Erro ao salvar cliente");
         } catch (Exception e) {
             System.out.println("Erro no salvar clienteDao Controle "
                     + e.getMessage());
