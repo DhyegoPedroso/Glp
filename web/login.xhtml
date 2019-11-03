@@ -31,18 +31,11 @@
                     <div class="ui-g ui-fluid">
                         <div class="ui-g-12">
                             <input class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
-                                   type="text" name="j_username" placeholder="Username" />
+                                   type="text" name="j_username" placeholder="Usuário" />
                         </div>
                         <div class="ui-g-12">
                             <input class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
-                                   type="password" name="j_password" placeholder="Password" feedback="false"/>
-                        </div>
-                        <div class="ui-g-12 ui-md-6">
-                            <span class="remember-me">Lembre de mim</span>
-                            <p:selectBooleanCheckbox />
-                        </div>
-                        <div class="ui-g-12 ui-md-6">
-                            <p:link>Esqueci a Senha</p:link>
+                                   type="password" name="j_password" placeholder="Senha" feedback="false"/>
                         </div>
                         <div class="ui-g-12">
                             <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"
@@ -51,6 +44,18 @@
                                 <span class="ui-button-text ui-c" style="color: #FFFFFF">Entrar</span>
                             </button>
                         </div>
+                       
+                        
+                        <div class="ui-g-12 ui-md-6">
+                            <input type="checkbox" id="remember-me" name="remember-me" />
+                            <label for="remember-me">Lembrar de Mim</label>
+                        </div>
+                        
+                         <div class="ui-g-12 ui-md-6">
+                            <span />
+                            <p:selectBooleanCheckbox rendered="false" />
+                        </div>
+                        
                     </div>
                 </div>
 
