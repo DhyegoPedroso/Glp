@@ -143,20 +143,6 @@ public class FuncionarioControl implements Serializable {
         }
     }
 
-    private static String convertPasswordToMD5(String senha) throws NoSuchAlgorithmException {
-        String retorno = "";
-        try {
-
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(senha.getBytes(), 0, senha.length());
-            retorno = new BigInteger(1, md.digest()).toString(16);
-
-        } catch (Exception e) {
-            System.out.println("Falha ao criptografar " + e.getMessage());
-        }
-        return retorno;
-    }
-
     public void salvar() throws NoSuchAlgorithmException {
 
         try {
@@ -166,7 +152,6 @@ public class FuncionarioControl implements Serializable {
             usuario.setFuncionario(funcionario);
             usuario.setEnable(true);
             usuario.setPerfil(perfil);
-            usuario.setSenha(convertPasswordToMD5(usuario.getSenha()));
 
             if (funcionario.getId() == null) {
                 funcionario.setDtCadastro(new Date());

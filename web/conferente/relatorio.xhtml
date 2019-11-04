@@ -42,13 +42,13 @@
                 <p:separator/>
 
                 <p:outputLabel for="dateInicial" value="Data Iníco:" />
-                <p:calendar id="dateInicial" value="#{relatorioC.dataInicio}" showOn="button" />
+                <p:calendar id="dateInicial" locale="pt" value="#{relatorioC.dataInicio}" showOn="button" />
 
                 <p:outputLabel for="dateFinal" value="Data Final:" />
-                <p:calendar id="dateFinal" value="#{relatorioC.dataFinal}" showOn="button"/>
+                <p:calendar id="dateFinal" locale="pt" value="#{relatorioC.dataFinal}" showOn="button"/>
 
                 <p:outputLabel for="pesqPedido" value="Cliente: " rendered="#{relatorioC.qualPesquisa == true}" />
-                <p:inputText id="pesqPedido" value="#{relatorioC.nomeCliente}" rendered="#{relatorioC.qualPesquisa == true}" />
+                <p:inputText id="pesqPedido"  value="#{relatorioC.nomeCliente}" rendered="#{relatorioC.qualPesquisa == true}" />
 
                 <p:outputLabel for="pesqProduto" value="Produto: " rendered="#{relatorioC.qualPesquisa == false}" />
                 <p:inputText id="pesqProduto" value="#{relatorioC.nomeProduto}" rendered="#{relatorioC.qualPesquisa == false}" />
@@ -131,21 +131,22 @@
 
 
         <script type="text/javascript">
-            PrimeFaces.locales['pt-BR'] = {
-                closeText: 'Perto',
-                prevText: 'de Volta',
-                nextText: 'Mais',
-                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                dayNames: ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'],
-                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-                dayNamesMin: ['D', 'S', 'T', 'Q ', 'Q', 'S ', 'S'],
+            PrimeFaces.locales['pt'] = {
+                closeText: 'Fechar',
+                prevText: 'Anterior',
+                nextText: 'Próximo',
+                currentText: 'Começo',
+                monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+                monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun', 'Jul','Ago','Set','Out','Nov','Dez'],
+                dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+                dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
+                dayNamesMin: ['D','S','T','Q','Q','S','S'],
                 weekHeader: 'Semana',
-                FirstDay: 1,
+                firstDay: 1,
                 isRTL: false,
                 showMonthAfterYear: false,
                 yearSuffix: '',
-                timeOnlyTitle: 'Só Tempo',
+                timeOnlyTitle: 'Só Horas',
                 timeText: 'Tempo',
                 hourText: 'Hora',
                 minuteText: 'Minuto',
@@ -155,7 +156,7 @@
                 month: 'Mês',
                 week: 'Semana',
                 day: 'Dia',
-                allDayText: 'Dia Inteiro'
+                allDayText : 'Todo Dia'
             };
         </script>
 

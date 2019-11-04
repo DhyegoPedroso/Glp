@@ -126,7 +126,7 @@ public class PedidoController implements Serializable {
             pedidoDao.salvarOuAlterar(pedido, session);
 
             limpar();
-            Mensagem.salvar("Pedido " + pedido.getNotaFiscal());
+            Mensagem.salvar("Pedido ");
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar pedido:\n" + ex.getMessage());
             Mensagem.mensagemError("Erro ao tentar salvar o pedido");

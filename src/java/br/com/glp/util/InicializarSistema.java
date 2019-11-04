@@ -31,7 +31,7 @@ public class InicializarSistema {
 
         //Cadastrar Funcionario Administrador
         Perfil perfilAdmin = new Perfil("ROLE_ADMIN", "usuario como permissão de administrador", "Administrador");
-        Usuario usuarioAdmin = new Usuario("admin", "21232f297a57a5a743894a0e4a801fc3", true, perfilAdmin);
+        Usuario usuarioAdmin = new Usuario("admin", "admin", true, perfilAdmin);
 
         Funcionario funcionarioAdmin = new Funcionario();
         funcionarioAdmin.setNome("Admin");
@@ -47,7 +47,7 @@ public class InicializarSistema {
 
 //        //Cadastrar Funcionario Conferente
         Perfil perfilConferente = new Perfil("ROLE_CONFERENTE", "usuario logado com perfil básico", "Conferente");
-        Usuario usuarioConferente = new Usuario("conferente", "f62b219d91a2381d23993fa36c5b77f8", true, perfilConferente);
+        Usuario usuarioConferente = new Usuario("conferente", "conferente", true, perfilConferente);
 
         Funcionario funcionarioConferente = new Funcionario();
         funcionarioConferente.setNome("Conferente");

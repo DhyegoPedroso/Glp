@@ -86,7 +86,7 @@
                 <p:toolbar id="toolbar_salvar" styleClass="toolbar">
 
                     <p:toolbarGroup  >
-                        <p:commandButton value="Salvar" action="#{pedidoC.salvar()}" update="aba_alterar" />
+                        <p:commandButton value="Salvar" action="#{pedidoC.salvar()}" process="@this, dadosSalvar" update="aba_alterar" />
                         <p:separator></p:separator>
                         <p:commandButton value="Limpar" action="#{pedidoC.limpar()}" update="aba_alterar" />
                         <p:separator></p:separator>
@@ -99,7 +99,7 @@
                 <!--Cadastra dados do Pedido-->
                 <p:fieldset legend="Dados do Pedido" style="margin-bottom:20px; margin-top: 15px">
 
-                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-5, ui-grid-col-5" 
+                    <p:panelGrid id="dadosSalvar" columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-5, ui-grid-col-5" 
                                  styleClass="painel_grid_noborder" style="width: 100%; min-width: 50%" >
 
                         <p:outputLabel  value="Horario do Pedido: "/>
@@ -146,7 +146,8 @@
                         </p:autoComplete>
 
                         <h:outputLabel for="tipoMovimentacao" value="Movimentação:  " />
-                        <p:selectOneMenu styleClass="form-control" id="tipoMovimentacao" value="#{pedidoC.itemPedido.movimentação}" >
+                        <p:selectOneMenu styleClass="form-control" id="tipoMovimentacao" value="#{pedidoC.itemPedido.movimentação}"
+                                         required="true">
                             <f:selectItem itemLabel="Selecione uma Situação" itemValue="" />
                             <f:selectItem itemLabel="Entrada" itemValue="Entrada" />
                             <f:selectItem itemLabel="Saída" itemValue="Saida" />
@@ -156,7 +157,8 @@
                         <p:inputText   id="quanti" value="#{pedidoC.itemPedido.quantidade}" size="15"/>
 
                         <p:spacer/>
-                        <p:commandButton id="btn_add_produto" value="Add" update="dadosMovi, movi" action="#{pedidoC.addItemProduto()}" />
+                        <p:commandButton id="btn_add_produto" value="Add" update="dadosMovi, movi" process="@this, movi" 
+                                         action="#{pedidoC.addItemProduto()}" />
 
                     </p:panelGrid>
 
