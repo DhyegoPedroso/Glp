@@ -206,7 +206,7 @@
                                     <p:inputText id="PlacaCaminhao" maxlength="7" value="#{clienteC.caminhao.placaCaminhao}"/>
 
                                     <p:commandButton id="btn_reset_caminhao" value="Reset" type="reset"/>
-                                    <p:commandButton id="btn_add_caminhao" value="Add" update="dadosCaminhao" action="#{clienteC.addCaminhao()}" /> 
+                                    <p:commandButton id="btn_add_caminhao" value="Add" update="dadosCaminhao, caminhaoView" action="#{clienteC.addCaminhao()}" /> 
 
                                     <h:outputText value="Passar para o Último: " />
                                     <h:selectBooleanCheckbox value="#{clienteC.skip}" />
