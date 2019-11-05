@@ -1822,7 +1822,6 @@ html {
         text-decoration: none;
         font-size: 14px;
         padding: 15px;
-        margin-bottom: 10px;
         display: block;
         box-sizing: border-box;
         border-top: 1px solid #4e5159;
@@ -1843,13 +1842,13 @@ html {
           -webkit-border-radius: 50%;
           border-radius: 50%; }
         .wrapper .sidebar ul li > a .fa:last-child {
-          float: left;
+          float: right;
           font-size: 16px; }
         .wrapper .sidebar ul li > a:hover {
           padding-left: 20px;
           color: #2399e5; }
           .wrapper .sidebar ul li > a:hover .menu-badge {
-            color:   #ffffff; }
+            color: ┬á #ffffff; }
       .wrapper .sidebar ul li.active-menuitem > a {
         border-bottom: 0 none;
         background-color: #2e3035;
@@ -1879,8 +1878,7 @@ html {
         .wrapper .sidebar ul li > ul li:last-child > a {
           border-bottom: 0 none; }
       .wrapper .sidebar ul li:last-child > a {
-        border-bottom: 1px solid #4e5159; 
-      padding-bottom: 30px}
+        border-bottom: 1px solid #4e5159; }
   .wrapper .main {
     -moz-transition: margin-left 0.3s;
     -o-transition: margin-left 0.3s;
@@ -1896,7 +1894,7 @@ html {
     .wrapper .footer img {
       vertical-align: middle; }
     .wrapper .footer .footer-text {
-      vertical-align: middle;}
+      vertical-align: middle; }
 
 .menu-layout-overlay .wrapper .topbar {
   left: 0; }
@@ -3587,3 +3585,5 @@ body .p-datepicker-panel {
 
 /* Add your customizations of theme here */
 /* Add your customizations of layout here */
+
+/*# sourceMappingURL=layout.css.map */

@@ -3,7 +3,8 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui">
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:po="http://primefaces.org/omega">
     <h:form id="menuform">
         <div class="sidebar">
             <div class="nano">
@@ -13,88 +14,77 @@
                         <p:graphicImage name="images/logo.png" library="omega-layout" width="113"/>
                     </div>
 
-                    <div>
-                        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"  />
 
-                        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-                            <p:graphicImage name="aguarde.gif" library="images"/>
-                        </p:dialog>
+                    <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"  />
 
-                        <aside class="menu">
-                            <nav>
-                                <ul>
+                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                        <p:graphicImage name="aguarde.gif" library="images"/>
+                    </p:dialog>
+
+                    <div class="menu">
+                        <nav>
+                            <ul>
+
+                                <li>
+                                    <h:link outcome="/conferente/dashboard">
+                                        <i class="fa fa-home" > Dashboard</i>
+                                    </h:link>
+                                </li>
+
+                                <li>
+                                    <h:link outcome="/conferente/relatorio">
+                                        <i class="fa fa-sign-in"> Relatório</i>
+                                    </h:link>
+                                </li>
+
+                                <h:panelGroup rendered="#{request.isUserInRole('ROLE_CONFERENTE')}" >
 
                                     <li>
-                                        <h:link outcome="/conferente/dashboard">
-                                            <i class="fa fw-fw fa-bars"> Dashboard</i></h:link>
+                                        <h:link outcome="/conferente/estoque">
+                                            <i class="fa fa-sign-in"> Estoque</i>
+                                        </h:link>
+                                    </li>
+                                    <li>
+                                        <h:link outcome="/conferente/pedido">
+                                            <i class="fa fa-sign-in"> Pedido</i>
+                                        </h:link>
+                                    </li>
+
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{request.isUserInRole('ROLE_ADMIN')}" >
+
+                                    <li>
+                                        <h:link outcome="/administrador/funcionario">
+                                            <i class="fa fa-sign-in"> Funcionário</i>
+                                        </h:link>
                                     </li>
 
                                     <li>
-                                        <h:link outcome="/conferente/relatorio">
-                                            <i class="fa fw-fw fa-check"> Relatório</i></h:link>
+                                        <h:link outcome="/administrador/cliente">
+                                            <i class="fa fa-sign-in"> Cliente</i>
+                                        </h:link>
                                     </li>
-
-                                    <h:panelGroup rendered="#{request.isUserInRole('ROLE_CONFERENTE')}" >
-
-                                        <li>
-                                            <h:link outcome="/conferente/estoque">
-                                                <i class="fa fw-fw fa-check"> Estoque</i></h:link>
-                                        </li>
-                                        <li>
-                                            <h:link outcome="/conferente/pedido">
-                                                <i class="fa fw-fw fa-check"> Pedido</i></h:link>
-                                        </li>
-
-                                    </h:panelGroup>
-
-                                    <h:panelGroup rendered="#{request.isUserInRole('ROLE_ADMIN')}" >
-
-                                        <li>
-                                            <h:link outcome="/administrador/funcionario">
-                                                <i class="fa fw-fw fa-user"> Funcionário</i></h:link>
-                                        </li>
-
-                                        <li>
-                                            <h:link outcome="/administrador/cliente">
-                                                <i class="fa fw-fw fa-gear"> Cliente</i></h:link>
-                                        </li>
-
-                                        <li>
-                                            <h:link outcome="/administrador/produto">
-                                                <i class="fa fw-fw fa-gear"> Produto</i></h:link>
-                                        </li>
-
-                                    </h:panelGroup>
 
                                     <li>
-                                        <a href="SistemaGlp/logout"><i class="fa fw-fw fa-sign-out icon-signout"></i> Sair</a>
+                                        <h:link outcome="/administrador/produto">
+                                            <i class="fa fa-sign-in"> Produto</i>
+                                        </h:link>
                                     </li>
 
-                                </ul>
+                                </h:panelGroup>
 
-                            </nav>
+                                <li>
+                                    <a href="SistemaGlp/logout">
+                                        <i class="fa fa-fw fa-sign-out">
+                                        </i> Sair</a>
+                                </li>
 
-                        </aside>
+                            </ul>
 
-                        <div class="logo">
-
-                            <style type="text/css">
-                                .ui-analog-clock {
-                                    width: 250px;
-                                }
-                            </style>  
-
-
-                            <div style="margin: auto ; margin-bottom: 30px">
-                                <p:clock pattern="dd.MM.yyyy" />
-                            </div>
-
-                            <div style="margin: auto ; margin-bottom: 30px">
-                                <p:clock pattern="HH:mm:ss" />
-                            </div>
-                        </div>
-
+                        </nav>
                     </div>
+
 
                 </div>
             </div>
