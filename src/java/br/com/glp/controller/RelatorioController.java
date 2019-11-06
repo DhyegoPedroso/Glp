@@ -12,6 +12,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
 import org.hibernate.Session;
 
 /**
@@ -38,7 +39,6 @@ public class RelatorioController {
 
     private Date dataInicio;
     private Date dataFinal;
-    private String tipoPesquisa;
     private String nomeCliente;
     private String nomeProduto;
 
@@ -58,6 +58,33 @@ public class RelatorioController {
     }
 
     public void pesquisarPedido() {
+
+        try {
+
+            abreSessao();
+
+            if (qualPesquisa) {
+                if (!nomeCliente.equalsIgnoreCase("")) {
+                    pedidos = pedidoDao.pesquisaPedidoClienteDataInicioFim(nomeCliente, dataInicio, dataFinal, session);
+                } else {
+                    pedidos = pedidoDao.listarTodosPedidoDataInicioFim(dataInicio, dataFinal, session);
+                }
+
+                modelPedido = new ListDataModel<>(pedidos);
+            } else {
+                if (!nomeProduto.equalsIgnoreCase("")) {
+                    itemPedidos = itemPedidoDao.pesquisaProdutoDataInicioFim(nomeProduto, dataInicio, dataFinal, session);
+                } else {
+                    itemPedidos = itemPedidoDao.listarTodosProdutosDataInicioFim(dataInicio, dataFinal, session);
+                }
+
+                modelItemPedido = new ListDataModel<>(itemPedidos);
+            }
+
+        } catch (Exception e) {
+            session.close();
+        }
+
     }
 
 //       
@@ -120,14 +147,6 @@ public class RelatorioController {
 
     public void setDataFinal(Date dataFinal) {
         this.dataFinal = dataFinal;
-    }
-
-    public String getTipoPesquisa() {
-        return tipoPesquisa;
-    }
-
-    public void setTipoPesquisa(String tipoPesquisa) {
-        this.tipoPesquisa = tipoPesquisa;
     }
 
     public String getNomeCliente() {

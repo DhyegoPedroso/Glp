@@ -2,6 +2,7 @@ package br.com.glp.dao;
 
 import br.com.glp.model.Pedido;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 import org.junit.Test;
@@ -75,10 +76,57 @@ public class PedidoDaoImplTest {
 
     @Test
     public void testListaTodos() {
+        try {
+
+            session = HibernateUtil.abreSessao();
+
+            List<Pedido> pedidos = pedidoDao.listaTodos(session);
+
+            for (Pedido pedido1 : pedidos) {
+
+                System.out.println("Cliente: " + pedido1.getCliente().getNomeSocial());
+                System.out.println("data: " + pedido1.getCadastro());
+
+            }
+
+        } catch (Exception e) {
+        }
     }
 
     @Test
     public void testPesquisaPorNome() {
+    }
+
+    @Test
+    public void testPesquisaPedidoNomeSocial() {
+    }
+
+    @Test
+    public void testPesquisaPedidoClienteDataInicioFim() {
+    }
+
+    @Test
+    public void testListarTodosPedidoDataInicioFim() {
+
+        try {
+
+            session = HibernateUtil.abreSessao();
+
+            Date inicio = new Date(02 - 11 - 19);
+            Date fim = new Date(06 - 11 - 19);
+
+            List<Pedido> pedidos = pedidoDao.listarTodosPedidoDataInicioFim(inicio, fim, session);
+
+            for (Pedido pedido1 : pedidos) {
+
+                System.out.println("Cliente: " + pedido1.getCliente().getNomeSocial());
+                System.out.println("data: " + pedido1.getCadastro());
+
+            }
+
+        } catch (Exception e) {
+        }
+
     }
 
 }

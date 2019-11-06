@@ -6,6 +6,7 @@
 package br.com.glp.dao;
 
 import br.com.glp.model.Pedido;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -34,8 +35,32 @@ public class PedidoDaoImpl extends BaseDaoImpl<Pedido, Long> implements PedidoDa
 
     @Override
     public List<Pedido> pesquisaPedidoNomeSocial(String nomeSocial, Session session) throws HibernateException {
-         Query consulta = session.createQuery("select p from Pedido p join p.cliente c where c.nomeSocial like :nomeSocial");
+        Query consulta = session.createQuery("select p from Pedido p join p.cliente c where c.nomeSocial like :nomeSocial");
         consulta.setParameter("nomeSocial", "%" + nomeSocial + "%");
+        return consulta.list();
+    }
+
+    @Override
+    public List<Pedido> pesquisaPedidoClienteDataInicioFim(String nomeSocial, Date inicio, Date fim, Session session) throws HibernateException {
+        Query consulta = session.createQuery(
+                "select p from Pedido p join p.cliente c "
+                + "where c.nomeSocial like :nomeSocial "
+                + "and p.cadastro between :dataInicio and :dataFinal "
+        );
+        consulta.setParameter("dataFinal", fim);
+        consulta.setParameter("dataInicio", inicio);
+        consulta.setParameter("nomeSocial", "%" + nomeSocial + "%");
+        return consulta.list();
+    }
+    
+    @Override
+    public List<Pedido> listarTodosPedidoDataInicioFim(Date inicio, Date fim, Session session) throws HibernateException {
+         Query consulta = session.createQuery(
+                "select p from Pedido p join p.cliente c "
+                + "where p.cadastro between :dataInicio and :dataFinal "
+        );
+        consulta.setParameter("dataFinal", fim);
+        consulta.setParameter("dataInicio", inicio);
         return consulta.list();
     }
 

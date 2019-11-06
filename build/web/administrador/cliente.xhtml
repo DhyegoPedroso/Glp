@@ -39,9 +39,25 @@
                     <p:spacer />
 
                 </p:panelGrid>
+                    
+                    <p:dataTable id="dadosCliente" value="#{clienteC.modelClientes}" var="cliente" reflow="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
+                             {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                             paginator="true" rows="10" style="margin-bottom:20px"
+                             emptyMessage="Nenhum cliente encontrado">
+                       <f:facet name="{Exporters}">
 
-                <p:dataTable id="dadosCliente" value="#{clienteC.modelClientes}" var="cliente" reflow="true"
-                             style="margin-top: 20px;"  emptyMessage="Nenhum cliente encontrado">
+                        <h:commandLink id="excel" style="float: right">
+                            <p:graphicImage library="images" name="excel.png" width="24"/>
+                            <p:dataExporter type="xls" target="dadosCliente" fileName="Clientes" />
+                        </h:commandLink>
+
+                        <h:commandLink id="pdf" style="float: right">
+                            <p:graphicImage library="images" name="pdf.png" width="24"/>
+                            <p:dataExporter type="pdf" target="dadosCliente" fileName="Clientes" />
+                        </h:commandLink>
+
+                    </f:facet>
 
                     <p:column headerText="Cliente" priority="1">
                         <h:outputText value="#{cliente.nome}"/>

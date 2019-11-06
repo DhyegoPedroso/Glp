@@ -41,7 +41,23 @@
                 </p:panelGrid>
 
                 <p:dataTable id="dadosTabelas" value="#{pedidoC.modelPedido}" var="pedido" reflow="true"
-                             style="margin-top: 20px;"  emptyMessage="Nenhum pedido encontrado">
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
+                             {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                             paginator="true" rows="10" style="margin-bottom:20px"
+                             emptyMessage="Nenhum pedido encontrado">
+                    <f:facet name="{Exporters}">
+
+                        <h:commandLink id="excel" style="float: right">
+                            <p:graphicImage library="images" name="excel.png" width="24"/>
+                            <p:dataExporter type="xls" target="dadosTabelas" fileName="Pedidos" />
+                        </h:commandLink>
+
+                        <h:commandLink id="pdf" style="float: right">
+                            <p:graphicImage library="images" name="pdf.png" width="24"/>
+                            <p:dataExporter type="pdf" target="dadosTabelas" fileName="Pedidos" />
+                        </h:commandLink>
+
+                    </f:facet>
 
                     <p:column headerText="Cliente " priority="1">
                         <h:outputText value="#{pedido.cliente.nomeSocial}"/>

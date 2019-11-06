@@ -20,7 +20,8 @@
 
                 <p:toolbarGroup  >
 
-                    <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPedido()}" process="@this" />
+                    <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPedido()}"
+                                     update="tabelaPedido, tabelaProduto" process="@this dadosPesquisa" />
 
                     <p:separator/>
 
@@ -55,9 +56,26 @@
 
                 <p:separator rendered="#{relatorioC.qualPesquisa == true}"/>
 
-                <p:dataTable id="tabelaPedido" value="#{pedidoC.modelPedido}" var="pedido" reflow="true"
-                             style="margin-top: 20px;"  emptyMessage="Nenhum pedido encontrado"
-                             rendered="#{relatorioC.qualPesquisa == true}">
+                <p:dataTable id="tabelaPedido" value="#{relatorioC.modelPedido}" var="pedido" reflow="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} 
+                             {NextPageLink} {LastPageLink} {Exporters}"
+                             paginator="true" rows="10" style="margin-bottom:20px"
+                             rendered="#{relatorioC.qualPesquisa == true}"
+                             emptyMessage="Nenhum Pedido encontrado">
+
+                    <f:facet name="{Exporters}">
+
+                        <h:commandLink id="excel" style="float: right">
+                            <p:graphicImage library="images" name="excel.png" width="24"/>
+                            <p:dataExporter type="xls" target="tabelaPedido" fileName="Pedidos" />
+                        </h:commandLink>
+
+                        <h:commandLink id="pdf" style="float: right">
+                            <p:graphicImage library="images" name="pdf.png" width="24"/>
+                            <p:dataExporter type="pdf" target="tabelaPedido" fileName="Pedidos" />
+                        </h:commandLink>
+
+                    </f:facet>
 
                     <f:facet name="header">
                         Pedidos
@@ -81,7 +99,7 @@
 
                     <p:column headerText="Data do Pedido" sortBy="#{pedido.cadastro}">
                         <p:outputLabel value="#{pedido.cadastro}" >
-                            <f:convertDateTime pattern="dd/MM/yyyy" locale="pt-BR"/>
+                            <f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" timeZone="GMT-02:00"/>
                         </p:outputLabel>
                     </p:column>
 
@@ -91,9 +109,26 @@
 
                 <p:separator rendered="#{relatorioC.qualPesquisa == false}"/>
 
-                <p:dataTable id="tabelaProduto" value="#{pedidoC.modelItemProdutos}" var="itemPedido" reflow="true"
-                             style="margin-top: 20px;"  emptyMessage="Nenhum produto encontrado" 
-                             rendered="#{relatorioC.qualPesquisa == false}">
+                <p:dataTable id="tabelaProduto" value="#{relatorioC.modelItemPedido}" var="itemPedido" reflow="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} 
+                             {NextPageLink} {LastPageLink} {Exporters}"
+                             paginator="true" rows="10" style="margin-bottom:20px"
+                             rendered="#{relatorioC.qualPesquisa == false}"
+                             emptyMessage="Nenhum Produto encontrado">
+
+                    <f:facet name="{Exporters}">
+
+                        <h:commandLink id="excel" style="float: right">
+                            <p:graphicImage library="images" name="excel.png" width="24"/>
+                            <p:dataExporter type="xls" target="tabelaProduto" fileName="Produtos" />
+                        </h:commandLink>
+
+                        <h:commandLink id="pdf" style="float: right">
+                            <p:graphicImage library="images" name="pdf.png" width="24"/>
+                            <p:dataExporter type="pdf" target="tabelaProduto" fileName="Produtos" />
+                        </h:commandLink>
+
+                    </f:facet>
 
                     <f:facet name="header">
                         Produtos
@@ -117,13 +152,11 @@
 
                     <p:column headerText="Data do Pedido" sortBy="#{itemPedido.pedido.cadastro}">
                         <p:outputLabel value="#{itemPedido.pedido.cadastro}" >
-                            <f:convertDateTime pattern="dd/MM/yyyy" locale="pt-BR"/>
+                            <f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" timeZone="GMT-02:00"/>
                         </p:outputLabel>
                     </p:column>
 
                 </p:dataTable>
-
-                <p:separator rendered="#{relatorioC.qualPesquisa == false}"/>
 
             </p:panelGrid>
 
@@ -136,11 +169,11 @@
                 prevText: 'Anterior',
                 nextText: 'Próximo',
                 currentText: 'Começo',
-                monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-                monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun', 'Jul','Ago','Set','Out','Nov','Dez'],
-                dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-                dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
-                dayNamesMin: ['D','S','T','Q','Q','S','S'],
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
                 weekHeader: 'Semana',
                 firstDay: 1,
                 isRTL: false,
@@ -156,7 +189,7 @@
                 month: 'Mês',
                 week: 'Semana',
                 day: 'Dia',
-                allDayText : 'Todo Dia'
+                allDayText: 'Todo Dia'
             };
         </script>
 

@@ -37,6 +37,25 @@
 
                 <p:dataTable id="dadosEstoque" var="produto" value="#{estoqueC.modelProdutos}" reflow="true"
                              style="margin-bottom:40px" emptyMessage="Nenhum produto encontrado">
+                    
+                       <p:dataTable id="dadosEstoque" value="#{estoqueC.modelProdutos}" var="produto" reflow="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
+                             {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                             paginator="true" rows="10" style="margin-bottom:20px"
+                             emptyMessage="Nenhum produto encontrado">
+                       <f:facet name="{Exporters}">
+
+                        <h:commandLink id="excel" style="float: right">
+                            <p:graphicImage library="images" name="excel.png" width="24"/>
+                            <p:dataExporter type="xls" target="dadosEstoque" fileName="Estoque" />
+                        </h:commandLink>
+
+                        <h:commandLink id="pdf" style="float: right">
+                            <p:graphicImage library="images" name="pdf.png" width="24"/>
+                            <p:dataExporter type="pdf" target="dadosEstoque" fileName="Estoque" />
+                        </h:commandLink>
+
+                    </f:facet>
 
                     <p:column headerText="Tipo" sortBy="#{produto.nomeProduto}">
                         <p:outputLabel value="#{produto.nomeProduto}" />
