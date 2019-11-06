@@ -35,15 +35,12 @@
 
                 </p:panelGrid>
 
-                <p:dataTable id="dadosEstoque" var="produto" value="#{estoqueC.modelProdutos}" reflow="true"
-                             style="margin-bottom:40px" emptyMessage="Nenhum produto encontrado">
-                    
-                       <p:dataTable id="dadosEstoque" value="#{estoqueC.modelProdutos}" var="produto" reflow="true"
+                <p:dataTable id="dadosEstoque" value="#{estoqueC.modelProdutos}" var="produto" reflow="true"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
                              {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
                              paginator="true" rows="10" style="margin-bottom:20px"
                              emptyMessage="Nenhum produto encontrado">
-                       <f:facet name="{Exporters}">
+                    <f:facet name="{Exporters}">
 
                         <h:commandLink id="excel" style="float: right">
                             <p:graphicImage library="images" name="excel.png" width="24"/>
@@ -75,16 +72,16 @@
 
                     <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
                         <p:commandButton icon="ui-icon-pencil" title="Alterar" update="@form" process="@this" 
-                                       actionListener="#{estoqueC.carregarParaAlterar()}"
-                                        oncomplete="PF('modalAlterarProduto').show();">
+                                         actionListener="#{estoqueC.carregarParaAlterar()}"
+                                         oncomplete="PF('modalAlterarProduto').show();">
                             <f:setPropertyActionListener target="#{estoqueC.produto}" value="#{produto}"   />          
                         </p:commandButton>
                     </p:column>
 
                 </p:dataTable>
-                
-<!--                   onclick="PF('modalAlterarProduto').show();" type="button"
-                   -->
+
+                <!--                   onclick="PF('modalAlterarProduto').show();" type="button"
+                -->
 
             </p:panelGrid>
 
