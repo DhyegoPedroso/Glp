@@ -222,7 +222,8 @@
                                     <p:inputText id="PlacaCaminhao" maxlength="7" value="#{clienteC.caminhao.placaCaminhao}"/>
 
                                     <p:commandButton id="btn_reset_caminhao" value="Reset" type="reset"/>
-                                    <p:commandButton id="btn_add_caminhao" value="Add" update="dadosCaminhao, caminhaoView" action="#{clienteC.addCaminhao()}" /> 
+                                    <p:commandButton id="btn_add_caminhao" value="Add" update="dadosCaminhao, caminhaoView" 
+                                                     action="#{clienteC.addCaminhao()}" /> 
 
                                     <h:outputText value="Passar para o Último: " />
                                     <h:selectBooleanCheckbox value="#{clienteC.skip}" />
@@ -242,11 +243,13 @@
 
                                     <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
 
-                                        <p:commandButton icon="ui-icon-pencil" title="Alterar Caminhão" process="@this" update=":form_pesquisa:caminhaoView" actionListener="#{clienteC.carregarCaminhao()}">
+                                        <p:commandButton icon="ui-icon-pencil" title="Alterar Caminhão" process="@this" 
+                                                         update=":form_pesquisa:caminhaoView" actionListener="#{clienteC.carregarCaminhao()}">
                                             <f:setPropertyActionListener target="#{clienteC.caminhao}" value="#{caminhao}"   />          
                                         </p:commandButton>
 
-                                        <p:commandButton icon="ui-icon-trash" actionListener="#{clienteC.excluirCaminhao()}" update=":form_pesquisa:dadosCaminhao" title="Excluir Caminhão" >
+                                        <p:commandButton icon="ui-icon-trash" actionListener="#{clienteC.excluirCaminhao()}"
+                                                         update=":form_pesquisa:dadosCaminhao" title="Excluir Caminhão" >
                                             <p:confirm header="Confirmação" message="Tem certeza exclusão?" icon="ui-icon-alert" />
                                             <f:setPropertyActionListener target="#{clienteC.caminhao}" value="#{caminhao}"   />
                                         </p:commandButton>

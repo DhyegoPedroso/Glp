@@ -122,7 +122,7 @@
                         <p:clock pattern="dd.MM.yyyy - HH:mm:ss"  rendered="#{pedidoC.pedido.id == null}"/>
 
                         <h:outputText  value="#{pedidoC.pedido.cadastro}"  rendered="#{pedidoC.pedido.id != null}">
-                            <f:convertDateTime for="data" pattern="dd-MM-yyyy - HH:mm:ss" />
+                            <f:convertDateTime for="data" pattern="dd-MM-yyyy - HH:mm:ss" timeZone="GMT-03:00" />
                         </h:outputText>
 
                         <p:outputLabel value="Nota Fiscal: "/>                        
@@ -210,6 +210,14 @@
                     <p:column headerText="Movimentação" priority="1">
                         <h:outputText value="#{itemPedido.movimentação}" />
                     </p:column>
+
+<!--                    <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
+                        <p:commandButton icon="ui-icon-pencil" title="Alterar Movimentação" process="@this" 
+                                         update=":form_pesquisa:movi" actionListener="#{pedidoC.carregarParaAlterarItens()}">
+                            <f:setPropertyActionListener target="#{pedidoC.itemPedido}" value="#{itemPedido}"   />          
+                        </p:commandButton>
+
+                    </p:column>-->
 
                 </p:dataTable>
 
