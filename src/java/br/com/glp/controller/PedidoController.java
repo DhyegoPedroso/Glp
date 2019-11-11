@@ -162,7 +162,7 @@ public class PedidoController implements Serializable {
 
             produto = produtoDao.pesquisaEntidadeId(itemProdutos.get(item).getProduto().getId(), session);
 
-            if (!itemProdutos.get(item).getMovimentação().equalsIgnoreCase("Entrada")) {
+            if (!itemProdutos.get(item).getMovimentacao().equalsIgnoreCase("Entrada")) {
                 produto.setQuantidade(produto.getQuantidade() - itemProdutos.get(item).getQuantidade());
                 produtoDao.salvarOuAlterar(produto, session);
             } else {
@@ -265,9 +265,9 @@ public class PedidoController implements Serializable {
             modelItemProdutos = new ListDataModel<>(itemProdutos);
         }
 
-        if (itemPedido.getMovimentação().equalsIgnoreCase("")) {
+        if (itemPedido.getMovimentacao().equalsIgnoreCase("")) {
             Mensagem.selecioneMovimentacao();
-        } else if (!itemPedido.getMovimentação().equalsIgnoreCase("Entrada") && itemPedido.getQuantidade() > produto.getQuantidade()) {
+        } else if (!itemPedido.getMovimentacao().equalsIgnoreCase("Entrada") && itemPedido.getQuantidade() > produto.getQuantidade()) {
             Mensagem.estoqueInsuficiente(itemPedido.getQuantidade(), produto.getQuantidade());
         } else {
             itemPedido.setProduto(produto);

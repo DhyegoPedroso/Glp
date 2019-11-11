@@ -15,6 +15,7 @@ public abstract class Pedido_ {
 	public static volatile SingularAttribute<Pedido, Long> id;
 	public static volatile SingularAttribute<Pedido, Date> cadastro;
 	public static volatile SingularAttribute<Pedido, String> notaFiscal;
+	public static volatile SingularAttribute<Pedido, Caminhao> caminhao;
 
 }
 

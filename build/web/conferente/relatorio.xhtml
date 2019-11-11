@@ -37,8 +37,8 @@
             <p:panelGrid id="dadosPesquisa" columns="1" layout="grid" columnClasses="ui-grid-col-12"
                          styleClass="painel_grid_noborder"  >
 
-                <p:selectOneRadio id="tipoPesquisa" value="#{relatorioC.qualPesquisa}" >
-                    <f:selectItem itemLabel="Pedido" itemValue="true"  />
+                <p:selectOneRadio id="tipoPesquisa"  value="#{relatorioC.qualPesquisa}" >
+                    <f:selectItem itemLabel="Pedido" itemValue="true" />
                     <f:selectItem itemLabel="Produto" itemValue="false" />
                     <p:ajax update="dadosPesquisa, tabelaProduto, tabelaPedido" event="change"/>
                 </p:selectOneRadio>

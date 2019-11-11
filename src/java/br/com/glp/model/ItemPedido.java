@@ -28,7 +28,7 @@ public class ItemPedido implements Serializable {
     private int quantidade;
 
     @Column(nullable = false)
-    private String movimentação;
+    private String movimentacao;
 
     @ManyToOne
     @JoinColumn(name = "idProduto")
@@ -41,9 +41,9 @@ public class ItemPedido implements Serializable {
     public ItemPedido() {
     }
 
-    public ItemPedido(int quantidade, String movimentação, Produto produto, Pedido pedido) {
+    public ItemPedido(int quantidade, String movimentacao, Produto produto, Pedido pedido) {
         this.quantidade = quantidade;
-        this.movimentação = movimentação;
+        this.movimentacao = movimentacao;
         this.produto = produto;
         this.pedido = pedido;
     }
@@ -80,12 +80,12 @@ public class ItemPedido implements Serializable {
         this.produto = produto;
     }
 
-    public String getMovimentação() {
-        return movimentação;
+    public String getMovimentacao() {
+        return movimentacao;
     }
 
-    public void setMovimentação(String movimentação) {
-        this.movimentação = movimentação;
+    public void setMovimentacao(String movimentação) {
+        this.movimentacao = movimentação;
     }
 
     @Override

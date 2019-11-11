@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.glp.dao;
 
+import br.com.glp.model.GraficoPedidosTotalMesAno;
 import br.com.glp.model.Pedido;
 import java.util.Date;
 import java.util.List;
@@ -22,5 +18,6 @@ public interface PedidoDao extends BaseDao<Pedido, Long> {
     public List<Pedido> pesquisaPedidoClienteDataInicioFim(String nomeSocial, Date inicio, Date fim, Session session) throws HibernateException;
     
     public List<Pedido> listarTodosPedidoDataInicioFim(Date inicio, Date fim, Session session) throws HibernateException;
-
+    
+    public List<GraficoPedidosTotalMesAno> totalMesPedidos(Session session) throws HibernateException;
 }

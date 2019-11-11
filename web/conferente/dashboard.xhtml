@@ -15,42 +15,11 @@
 
         <h:form id="form_pesquisa">
 
-            <style type="text/css">
-                .ui-panel, div.ui-state-hover {
-                    margin: 10px;
-                    width:50%;
-                }
+            <p:growl id="growl" showDetail="true" />
 
-                .ui-dashboard-column {
-                    width:50%;
-                }
-            </style>
+            <p:chart type="bar" model="#{dashboardC.graficoPedidosTotalAno}" style="height:300px" widgetVar="chart" />
+            <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
 
-            <p:growl id="msgs" showDetail="true" />
-
-
-<!--                <p:panel id="ano" header="Ano">
-                    <p:chart type="bar" model="#{dashboardC.graficoQuantidadeAno}" style="height:300px" widgetVar="chart" />
-                    <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
-                </p:panel>
-
-                <p:panel id="mes" header="Mes">
-                    <p:chart type="bar" model="#{dashboardC.graficoQuantidadeMes}" style="height:300px" widgetVar="chart" />
-                    <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
-                </p:panel>
-
-                <p:panel id="produtoAno" header="Produto Ano">
-                    <p:chart type="bar" model="#{dashboardC.graficoProdutosAno}" style="height:300px" widgetVar="chart" />
-                    <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
-                </p:panel>
-
-                <p:panel id="produtoMes" header="Produto Mês">
-                    <p:chart type="bar" model="#{dashboardC.graficoProdutosMes}" style="height:300px" widgetVar="chart" />
-                    <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
-                </p:panel>-->
-
-
-            <div style="clear:both" />
         </h:form>
 
     </ui:define>

@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.glp.dao;
 
+import br.com.glp.model.GraficoPedidosTotalMesAno;
 import br.com.glp.model.Pedido;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -52,10 +49,10 @@ public class PedidoDaoImpl extends BaseDaoImpl<Pedido, Long> implements PedidoDa
         consulta.setParameter("nomeSocial", "%" + nomeSocial + "%");
         return consulta.list();
     }
-    
+
     @Override
     public List<Pedido> listarTodosPedidoDataInicioFim(Date inicio, Date fim, Session session) throws HibernateException {
-         Query consulta = session.createQuery(
+        Query consulta = session.createQuery(
                 "select p from Pedido p join p.cliente c "
                 + "where p.cadastro between :dataInicio and :dataFinal "
         );
@@ -64,4 +61,23 @@ public class PedidoDaoImpl extends BaseDaoImpl<Pedido, Long> implements PedidoDa
         return consulta.list();
     }
 
+    @Override
+    public List<GraficoPedidosTotalMesAno> totalMesPedidos(Session session) throws HibernateException {
+        Object[] item;
+        GraficoPedidosTotalMesAno grt;
+        List<GraficoPedidosTotalMesAno> todosGrts = new ArrayList<>();
+        Query consulta = session.createQuery("select month(cadastro) as mes, count(id) as total "
+                + " from Pedido group by month(cadastro)");
+
+        List resultados = consulta.list();
+
+        for (Object resultado : resultados) {
+            item = (Object[]) resultado;
+            grt = new GraficoPedidosTotalMesAno((int) item[0], (long) item[1]);
+            todosGrts.add(grt);
+
+        }
+
+        return todosGrts;
+    }
 }
