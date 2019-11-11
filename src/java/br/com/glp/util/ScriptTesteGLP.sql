@@ -18,6 +18,8 @@ VALUES ('2019-01-01', "Rossi Chefe"),
 
 -- Dados Tabela 'Cliente'
 
+
+
 INSERT INTO cliente (cnpj, nomeSocial, idPessoa)  
 VALUES ('16.515.615/6156-15', "Rossinha Italiano",3),
 ('84.515.185/4165-12', "Leo Estronda",4),
