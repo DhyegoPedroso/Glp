@@ -44,7 +44,6 @@ public class PedidoController implements Serializable {
     private List<Produto> produtos;
     private List<Caminhao> caminhoes;
     private List<ItemPedido> itemProdutos;
-    private List<ItemPedido> itemProdutosBKP;
 
     private DataModel<Pedido> modelPedido;
     private DataModel<ItemPedido> modelItemProdutos;
@@ -90,9 +89,8 @@ public class PedidoController implements Serializable {
         pedido = modelPedido.getRowData();
         cliente = pedido.getCliente();
         caminhao = pedido.getCaminhao();
-        
+
         itemProdutos = pedido.getItemPedidos();
-        itemProdutosBKP = pedido.getItemPedidos();
         modelItemProdutos = new ListDataModel<>(pedido.getItemPedidos());
     }
 
@@ -474,14 +472,6 @@ public class PedidoController implements Serializable {
 
     public void setItemProdutos(List<ItemPedido> itemProdutos) {
         this.itemProdutos = itemProdutos;
-    }
-
-    public List<ItemPedido> getItemProdutosBKP() {
-        return itemProdutosBKP;
-    }
-
-    public void setItemProdutosBKP(List<ItemPedido> itemProdutosBKP) {
-        this.itemProdutosBKP = itemProdutosBKP;
     }
 
     public DataModel<ItemPedido> getModelItemProdutos() {

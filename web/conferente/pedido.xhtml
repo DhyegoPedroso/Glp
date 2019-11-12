@@ -102,15 +102,68 @@
                 <p:toolbar id="toolbar_salvar" styleClass="toolbar">
 
                     <p:toolbarGroup  >
-                        <p:commandButton value="Salvar" action="#{pedidoC.salvar()}" process="@this, dadosSalvar" update="aba_alterar" />
+                        <p:commandButton value="Salvar" action="#{pedidoC.salvar()}" process="@this, dadosSalvar" update="aba_alterar" >
+                            <p:confirm header="Confirmação" message="Confirme o lançamento" icon="ui-icon-alert" 
+                                       rendered="#{pedidoC.pedido.id == null}"/>
+                        </p:commandButton>
                         <p:separator></p:separator>
-                        <p:commandButton value="Limpar" action="#{pedidoC.limpar()}" update="aba_alterar" />
+                        <p:commandButton value="Limpar" action="#{pedidoC.limpar()}" process="@this, dadosSalvar" update="aba_alterar" />
                         <p:separator></p:separator>
                         <p:commandButton value="Cancelar" actionListener="#{pedidoC.novaPesquisa}" immediate="true"
                                          update="@form" global="false" />
                     </p:toolbarGroup>
 
                 </p:toolbar>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="max-width: 70%; min-width: 50%"  >
+
+                    <p:panelGrid id="confirTable" columns="1" layout="grid" styleClass="painel_grid_noborder" >
+
+                        <p:dataTable id="confirMovi" value="#{pedidoC.itemProdutos}" var="itemPedido" reflow="true"                                     
+                                     emptyMessage="Nenhum produto adicionado" style="max-width: 100%;min-width: 90%">
+
+                            <f:facet name="header">
+                                Produtos
+                            </f:facet>
+
+                            <p:column headerText="ID " priority="1">
+                                <h:outputText value="#{itemPedido.produto.id}"/>
+                            </p:column>
+
+                            <p:column headerText="Produto " priority="1">
+                                <h:outputText value="#{itemPedido.produto.nomeProduto}"/>
+                            </p:column>
+
+                            <p:column headerText="Marca" priority="1">
+                                <h:outputText value="#{itemPedido.produto.marca}"/>
+                            </p:column>
+
+                            <p:column headerText="Situação" priority="1">
+                                <h:outputText value="#{itemPedido.produto.situacao}" />
+                            </p:column>
+
+                            <p:column headerText="Quantidade" priority="1">
+                                <h:outputText value="#{itemPedido.quantidade}" />
+                            </p:column>
+
+                            <p:column headerText="Movimentação" priority="1">
+                                <h:outputText value="#{itemPedido.movimentacao}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:panelGrid>
+
+                    <p:panelGrid id="confirSalvar" styleClass="painel_grid_noborder" >
+
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" 
+                                         icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" 
+                                         icon="ui-icon-close" />
+
+                    </p:panelGrid>
+
+                </p:confirmDialog>
 
                 <!--Cadastra dados do Pedido-->
                 <p:fieldset legend="Dados do Pedido" style="margin-bottom:20px; margin-top: 15px">
@@ -173,7 +226,7 @@
                         <p:inputText   id="quanti" value="#{pedidoC.itemPedido.quantidade}" size="15"/>
 
                         <p:spacer/>
-                        <p:commandButton id="btn_add_produto" value="Add" update="dadosMovi, movi" process="@this, movi" 
+                        <p:commandButton id="btn_add_produto" value="Add" update="dadosMovi, movi, confirMovi" process="@this, movi" 
                                          action="#{pedidoC.addItemProduto()}" />
 
                     </p:panelGrid>
@@ -208,16 +261,17 @@
                     </p:column>
 
                     <p:column headerText="Movimentação" priority="1">
-                        <h:outputText value="#{itemPedido.movimentação}" />
+                        <h:outputText value="#{itemPedido.movimentacao}" />
                     </p:column>
 
-<!--                    <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
+                    <p:column headerText="Alterar" rendered="#{pedidoC.pedido.id == null}" class="centralizado tabela_botao_usuario"
+                              priority="1" >
                         <p:commandButton icon="ui-icon-pencil" title="Alterar Movimentação" process="@this" 
                                          update=":form_pesquisa:movi" actionListener="#{pedidoC.carregarParaAlterarItens()}">
                             <f:setPropertyActionListener target="#{pedidoC.itemPedido}" value="#{itemPedido}"   />          
                         </p:commandButton>
 
-                    </p:column>-->
+                    </p:column>-
 
                 </p:dataTable>
 
