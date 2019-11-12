@@ -29,6 +29,7 @@ public class DashboardController implements Serializable {
     private Session session;
 
     private CartesianChartModel graficoPedidosTotalAno;
+    List<GraficoPedidosTotalMesAno> resultado;
 
     private void abreSessao() {
         if (session == null) {
@@ -64,7 +65,8 @@ public class DashboardController implements Serializable {
             BarChartSeries pedidoMes = new BarChartSeries();
             pedidoMes.setLabel("Quantidade de pedidos realizados");
 
-            List<GraficoPedidosTotalMesAno> resultado = pedidoDao.totalMesPedidos(session);
+            resultado = pedidoDao.totalMesPedidos(session);
+            carregarValorSemMesGrafico();
 
             pedidoMes.set("Janeiro", resultado.get(0).getQuantidade());
             pedidoMes.set("Fevereiro", resultado.get(1).getQuantidade());
@@ -90,10 +92,23 @@ public class DashboardController implements Serializable {
             graficoPedidosTotalAno.setZoom(true);
             Axis yAxis = graficoPedidosTotalAno.getAxis(AxisType.Y);
             yAxis.setMin(0);
-            yAxis.setMax(250);
+            yAxis.setMax(100);
         } catch (Exception e) {
 
             session.close();
+        }
+    }
+
+    private void carregarValorSemMesGrafico() {
+
+        GraficoPedidosTotalMesAno gptma;
+
+        int tamanho = resultado.size();
+        for (int i = tamanho; i <= 12; i++) {
+            gptma = new GraficoPedidosTotalMesAno();
+            gptma.setMes(i + 1);
+            gptma.setQuantidade(0);
+            resultado.add(gptma);
         }
     }
 
