@@ -63,43 +63,15 @@ public class PedidoDaoImpl extends BaseDaoImpl<Pedido, Long> implements PedidoDa
 
     @Override
     public List<GraficoPedidosTotalMesAno> totalMesPedidos(Session session) throws HibernateException {
-        Object[] item;
-        GraficoPedidosTotalMesAno grt;
-        List<GraficoPedidosTotalMesAno> todosGrts = new ArrayList<>();
         Query consulta = session.createQuery("select month(cadastro) as mes, count(id) as total "
                 + " from Pedido group by month(cadastro)");
 
-        List resultados = consulta.list();
-
-        for (Object resultado : resultados) {
-            item = (Object[]) resultado;
-            grt = new GraficoPedidosTotalMesAno((int) item[0], (long) item[1]);
-            todosGrts.add(grt);
-
-        }
-
-        return todosGrts;
+        return consulta.list();
     }
 
     @Override
     public List<GraficoPedidosTotalMesAno> totalPedidoMesAtual(Session session) throws HibernateException {
-        Object[] item;
-        GraficoPedidosTotalMesAno grt;
-        List<GraficoPedidosTotalMesAno> todosGrts = new ArrayList<>();
-        Query consulta = session.createQuery("SELECT * FROM Pedido WHERE MONTH(cadastro) =  month(CURRENT_DATE())"
-                + ""
-                + "select month(cadastro) as mes, count(id) as total "
-                + " from Pedido group by month(cadastro)");
 
-        List resultados = consulta.list();
-
-        for (Object resultado : resultados) {
-            item = (Object[]) resultado;
-            grt = new GraficoPedidosTotalMesAno((int) item[0], (long) item[1]);
-            todosGrts.add(grt);
-
-        }
-
-        return todosGrts;
+        return null;
     }
 }

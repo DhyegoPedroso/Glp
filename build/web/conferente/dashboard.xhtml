@@ -17,8 +17,16 @@
 
             <p:growl id="growl" showDetail="true" />
 
-            <p:chart type="bar" model="#{dashboardC.graficoPedidosTotalAno}" style="height:300px" widgetVar="chart" />
-            <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
+            <p:panelGrid id="panelGridPesq" columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="painel_grid_noborder" >
+
+                <p:chart type="bar" model="#{dashboardC.graficoPedidosTotalAno}" style="height:300px" widgetVar="chart" />
+                <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
+
+<!--                <p:chart type="bar" model="#{dashboardC.graficoProdutosTotalAno}" style="height:300px" widgetVar="chart" />
+                <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>-->
+
+            </p:panelGrid>
+
 
         </h:form>
 

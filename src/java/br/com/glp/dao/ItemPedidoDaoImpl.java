@@ -1,5 +1,6 @@
 package br.com.glp.dao;
 
+import br.com.glp.model.GraficoProdutosTotalMesAno;
 import br.com.glp.model.ItemPedido;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,7 @@ public class ItemPedidoDaoImpl extends BaseDaoImpl<ItemPedido, Long> implements 
     public List<ItemPedido> pesquisaPorNome(String nome, Session session) throws HibernateException {
         return null;
     }
-    
+
     @Override
     public List<ItemPedido> pesquisaProdutoDataInicioFim(String nomeProduto, Date inicio, Date fim, Session session) throws HibernateException {
         Query consulta = session.createQuery(
@@ -40,15 +41,27 @@ public class ItemPedidoDaoImpl extends BaseDaoImpl<ItemPedido, Long> implements 
         consulta.setParameter("nomeProduto", "%" + nomeProduto + "%");
         return consulta.list();
     }
-    
+
     @Override
     public List<ItemPedido> listarTodosProdutosDataInicioFim(Date inicio, Date fim, Session session) throws HibernateException {
-         Query consulta = session.createQuery(
+        Query consulta = session.createQuery(
                 "select i from ItemPedido i join i.pedido ip "
                 + "where ip.cadastro between :dataInicio and :dataFinal "
         );
         consulta.setParameter("dataFinal", fim);
         consulta.setParameter("dataInicio", inicio);
+        return consulta.list();
+    }
+
+    @Override
+    public List<GraficoProdutosTotalMesAno> totalMesProdutos(Session session) throws HibernateException {
+        Query consulta = session.createQuery("SELECT month(p.cadastro) as mes, pt.nomeProduto as produto, count(ip.produto) as quantidade "
+                + "FROM ItemPedido ip "
+                + "JOIN ip.pedido p on ip.pedido = p.id "
+                + "JOIN ip.produto pt ON ip.produto = pt.id "
+                + "GROUP BY month(p.cadastro), pt.nomeProduto "
+                + "ORDER BY pt.nomeProduto, p.cadastro ");
+
         return consulta.list();
     }
 

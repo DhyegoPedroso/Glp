@@ -40,5 +40,4 @@ public class ProdutoDaoImpl extends BaseDaoImpl<Produto, Long> implements Produt
         consulta.setParameter("marcaProduto", "%" + marcaProduto + "%");
         return consulta.list();
     }
-
 }

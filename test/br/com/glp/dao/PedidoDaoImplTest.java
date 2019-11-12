@@ -129,4 +129,14 @@ public class PedidoDaoImplTest {
 
     }
 
+    @Test
+    public void testTotalMesPedidos() {
+    }
+
+    @Test
+    public void testTotalPedidoMesAtual() {
+    }
+    
+    
+
 }
