@@ -64,6 +64,7 @@ public class ItemPedidoDaoImplTest {
             for (GraficoProdutosTotalMesAno totalMesAno1 : totalMesAnos) {
 
                 System.out.println("Mês: " + totalMesAno1.getMes());
+                System.out.println("Produto: " + totalMesAno1.getProduto());
                 System.out.println("Quantidade: " + totalMesAno1.getQuantidade());
                 System.out.println("\n");
             }

@@ -57,8 +57,8 @@ public class ItemPedidoDaoImpl extends BaseDaoImpl<ItemPedido, Long> implements 
     public List<GraficoProdutosTotalMesAno> totalMesProdutos(Session session) throws HibernateException {
         Query consulta = session.createQuery("SELECT month(p.cadastro) as mes, pt.nomeProduto as produto, count(ip.produto) as quantidade "
                 + "FROM ItemPedido ip "
-                + "JOIN ip.pedido p on ip.pedido = p.id "
-                + "JOIN ip.produto pt ON ip.produto = pt.id "
+                + "JOIN ip.pedido p "
+                + "JOIN ip.produto pt "
                 + "GROUP BY month(p.cadastro), pt.nomeProduto "
                 + "ORDER BY pt.nomeProduto, p.cadastro ");
 

@@ -72,7 +72,6 @@ public class DashboardController implements Serializable {
 
             abreSessao();
 
-            pedidoDao = new PedidoDaoImpl();
             graficoPedidosTotalAno = new BarChartModel();
             ChartSeries pedidoMes = new ChartSeries();
 
@@ -173,7 +172,6 @@ public class DashboardController implements Serializable {
 
             }
 
-            resultadoProdutos = itemPedidoDao.totalMesProdutos(session);
             carregarValorSemMesGraficoProduto();
 
             ChartSeries p13 = new ChartSeries();
@@ -242,7 +240,7 @@ public class DashboardController implements Serializable {
 
             graficoProdutosTotalAno = initBarModelProdutosAno();
 
-            graficoProdutosTotalAno.setTitle("Pedidos do Ano");
+            graficoProdutosTotalAno.setTitle("Produtos do Ano");
             graficoProdutosTotalAno.setLegendPosition("nw");
             graficoProdutosTotalAno.setMouseoverHighlight(true);
             graficoProdutosTotalAno.setShowDatatip(true);
