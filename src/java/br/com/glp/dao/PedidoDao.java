@@ -20,4 +20,6 @@ public interface PedidoDao extends BaseDao<Pedido, Long> {
     public List<Pedido> listarTodosPedidoDataInicioFim(Date inicio, Date fim, Session session) throws HibernateException;
     
     public List<GraficoPedidosTotalMesAno> totalMesPedidos(Session session) throws HibernateException;
+    
+    public List<GraficoPedidosTotalMesAno> totalPedidoMesAtual(Session session) throws HibernateException;
 }
