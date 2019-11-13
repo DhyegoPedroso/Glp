@@ -21,5 +21,5 @@ public interface PedidoDao extends BaseDao<Pedido, Long> {
     
     public List<GraficoPedidosTotalMesAno> totalMesPedidos(Session session) throws HibernateException;
     
-    public List<GraficoPedidosTotalMesAno> totalPedidoMesAtual(Session session) throws HibernateException;
+    public Long totalQtdeMaxPedido(Session session) throws HibernateException;
 }

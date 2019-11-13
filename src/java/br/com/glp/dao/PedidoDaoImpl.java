@@ -70,8 +70,12 @@ public class PedidoDaoImpl extends BaseDaoImpl<Pedido, Long> implements PedidoDa
     }
 
     @Override
-    public List<GraficoPedidosTotalMesAno> totalPedidoMesAtual(Session session) throws HibernateException {
-
-        return null;
+    public Long totalQtdeMaxPedido(Session session) throws HibernateException {
+        Query consulta = session.createQuery("select count(id) as quantidade "
+                + "from Pedido "
+                + "group by month(cadastro) "
+                + "order by quantidade desc ");
+        consulta.setMaxResults(1);
+        return (Long) consulta.uniqueResult();
     }
 }

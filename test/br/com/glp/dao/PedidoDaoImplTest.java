@@ -102,7 +102,13 @@ public class PedidoDaoImplTest {
     }
 
     @Test
-    public void testPesquisaPedidoClienteDataInicioFim() {
+    public void testMaxQtdePedidoAno() {
+        
+        session = HibernateUtil.abreSessao();
+        
+        Long qtde = pedidoDao.totalQtdeMaxPedido(session);
+        
+        System.out.println("qtde "+qtde);
     }
 
     @Test

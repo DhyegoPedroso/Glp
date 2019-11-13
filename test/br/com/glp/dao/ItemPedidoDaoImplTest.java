@@ -37,7 +37,14 @@ public class ItemPedidoDaoImplTest {
     }
 
     @Test
-    public void testListarTodosProdutosDataInicioFim() {
+    public void testMaxQtdeProduto() {
+        
+        session = HibernateUtil.abreSessao();
+        
+        Long qtde = itemPedidoDao.totalQtdeMaxProduto(session);
+        
+        System.out.println("Qtde: "+qtde);
+      
     }
 
     @Test

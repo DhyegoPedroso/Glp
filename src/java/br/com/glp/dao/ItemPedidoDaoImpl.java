@@ -67,4 +67,16 @@ public class ItemPedidoDaoImpl extends BaseDaoImpl<ItemPedido, Long> implements 
         return consulta.list();
     }
 
+    @Override
+    public Long totalQtdeMaxProduto(Session session) throws HibernateException {
+        Query consulta = session.createQuery("SELECT COUNT(ip.produto) as quantidade "
+                + "FROM ItemPedido ip "
+                + "JOIN ip.pedido p "
+                + "JOIN ip.produto pt "
+                + "GROUP BY month(p.cadastro), pt.nomeProduto "
+                + "ORDER BY quantidade DESC ");
+        consulta.setMaxResults(1);
+        return (Long) consulta.uniqueResult();
+    }
+
 }

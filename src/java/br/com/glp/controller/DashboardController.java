@@ -5,7 +5,6 @@ import br.com.glp.dao.ItemPedidoDao;
 import br.com.glp.dao.ItemPedidoDaoImpl;
 import br.com.glp.dao.PedidoDao;
 import br.com.glp.dao.PedidoDaoImpl;
-import br.com.glp.dao.ProdutoDaoImpl;
 import br.com.glp.model.GraficoPedidosTotalMesAno;
 import br.com.glp.model.GraficoProdutosTotalMesAno;
 import java.io.Serializable;
@@ -126,7 +125,7 @@ public class DashboardController implements Serializable {
         Axis yAxis = graficoPedidosTotalAno.getAxis(AxisType.Y);
         yAxis.setLabel("Gender");
         yAxis.setMin(0);
-        yAxis.setMax(100);
+        yAxis.setMax(pegarPedidoQtdeMaxAno());
     }
 
     private void carregarValorSemMesGraficoPedido() {
@@ -140,6 +139,24 @@ public class DashboardController implements Serializable {
             gptma.setQuantidade(0);
             resultadoPedidos.add(gptma);
         }
+    }
+    
+      private Long pegarPedidoQtdeMaxAno() {
+
+        try {
+
+            abreSessao();
+
+            Long qtde = pedidoDao.totalQtdeMaxPedido(session);
+
+            return (qtde + 10);
+
+        } catch (Exception e) {
+            session.close();
+        }
+
+        return null;
+
     }
 
     /*
@@ -239,7 +256,7 @@ public class DashboardController implements Serializable {
             Axis yAxis = graficoProdutosTotalAno.getAxis(AxisType.Y);
             yAxis.setLabel("Gender");
             yAxis.setMin(0);
-            yAxis.setMax(100);
+            yAxis.setMax(pegarProdutoQtdeMaxAno());
 
         } catch (Exception e) {
         }
@@ -280,6 +297,24 @@ public class DashboardController implements Serializable {
 
         } catch (Exception e) {
         }
+
+    }
+
+    private Long pegarProdutoQtdeMaxAno() {
+
+        try {
+
+            abreSessao();
+
+            Long qtde = itemPedidoDao.totalQtdeMaxProduto(session);
+
+            return (qtde + 10);
+
+        } catch (Exception e) {
+            session.close();
+        }
+
+        return null;
 
     }
 
