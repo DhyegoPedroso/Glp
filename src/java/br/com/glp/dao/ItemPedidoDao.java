@@ -17,6 +17,5 @@ public interface ItemPedidoDao extends BaseDao<ItemPedido, Long> {
 
     public List<ItemPedido> listarTodosProdutosDataInicioFim(Date inicio, Date fim, Session session) throws HibernateException;
     
-    public List<GraficoProdutosTotalMesAno> totalMesProdutos(Session session) throws HibernateException;
-
+    public List<GraficoProdutosTotalMesAno> totalMesProdutos(String produto, Session session) throws HibernateException;
 }

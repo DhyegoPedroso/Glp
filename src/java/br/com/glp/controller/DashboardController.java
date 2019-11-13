@@ -154,26 +154,13 @@ public class DashboardController implements Serializable {
      */
     private BarChartModel initBarModelProdutosAno() {
 
-        Object[] item;
-        GraficoProdutosTotalMesAno grt;
-
         try {
 
             abreSessao();
 
             graficoProdutosTotalAno = new BarChartModel();
 
-            List resultados = itemPedidoDao.totalMesProdutos(session);
-            resultadoProdutos = new ArrayList<>();
-            for (Object resultado : resultados) {
-                item = (Object[]) resultado;
-                grt = new GraficoProdutosTotalMesAno((int) item[0], (String) item[1], (long) item[2]);
-                resultadoProdutos.add(grt);
-
-            }
-
-            carregarValorSemMesGraficoProduto();
-
+            carregarDadosProdutos("P13");
             ChartSeries p13 = new ChartSeries();
             p13.setLabel("P13");
             p13.set("Janeiro", resultadoProdutos.get(0).getQuantidade());
@@ -189,35 +176,37 @@ public class DashboardController implements Serializable {
             p13.set("Novembro", resultadoProdutos.get(10).getQuantidade());
             p13.set("Dezembro", resultadoProdutos.get(11).getQuantidade());
 
+            carregarDadosProdutos("P20");
             ChartSeries p20 = new ChartSeries();
             p20.setLabel("P20");
-            p20.set("Janeiro", resultadoProdutos.get(12).getQuantidade());
-            p20.set("Fevereiro", resultadoProdutos.get(13).getQuantidade());
-            p20.set("Março", resultadoProdutos.get(14).getQuantidade());
-            p20.set("Abril", resultadoProdutos.get(15).getQuantidade());
-            p20.set("Maio", resultadoProdutos.get(16).getQuantidade());
-            p20.set("Junho", resultadoProdutos.get(17).getQuantidade());
-            p20.set("Julho", resultadoProdutos.get(18).getQuantidade());
-            p20.set("Agosto", resultadoProdutos.get(19).getQuantidade());
-            p20.set("Setembro", resultadoProdutos.get(20).getQuantidade());
-            p20.set("Outubro", resultadoProdutos.get(21).getQuantidade());
-            p20.set("Novembro", resultadoProdutos.get(22).getQuantidade());
-            p20.set("Dezembro", resultadoProdutos.get(23).getQuantidade());
+            p20.set("Janeiro", resultadoProdutos.get(0).getQuantidade());
+            p20.set("Fevereiro", resultadoProdutos.get(1).getQuantidade());
+            p20.set("Março", resultadoProdutos.get(2).getQuantidade());
+            p20.set("Abril", resultadoProdutos.get(3).getQuantidade());
+            p20.set("Maio", resultadoProdutos.get(4).getQuantidade());
+            p20.set("Junho", resultadoProdutos.get(5).getQuantidade());
+            p20.set("Julho", resultadoProdutos.get(6).getQuantidade());
+            p20.set("Agosto", resultadoProdutos.get(7).getQuantidade());
+            p20.set("Setembro", resultadoProdutos.get(8).getQuantidade());
+            p20.set("Outubro", resultadoProdutos.get(9).getQuantidade());
+            p20.set("Novembro", resultadoProdutos.get(10).getQuantidade());
+            p20.set("Dezembro", resultadoProdutos.get(11).getQuantidade());
 
+            carregarDadosProdutos("P45");
             ChartSeries p45 = new ChartSeries();
             p45.setLabel("P45");
-            p45.set("Janeiro", resultadoProdutos.get(24).getQuantidade());
-            p45.set("Fevereiro", resultadoProdutos.get(25).getQuantidade());
-            p45.set("Março", resultadoProdutos.get(26).getQuantidade());
-            p45.set("Abril", resultadoProdutos.get(27).getQuantidade());
-            p45.set("Maio", resultadoProdutos.get(28).getQuantidade());
-            p45.set("Junho", resultadoProdutos.get(29).getQuantidade());
-            p45.set("Julho", resultadoProdutos.get(30).getQuantidade());
-            p45.set("Agosto", resultadoProdutos.get(31).getQuantidade());
-            p45.set("Setembro", resultadoProdutos.get(32).getQuantidade());
-            p45.set("Outubro", resultadoProdutos.get(33).getQuantidade());
-            p45.set("Novembro", resultadoProdutos.get(34).getQuantidade());
-            p45.set("Dezembro", resultadoProdutos.get(35).getQuantidade());
+            p45.set("Janeiro", resultadoProdutos.get(0).getQuantidade());
+            p45.set("Fevereiro", resultadoProdutos.get(1).getQuantidade());
+            p45.set("Março", resultadoProdutos.get(2).getQuantidade());
+            p45.set("Abril", resultadoProdutos.get(3).getQuantidade());
+            p45.set("Maio", resultadoProdutos.get(4).getQuantidade());
+            p45.set("Junho", resultadoProdutos.get(5).getQuantidade());
+            p45.set("Julho", resultadoProdutos.get(6).getQuantidade());
+            p45.set("Agosto", resultadoProdutos.get(7).getQuantidade());
+            p45.set("Setembro", resultadoProdutos.get(8).getQuantidade());
+            p45.set("Outubro", resultadoProdutos.get(9).getQuantidade());
+            p45.set("Novembro", resultadoProdutos.get(10).getQuantidade());
+            p45.set("Dezembro", resultadoProdutos.get(11).getQuantidade());
 
             graficoProdutosTotalAno.addSeries(p13);
             graficoProdutosTotalAno.addSeries(p20);
@@ -257,6 +246,24 @@ public class DashboardController implements Serializable {
 
     }
 
+    private void carregarDadosProdutos(String produto) {
+
+        Object[] item;
+        GraficoProdutosTotalMesAno grt;
+
+        List resultados = itemPedidoDao.totalMesProdutos(produto, session);
+        resultadoProdutos = new ArrayList<>();
+        for (Object resultado : resultados) {
+            item = (Object[]) resultado;
+            grt = new GraficoProdutosTotalMesAno((int) item[0], (String) item[1], (long) item[2]);
+            resultadoProdutos.add(grt);
+
+        }
+
+        carregarValorSemMesGraficoProduto();
+
+    }
+
     private void carregarValorSemMesGraficoProduto() {
 
         try {
@@ -264,7 +271,7 @@ public class DashboardController implements Serializable {
             GraficoProdutosTotalMesAno gptma;
 
             int tamanho = resultadoProdutos.size();
-            for (int i = tamanho; i <= 36; i++) {
+            for (int i = tamanho; i <= 11; i++) {
                 gptma = new GraficoProdutosTotalMesAno();
                 gptma.setMes(i + 1);
                 gptma.setQuantidade(0);

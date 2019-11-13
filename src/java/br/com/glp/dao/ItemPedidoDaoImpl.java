@@ -54,13 +54,15 @@ public class ItemPedidoDaoImpl extends BaseDaoImpl<ItemPedido, Long> implements 
     }
 
     @Override
-    public List<GraficoProdutosTotalMesAno> totalMesProdutos(Session session) throws HibernateException {
+    public List<GraficoProdutosTotalMesAno> totalMesProdutos(String produto, Session session) throws HibernateException {
         Query consulta = session.createQuery("SELECT month(p.cadastro) as mes, pt.nomeProduto as produto, count(ip.produto) as quantidade "
                 + "FROM ItemPedido ip "
                 + "JOIN ip.pedido p "
                 + "JOIN ip.produto pt "
+                + "WHERE pt.nomeProduto like :produto "
                 + "GROUP BY month(p.cadastro), pt.nomeProduto "
                 + "ORDER BY pt.nomeProduto, p.cadastro ");
+        consulta.setParameter("produto", produto);
 
         return consulta.list();
     }
