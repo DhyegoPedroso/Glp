@@ -11,8 +11,11 @@ import org.hibernate.Session;
  */
 public interface UsuarioDao extends BaseDao<Usuario, Long> {
 
-    public Usuario pesquisaPorLogin(String login, Session session) throws HibernateException;
+    Usuario pesquisaPorLogin(String login, Session session) throws HibernateException;
 
-    public List<String> pesquisarPorLoginAutoComplete(String login, Session session) throws HibernateException;
+     List<String> pesquisarPorLoginAutoComplete(String login, Session session) throws HibernateException;
+     
+    Usuario lerPorId(Long id, Session session) throws HibernateException;
+            
 
 }

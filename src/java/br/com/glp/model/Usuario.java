@@ -122,4 +122,8 @@ public class Usuario implements Serializable {
         return "br.com.comandadigital.model.Usuario[ id=" + id + " ]";
     }
 
+    public Usuario get(int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
