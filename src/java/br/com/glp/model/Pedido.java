@@ -55,13 +55,13 @@ public class Pedido implements Serializable {
     public Pedido() {
     }
 
-    public Pedido(Long id, Date cadastro, Cliente cliente, List<ItemPedido> itemPedidos, String notaFiscal) {
-        this.id = id;
+    public Pedido(Date cadastro, Cliente cliente, Caminhao caminhao, String notaFiscal) {
         this.cadastro = cadastro;
         this.cliente = cliente;
-        this.itemPedidos = itemPedidos;
+        this.caminhao = caminhao;
         this.notaFiscal = notaFiscal;
     }
+
 
     public Long getId() {
         return id;

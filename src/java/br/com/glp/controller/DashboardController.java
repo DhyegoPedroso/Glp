@@ -149,7 +149,7 @@ public class DashboardController implements Serializable {
 
             Long qtde = pedidoDao.totalQtdeMaxPedido(session);
 
-            return (qtde + 10);
+            return (qtde + 50);
 
         } catch (Exception e) {
             session.close();
@@ -308,7 +308,7 @@ public class DashboardController implements Serializable {
 
             Long qtde = itemPedidoDao.totalQtdeMaxProduto(session);
 
-            return (qtde + 10);
+            return (qtde + 50);
 
         } catch (Exception e) {
             session.close();
