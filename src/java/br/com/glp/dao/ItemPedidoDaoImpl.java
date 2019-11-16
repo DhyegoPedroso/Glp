@@ -2,6 +2,7 @@ package br.com.glp.dao;
 
 import br.com.glp.model.GraficoProdutosTotalMesAno;
 import br.com.glp.model.ItemPedido;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -61,7 +62,7 @@ public class ItemPedidoDaoImpl extends BaseDaoImpl<ItemPedido, Long> implements 
                 + "JOIN ip.produto pt "
                 + "WHERE pt.nomeProduto like :produto "
                 + "GROUP BY month(p.cadastro), pt.nomeProduto "
-                + "ORDER BY pt.nomeProduto, p.cadastro ");
+                + "ORDER BY p.cadastro ");
         consulta.setParameter("produto", produto);
 
         return consulta.list();
@@ -73,10 +74,32 @@ public class ItemPedidoDaoImpl extends BaseDaoImpl<ItemPedido, Long> implements 
                 + "FROM ItemPedido ip "
                 + "JOIN ip.pedido p "
                 + "JOIN ip.produto pt "
+                + "where year(current_date())"
                 + "GROUP BY month(p.cadastro), pt.nomeProduto "
                 + "ORDER BY quantidade DESC ");
         consulta.setMaxResults(1);
         return (Long) consulta.uniqueResult();
+    }
+
+    @Override
+    public List<GraficoProdutosTotalMesAno> totalMesSituacoes(String situacao, Session session) throws HibernateException {
+        Query consulta = session.createQuery("SELECT month(p.cadastro) as mes, pt.situacao as situacao, count(ip.produto) as quantidade "
+                + "FROM ItemPedido ip "
+                + "JOIN ip.pedido p "
+                + "JOIN ip.produto pt "
+                + "WHERE pt.situacao like :situacao "
+                + "GROUP BY month(p.cadastro), pt.situacao "
+                + "ORDER BY p.cadastro ");
+        consulta.setParameter("situacao", situacao);
+
+        return consulta.list();
+    }
+
+    @Override
+    public BigInteger totalProdutoAno(Session session) throws HibernateException {
+            Query consulta = session.createSQLQuery("select count(itempedido.id) from itempedido join pedido "
+                    + "on itempedido.idPedido = pedido.id where year(current_date())");
+        return (BigInteger) consulta.uniqueResult();
     }
 
 }

@@ -8,6 +8,7 @@ import br.com.glp.dao.PedidoDaoImpl;
 import br.com.glp.model.GraficoPedidosTotalMesAno;
 import br.com.glp.model.GraficoProdutosTotalMesAno;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -32,11 +33,13 @@ public class DashboardController implements Serializable {
 
     private Session session;
 
-    private BarChartModel graficoPedidosTotalAno;
-    private BarChartModel graficoProdutosTotalAno;
+    private BarChartModel graficoPedidos;
+    private BarChartModel graficoProdutos;
+    private BarChartModel graficoSituacoes;
 
     List<GraficoPedidosTotalMesAno> resultadoPedidos;
     List<GraficoProdutosTotalMesAno> resultadoProdutos;
+    List<GraficoProdutosTotalMesAno> resultadoSituacoes;
 
     public DashboardController() {
         pedidoDao = new PedidoDaoImpl();
@@ -53,8 +56,9 @@ public class DashboardController implements Serializable {
 
     @PostConstruct
     public void init() {
-        createGraficoPedidoAnos();
-        createGraficoProdutoAnos();
+        createGraficoPedidos();
+        createGraficoProdutos();
+        createGraficoSituacoes();
     }
 
     /*
@@ -64,26 +68,14 @@ public class DashboardController implements Serializable {
      */
     private BarChartModel initBarModelPedidosAno() {
 
-        Object[] item;
-        GraficoPedidosTotalMesAno grt;
-
         try {
 
             abreSessao();
 
-            graficoPedidosTotalAno = new BarChartModel();
+            graficoPedidos = new BarChartModel();
             ChartSeries pedidoMes = new ChartSeries();
 
-            List resultados = pedidoDao.totalMesPedidos(session);
-            resultadoPedidos = new ArrayList<>();
-            for (Object resultado : resultados) {
-                item = (Object[]) resultado;
-                grt = new GraficoPedidosTotalMesAno((int) item[0], (long) item[1]);
-                resultadoPedidos.add(grt);
-
-            }
-            carregarValorSemMesGraficoPedido();
-
+            carregarDadosPedido();
             pedidoMes.setLabel("Pedidos do Ano");
             pedidoMes.set("Janeiro", resultadoPedidos.get(0).getQuantidade());
             pedidoMes.set("Fevereiro", resultadoPedidos.get(1).getQuantidade());
@@ -98,37 +90,67 @@ public class DashboardController implements Serializable {
             pedidoMes.set("Novembro", resultadoPedidos.get(10).getQuantidade());
             pedidoMes.set("Dezembro", resultadoPedidos.get(11).getQuantidade());
 
-            graficoPedidosTotalAno.addSeries(pedidoMes);
+            graficoPedidos.addSeries(pedidoMes);
 
         } catch (Exception e) {
             session.close();
         }
 
-        return graficoPedidosTotalAno;
+        return graficoPedidos;
     }
 
-    private void createGraficoPedidoAnos() {
-        createGraficoPedidoAno();
+    private void createGraficoPedidos() {
+        createGraficoPedido();
     }
 
-    private void createGraficoPedidoAno() {
+    private void createGraficoPedido() {
 
-        graficoPedidosTotalAno = initBarModelPedidosAno();
+        try {
 
-        graficoPedidosTotalAno.setTitle("Pedidos do Ano");
-        graficoPedidosTotalAno.setLegendPosition("nw");
-        graficoPedidosTotalAno.setMouseoverHighlight(true);
-        graficoPedidosTotalAno.setShowDatatip(true);
-        graficoPedidosTotalAno.setShowPointLabels(true);
-        graficoPedidosTotalAno.setAnimate(true);
-        graficoPedidosTotalAno.setZoom(true);
-        Axis yAxis = graficoPedidosTotalAno.getAxis(AxisType.Y);
-        yAxis.setLabel("Gender");
-        yAxis.setMin(0);
-        yAxis.setMax(pegarPedidoQtdeMaxAno());
+            abreSessao();
+
+            graficoPedidos = initBarModelPedidosAno();
+
+            BigInteger qtde = pedidoDao.totalPedidoAno(session);
+
+            graficoPedidos.setTitle("Pedidos do Ano");
+            graficoPedidos.setLegendPosition("nw");
+            graficoPedidos.setMouseoverHighlight(true);
+            graficoPedidos.setShowDatatip(true);
+            graficoPedidos.setShowPointLabels(true);
+            graficoPedidos.setAnimate(true);
+            graficoPedidos.setZoom(true);
+            Axis xAxis = graficoPedidos.getAxis(AxisType.X);
+            xAxis.setLabel("Total de Pedidos no Ano: " + qtde + "  ");
+            Axis yAxis = graficoPedidos.getAxis(AxisType.Y);
+            yAxis.setMin(0);
+            yAxis.setMax(pegarQtdeMaxPedido());
+
+        } catch (Exception e) {
+            session.close();
+        }
+
     }
 
-    private void carregarValorSemMesGraficoPedido() {
+    private void carregarDadosPedido() {
+
+        Object[] item;
+        GraficoPedidosTotalMesAno grt;
+
+        List resultados = pedidoDao.totalMesPedidos(session);
+        resultadoPedidos = new ArrayList<>();
+        for (Object resultado : resultados) {
+            item = (Object[]) resultado;
+            grt = new GraficoPedidosTotalMesAno((int) item[0], (long) item[1]);
+            resultadoPedidos.add(grt);
+
+        }
+
+        carregarMesSemValorPedido();
+
+    }
+
+    private void carregarMesSemValorPedido() {
 
         GraficoPedidosTotalMesAno gptma;
 
@@ -140,8 +162,8 @@ public class DashboardController implements Serializable {
             resultadoPedidos.add(gptma);
         }
     }
-    
-      private Long pegarPedidoQtdeMaxAno() {
+
+    private Long pegarQtdeMaxPedido() {
 
         try {
 
@@ -160,24 +182,23 @@ public class DashboardController implements Serializable {
     }
 
     /*
-    
     Fim do Grafico do Ano corrente com o total de pedidos
-    
      */
- /*
-    
+//    ---------------------------
+//    ---------------------------
+//    ---------------------------
+    /*
     Inicio do Grafico do Ano corrente com o total de produtos
-    
      */
-    private BarChartModel initBarModelProdutosAno() {
+    private BarChartModel initBarModelProdutos() {
 
         try {
 
             abreSessao();
 
-            graficoProdutosTotalAno = new BarChartModel();
+            graficoProdutos = new BarChartModel();
 
-            carregarDadosProdutos("P13");
+            carregarDadosProduto("P13");
             ChartSeries p13 = new ChartSeries();
             p13.setLabel("P13");
             p13.set("Janeiro", resultadoProdutos.get(0).getQuantidade());
@@ -193,7 +214,7 @@ public class DashboardController implements Serializable {
             p13.set("Novembro", resultadoProdutos.get(10).getQuantidade());
             p13.set("Dezembro", resultadoProdutos.get(11).getQuantidade());
 
-            carregarDadosProdutos("P20");
+            carregarDadosProduto("P20");
             ChartSeries p20 = new ChartSeries();
             p20.setLabel("P20");
             p20.set("Janeiro", resultadoProdutos.get(0).getQuantidade());
@@ -209,7 +230,7 @@ public class DashboardController implements Serializable {
             p20.set("Novembro", resultadoProdutos.get(10).getQuantidade());
             p20.set("Dezembro", resultadoProdutos.get(11).getQuantidade());
 
-            carregarDadosProdutos("P45");
+            carregarDadosProduto("P45");
             ChartSeries p45 = new ChartSeries();
             p45.setLabel("P45");
             p45.set("Janeiro", resultadoProdutos.get(0).getQuantidade());
@@ -225,45 +246,51 @@ public class DashboardController implements Serializable {
             p45.set("Novembro", resultadoProdutos.get(10).getQuantidade());
             p45.set("Dezembro", resultadoProdutos.get(11).getQuantidade());
 
-            graficoProdutosTotalAno.addSeries(p13);
-            graficoProdutosTotalAno.addSeries(p20);
-            graficoProdutosTotalAno.addSeries(p45);
+            graficoProdutos.addSeries(p13);
+            graficoProdutos.addSeries(p20);
+            graficoProdutos.addSeries(p45);
 
         } catch (Exception e) {
             session.close();
         }
 
-        return graficoProdutosTotalAno;
+        return graficoProdutos;
     }
 
-    private void createGraficoProdutoAnos() {
-        createGraficoProdutoAno();
+    private void createGraficoProdutos() {
+        createGraficoProduto();
     }
 
-    private void createGraficoProdutoAno() {
+    private void createGraficoProduto() {
 
         try {
 
-            graficoProdutosTotalAno = initBarModelProdutosAno();
+            abreSessao();
 
-            graficoProdutosTotalAno.setTitle("Produtos do Ano");
-            graficoProdutosTotalAno.setLegendPosition("nw");
-            graficoProdutosTotalAno.setMouseoverHighlight(true);
-            graficoProdutosTotalAno.setShowDatatip(true);
-            graficoProdutosTotalAno.setShowPointLabels(true);
-            graficoProdutosTotalAno.setAnimate(true);
-            graficoProdutosTotalAno.setZoom(true);
-            Axis yAxis = graficoProdutosTotalAno.getAxis(AxisType.Y);
-            yAxis.setLabel("Gender");
+            BigInteger qtde = itemPedidoDao.totalProdutoAno(session);
+
+            graficoProdutos = initBarModelProdutos();
+
+            graficoProdutos.setTitle("Produtos do Ano");
+            graficoProdutos.setLegendPosition("nw");
+            graficoProdutos.setMouseoverHighlight(true);
+            graficoProdutos.setShowDatatip(true);
+            graficoProdutos.setShowPointLabels(true);
+            graficoProdutos.setAnimate(true);
+            graficoProdutos.setZoom(true);
+            Axis xAxis = graficoProdutos.getAxis(AxisType.X);
+            xAxis.setLabel("Total de Produtos no Ano: " + qtde + "  ");
+            Axis yAxis = graficoProdutos.getAxis(AxisType.Y);
             yAxis.setMin(0);
-            yAxis.setMax(pegarProdutoQtdeMaxAno());
+            yAxis.setMax(pegarQtdeMaxProduto());
 
         } catch (Exception e) {
+            session.close();
         }
 
     }
 
-    private void carregarDadosProdutos(String produto) {
+    private void carregarDadosProduto(String produto) {
 
         Object[] item;
         GraficoProdutosTotalMesAno grt;
@@ -277,11 +304,11 @@ public class DashboardController implements Serializable {
 
         }
 
-        carregarValorSemMesGraficoProduto();
+        carregarMesSemValorProduto();
 
     }
 
-    private void carregarValorSemMesGraficoProduto() {
+    private void carregarMesSemValorProduto() {
 
         try {
 
@@ -300,7 +327,7 @@ public class DashboardController implements Serializable {
 
     }
 
-    private Long pegarProdutoQtdeMaxAno() {
+    private Long pegarQtdeMaxProduto() {
 
         try {
 
@@ -319,22 +346,181 @@ public class DashboardController implements Serializable {
     }
 
     /*
-    
     Fim do Grafico do Ano corrente com o total de produtos
-    
      */
+//    ---------------------------
+//    ---------------------------
+//    ---------------------------
+    /*
+    Inicio do Grafico do Ano corrente com o total de situações
+     */
+    private BarChartModel initBarModelSituacoes() {
 
- /*    
-    
+        try {
+
+            abreSessao();
+
+            graficoSituacoes = new BarChartModel();
+
+            carregarDadosSituacao("Cheio");
+            ChartSeries cheio = new ChartSeries();
+            cheio.setLabel("Cheio");
+            cheio.set("Janeiro", resultadoSituacoes.get(0).getQuantidade());
+            cheio.set("Fevereiro", resultadoSituacoes.get(1).getQuantidade());
+            cheio.set("Março", resultadoSituacoes.get(2).getQuantidade());
+            cheio.set("Abril", resultadoSituacoes.get(3).getQuantidade());
+            cheio.set("Maio", resultadoSituacoes.get(4).getQuantidade());
+            cheio.set("Junho", resultadoSituacoes.get(5).getQuantidade());
+            cheio.set("Julho", resultadoSituacoes.get(6).getQuantidade());
+            cheio.set("Agosto", resultadoSituacoes.get(7).getQuantidade());
+            cheio.set("Setembro", resultadoSituacoes.get(8).getQuantidade());
+            cheio.set("Outubro", resultadoSituacoes.get(9).getQuantidade());
+            cheio.set("Novembro", resultadoSituacoes.get(10).getQuantidade());
+            cheio.set("Dezembro", resultadoSituacoes.get(11).getQuantidade());
+
+            carregarDadosSituacao("Vazio");
+            ChartSeries vazio = new ChartSeries();
+            vazio.setLabel("Vazio");
+            vazio.set("Janeiro", resultadoSituacoes.get(0).getQuantidade());
+            vazio.set("Fevereiro", resultadoSituacoes.get(1).getQuantidade());
+            vazio.set("Março", resultadoSituacoes.get(2).getQuantidade());
+            vazio.set("Abril", resultadoSituacoes.get(3).getQuantidade());
+            vazio.set("Maio", resultadoSituacoes.get(4).getQuantidade());
+            vazio.set("Junho", resultadoSituacoes.get(5).getQuantidade());
+            vazio.set("Julho", resultadoSituacoes.get(6).getQuantidade());
+            vazio.set("Agosto", resultadoSituacoes.get(7).getQuantidade());
+            vazio.set("Setembro", resultadoSituacoes.get(8).getQuantidade());
+            vazio.set("Outubro", resultadoSituacoes.get(9).getQuantidade());
+            vazio.set("Novembro", resultadoSituacoes.get(10).getQuantidade());
+            vazio.set("Dezembro", resultadoSituacoes.get(11).getQuantidade());
+
+            carregarDadosSituacao("Avariado");
+            ChartSeries avariado = new ChartSeries();
+            avariado.setLabel("Avariado");
+            avariado.set("Janeiro", resultadoSituacoes.get(0).getQuantidade());
+            avariado.set("Fevereiro", resultadoSituacoes.get(1).getQuantidade());
+            avariado.set("Março", resultadoSituacoes.get(2).getQuantidade());
+            avariado.set("Abril", resultadoSituacoes.get(3).getQuantidade());
+            avariado.set("Maio", resultadoSituacoes.get(4).getQuantidade());
+            avariado.set("Junho", resultadoSituacoes.get(5).getQuantidade());
+            avariado.set("Julho", resultadoSituacoes.get(6).getQuantidade());
+            avariado.set("Agosto", resultadoSituacoes.get(7).getQuantidade());
+            avariado.set("Setembro", resultadoSituacoes.get(8).getQuantidade());
+            avariado.set("Outubro", resultadoSituacoes.get(9).getQuantidade());
+            avariado.set("Novembro", resultadoSituacoes.get(10).getQuantidade());
+            avariado.set("Dezembro", resultadoSituacoes.get(11).getQuantidade());
+
+            graficoSituacoes.addSeries(cheio);
+            graficoSituacoes.addSeries(vazio);
+            graficoSituacoes.addSeries(avariado);
+
+        } catch (Exception e) {
+            session.close();
+        }
+
+        return graficoSituacoes;
+    }
+
+    private void createGraficoSituacoes() {
+        createGraficoSituacao();
+    }
+
+    private void createGraficoSituacao() {
+
+        try {
+
+            graficoSituacoes = initBarModelSituacoes();
+
+            graficoSituacoes.setTitle("Situações do Ano");
+            graficoSituacoes.setLegendPosition("nw");
+            graficoSituacoes.setMouseoverHighlight(true);
+            graficoSituacoes.setShowDatatip(true);
+            graficoSituacoes.setShowPointLabels(true);
+            graficoSituacoes.setAnimate(true);
+            graficoSituacoes.setZoom(true);
+            Axis yAxis = graficoSituacoes.getAxis(AxisType.Y);
+            yAxis.setMin(0);
+            yAxis.setMax(pegarQtdeMaxSituacao());
+
+        } catch (Exception e) {
+        }
+
+    }
+
+    private void carregarDadosSituacao(String situacao) {
+
+        Object[] item;
+        GraficoProdutosTotalMesAno grt;
+
+        List resultados = itemPedidoDao.totalMesSituacoes(situacao, session);
+        resultadoSituacoes = new ArrayList<>();
+        for (Object resultado : resultados) {
+            item = (Object[]) resultado;
+            grt = new GraficoProdutosTotalMesAno((int) item[0], (String) item[1], (long) item[2]);
+            resultadoSituacoes.add(grt);
+
+        }
+
+        carregarMesSemValorSituacao();
+
+    }
+
+    private void carregarMesSemValorSituacao() {
+
+        try {
+
+            GraficoProdutosTotalMesAno gptma;
+
+            int tamanho = resultadoSituacoes.size();
+            for (int i = tamanho; i <= 11; i++) {
+                gptma = new GraficoProdutosTotalMesAno();
+                gptma.setMes(i + 1);
+                gptma.setQuantidade(0);
+                resultadoSituacoes.add(gptma);
+            }
+
+        } catch (Exception e) {
+        }
+
+    }
+
+    private Long pegarQtdeMaxSituacao() {
+
+        try {
+
+            abreSessao();
+
+            Long qtde = itemPedidoDao.totalQtdeMaxProduto(session);
+
+            return (qtde + 50);
+
+        } catch (Exception e) {
+            session.close();
+        }
+
+        return null;
+
+    }
+
+    /*
+    Fim do Grafico do Ano corrente com o total de situações
+     */
+//    ---------------------------
+//    ---------------------------
+//    ---------------------------
+    /*    
    Inicio dos Getters and Setters
-   
      */
     public BarChartModel getGraficoPedidosTotalAno() {
-        return graficoPedidosTotalAno;
+        return graficoPedidos;
     }
 
     public BarChartModel getGraficoProdutosTotalAno() {
-        return graficoProdutosTotalAno;
+        return graficoProdutos;
+    }
+
+    public BarChartModel getGraficoSituacoes() {
+        return graficoSituacoes;
     }
 
 }

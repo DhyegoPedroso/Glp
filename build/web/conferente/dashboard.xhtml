@@ -25,8 +25,11 @@
                 <p:chart type="bar" model="#{dashboardC.graficoProdutosTotalAno}" style="height:300px" widgetVar="produto" />
                 <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('produto').resetZoom()"/>
 
-            </p:panelGrid>
+                <p:chart type="bar" model="#{dashboardC.graficoSituacoes}" style="height:300px" 
+                         widgetVar="situacao"  responsive="true"/>
+                <p:commandButton type="button" value="Reset" icon="ui-icon-cancel" onclick="PF('situacao').resetZoom()"/>
 
+            </p:panelGrid>
 
         </h:form>
 

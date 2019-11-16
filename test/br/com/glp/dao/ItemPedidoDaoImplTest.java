@@ -1,6 +1,7 @@
 package br.com.glp.dao;
 
 import br.com.glp.model.GraficoProdutosTotalMesAno;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -128,5 +129,17 @@ public class ItemPedidoDaoImplTest {
         System.out.println("------------------");
 
     }
+    
+    @Test
+    public void testTotalProdutoAno() {
+        
+        session = HibernateUtil.abreSessao();
+        
+        BigInteger  qtde = itemPedidoDao.totalProdutoAno(session);
+        
+        
+        System.out.println(qtde);
+    }
+
 
 }

@@ -2,6 +2,7 @@ package br.com.glp.dao;
 
 import br.com.glp.model.GraficoPedidosTotalMesAno;
 import br.com.glp.model.Pedido;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,10 +73,17 @@ public class PedidoDaoImpl extends BaseDaoImpl<Pedido, Long> implements PedidoDa
     @Override
     public Long totalQtdeMaxPedido(Session session) throws HibernateException {
         Query consulta = session.createQuery("select count(id) as quantidade "
-                + "from Pedido "
+                + "from Pedido"
+                + "where year(current_date()) "
                 + "group by month(cadastro) "
                 + "order by quantidade desc ");
         consulta.setMaxResults(1);
         return (Long) consulta.uniqueResult();
+    }
+
+    @Override
+    public BigInteger totalPedidoAno(Session session) throws HibernateException {
+        Query consulta = session.createSQLQuery("SELECT COUNT(id) FROM Pedido p WHERE year(current_date()) ");
+        return (BigInteger) consulta.uniqueResult();
     }
 }

@@ -1,6 +1,7 @@
 package br.com.glp.dao;
 
 import br.com.glp.model.Pedido;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -141,6 +142,17 @@ public class PedidoDaoImplTest {
 
     @Test
     public void testTotalPedidoMesAtual() {
+    }
+    
+
+    @Test
+    public void testTotalPediAno() {
+        
+        session = HibernateUtil.abreSessao();
+        
+        BigInteger qtde = pedidoDao.totalPedidoAno(session);
+        
+        System.out.println(qtde);
     }
     
     
