@@ -107,9 +107,11 @@ public class PedidoDaoImplTest {
         
         session = HibernateUtil.abreSessao();
         
-        Long qtde = pedidoDao.totalQtdeMaxPedido(session);
+        BigInteger qtde = pedidoDao.totalQtdeMaxPedido(session);
         
-        System.out.println("qtde "+qtde);
+        Long total = qtde.longValue();
+        
+        System.out.println("qtde "+total);
     }
 
     @Test
@@ -142,6 +144,8 @@ public class PedidoDaoImplTest {
 
     @Test
     public void testTotalPedidoMesAtual() {
+        
+        
     }
     
 

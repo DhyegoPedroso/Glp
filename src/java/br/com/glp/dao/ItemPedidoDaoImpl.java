@@ -69,16 +69,20 @@ public class ItemPedidoDaoImpl extends BaseDaoImpl<ItemPedido, Long> implements 
     }
 
     @Override
-    public Long totalQtdeMaxProduto(Session session) throws HibernateException {
-        Query consulta = session.createQuery("SELECT COUNT(ip.produto) as quantidade "
-                + "FROM ItemPedido ip "
-                + "JOIN ip.pedido p "
-                + "JOIN ip.produto pt "
-                + "where year(current_date())"
-                + "GROUP BY month(p.cadastro), pt.nomeProduto "
-                + "ORDER BY quantidade DESC ");
-        consulta.setMaxResults(1);
-        return (Long) consulta.uniqueResult();
+    public BigInteger totalQtdeMaxProduto(Session session) throws HibernateException {
+        Query consulta = session.createSQLQuery("SELECT "
+                + "COUNT(ip.id) AS quantidade "
+                + "FROM "
+                + "ItemPedido ip "
+                + "JOIN "
+                + "pedido p on ip.idPedido = p.id "
+                + "JOIN "
+                + "produto pt on ip.idProduto = pt.id "
+                + "WHERE "
+                + "YEAR(CURRENT_DATE()) "
+                + "GROUP BY MONTH(p.cadastro) , pt.nomeProduto "
+                + "ORDER BY quantidade DESC limit 1 ");
+        return (BigInteger) consulta.uniqueResult();
     }
 
     @Override
@@ -91,14 +95,30 @@ public class ItemPedidoDaoImpl extends BaseDaoImpl<ItemPedido, Long> implements 
                 + "GROUP BY month(p.cadastro), pt.situacao "
                 + "ORDER BY p.cadastro ");
         consulta.setParameter("situacao", situacao);
-
         return consulta.list();
     }
 
     @Override
     public BigInteger totalProdutoAno(Session session) throws HibernateException {
-            Query consulta = session.createSQLQuery("select count(itempedido.id) from itempedido join pedido "
-                    + "on itempedido.idPedido = pedido.id where year(current_date())");
+        Query consulta = session.createSQLQuery("select count(itempedido.id) from itempedido join pedido "
+                + "on itempedido.idPedido = pedido.id where year(current_date())");
+        return (BigInteger) consulta.uniqueResult();
+    }
+
+    @Override
+    public BigInteger totalQtdeMaxSituacoes(Session session) throws HibernateException {
+        Query consulta = session.createSQLQuery("SELECT "
+                + "COUNT(ip.id) AS quantidade "
+                + "FROM "
+                + "ItemPedido ip "
+                + "JOIN "
+                + "pedido p on ip.idPedido = p.id "
+                + "JOIN "
+                + "produto pt on ip.idProduto = pt.id "
+                + "WHERE "
+                + "YEAR(CURRENT_DATE()) "
+                + "GROUP BY MONTH(p.cadastro) , pt.situacao "
+                + "ORDER BY quantidade DESC limit 1");
         return (BigInteger) consulta.uniqueResult();
     }
 

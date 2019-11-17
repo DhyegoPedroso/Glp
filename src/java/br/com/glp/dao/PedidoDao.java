@@ -22,7 +22,7 @@ public interface PedidoDao extends BaseDao<Pedido, Long> {
 
     public List<GraficoPedidosTotalMesAno> totalMesPedidos(Session session) throws HibernateException;
 
-    public Long totalQtdeMaxPedido(Session session) throws HibernateException;
+    public BigInteger totalQtdeMaxPedido(Session session) throws HibernateException;
 
     public BigInteger totalPedidoAno(Session session) throws HibernateException;
 }

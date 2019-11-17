@@ -39,13 +39,13 @@ public class ItemPedidoDaoImplTest {
 
     @Test
     public void testMaxQtdeProduto() {
-        
+
         session = HibernateUtil.abreSessao();
-        
-        Long qtde = itemPedidoDao.totalQtdeMaxProduto(session);
-        
-        System.out.println("Qtde: "+qtde);
-      
+
+        BigInteger qtde = itemPedidoDao.totalQtdeMaxProduto(session);
+
+        System.out.println("Qtde: " + qtde);
+
     }
 
     @Test
@@ -129,17 +129,25 @@ public class ItemPedidoDaoImplTest {
         System.out.println("------------------");
 
     }
-    
+
     @Test
     public void testTotalProdutoAno() {
-        
+
         session = HibernateUtil.abreSessao();
-        
-        BigInteger  qtde = itemPedidoDao.totalProdutoAno(session);
-        
-        
+
+        BigInteger qtde = itemPedidoDao.totalProdutoAno(session);
+
         System.out.println(qtde);
     }
 
+    @Test
+    public void testQtdemaxSituacai() {
+
+        session = HibernateUtil.abreSessao();
+
+        BigInteger qtde = itemPedidoDao.totalQtdeMaxProduto(session);
+
+        System.out.println(qtde);
+    }
 
 }

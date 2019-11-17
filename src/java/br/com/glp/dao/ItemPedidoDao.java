@@ -22,8 +22,10 @@ public interface ItemPedidoDao extends BaseDao<ItemPedido, Long> {
 
     public List<GraficoProdutosTotalMesAno> totalMesSituacoes(String situacao, Session session) throws HibernateException;
 
-    public Long totalQtdeMaxProduto(Session session) throws HibernateException;
+    public BigInteger totalQtdeMaxProduto(Session session) throws HibernateException;
 
     public BigInteger totalProdutoAno(Session session) throws HibernateException;
+
+    public BigInteger totalQtdeMaxSituacoes(Session session) throws HibernateException;
 
 }

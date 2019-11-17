@@ -71,14 +71,13 @@ public class PedidoDaoImpl extends BaseDaoImpl<Pedido, Long> implements PedidoDa
     }
 
     @Override
-    public Long totalQtdeMaxPedido(Session session) throws HibernateException {
-        Query consulta = session.createQuery("select count(id) as quantidade "
-                + "from Pedido"
+    public BigInteger totalQtdeMaxPedido(Session session) throws HibernateException {
+        Query consulta = session.createSQLQuery("select count(id) as quantidade "
+                + "from Pedido "
                 + "where year(current_date()) "
                 + "group by month(cadastro) "
-                + "order by quantidade desc ");
-        consulta.setMaxResults(1);
-        return (Long) consulta.uniqueResult();
+                + "order by quantidade desc limit 1 ");
+        return (BigInteger) consulta.uniqueResult();
     }
 
     @Override

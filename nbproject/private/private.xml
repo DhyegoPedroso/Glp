@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/01%20-%20Faculdade/01%20-%20TCS/Glp/src/conf/persistence.xml</file>
-            <file>file:/E:/01%20-%20Faculdade/01%20-%20TCS/Glp/src/java/br/com/glp/util/GeradorTabela.java</file>
-            <file>file:/E:/01%20-%20Faculdade/01%20-%20TCS/Glp/web/WEB-INF/applicationContext.xml</file>
-            <file>file:/E:/01%20-%20Faculdade/01%20-%20TCS/Glp/src/java/br/com/glp/dao/hibernate.cfg.xml</file>
+            <file>file:/E:/01%20-%20Faculdade/01%20-%20TCS/Glp/web/conferente/dashboard.xhtml</file>
+            <file>file:/E:/01%20-%20Faculdade/01%20-%20TCS/Glp/src/java/br/com/glp/controller/DashboardController.java</file>
         </group>
     </open-files>
 </project-private>

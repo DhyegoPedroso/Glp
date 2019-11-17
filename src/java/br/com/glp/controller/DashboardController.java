@@ -61,11 +61,7 @@ public class DashboardController implements Serializable {
         createGraficoSituacoes();
     }
 
-    /*
-    
-    Inicio do Grafico do Ano corrente com o total de pedidos
-    
-     */
+//    Inicio do Grafico do Ano corrente com o total de pedidos
     private BarChartModel initBarModelPedidosAno() {
 
         try {
@@ -167,11 +163,11 @@ public class DashboardController implements Serializable {
 
         try {
 
-            abreSessao();
+            BigInteger qtde = pedidoDao.totalQtdeMaxPedido(session);
 
-            Long qtde = pedidoDao.totalQtdeMaxPedido(session);
+            Long total = qtde.longValue();
 
-            return (qtde + 50);
+            return (total + 50);
 
         } catch (Exception e) {
             session.close();
@@ -181,15 +177,9 @@ public class DashboardController implements Serializable {
 
     }
 
-    /*
-    Fim do Grafico do Ano corrente com o total de pedidos
-     */
-//    ---------------------------
-//    ---------------------------
-//    ---------------------------
-    /*
-    Inicio do Grafico do Ano corrente com o total de produtos
-     */
+//    Fim do Grafico do Ano corrente com o total de pedidos
+//    -----------------------------------------------------------
+//    Inicio do Grafico do Ano corrente com o total de produtos
     private BarChartModel initBarModelProdutos() {
 
         try {
@@ -333,9 +323,11 @@ public class DashboardController implements Serializable {
 
             abreSessao();
 
-            Long qtde = itemPedidoDao.totalQtdeMaxProduto(session);
+            BigInteger qtde = itemPedidoDao.totalQtdeMaxProduto(session);
 
-            return (qtde + 50);
+            Long total = qtde.longValue();
+
+            return (total + 50);
 
         } catch (Exception e) {
             session.close();
@@ -345,15 +337,9 @@ public class DashboardController implements Serializable {
 
     }
 
-    /*
-    Fim do Grafico do Ano corrente com o total de produtos
-     */
-//    ---------------------------
-//    ---------------------------
-//    ---------------------------
-    /*
-    Inicio do Grafico do Ano corrente com o total de situações
-     */
+//    Fim do Grafico do Ano corrente com o total de produtos 
+//    -----------------------------------------------------------
+//    Inicio do Grafico do Ano corrente com o total de situações
     private BarChartModel initBarModelSituacoes() {
 
         try {
@@ -490,9 +476,11 @@ public class DashboardController implements Serializable {
 
             abreSessao();
 
-            Long qtde = itemPedidoDao.totalQtdeMaxProduto(session);
+            BigInteger qtde = itemPedidoDao.totalQtdeMaxSituacoes(session);
 
-            return (qtde + 50);
+            Long total = qtde.longValue();
+
+            return (total + 50);
 
         } catch (Exception e) {
             session.close();
@@ -502,15 +490,9 @@ public class DashboardController implements Serializable {
 
     }
 
-    /*
-    Fim do Grafico do Ano corrente com o total de situações
-     */
-//    ---------------------------
-//    ---------------------------
-//    ---------------------------
-    /*    
-   Inicio dos Getters and Setters
-     */
+//    Fim do Grafico do Ano corrente com o total de situações
+//    -----------------------------------------------------------
+//   Inicio dos Getters and Setters
     public BarChartModel getGraficoPedidosTotalAno() {
         return graficoPedidos;
     }
