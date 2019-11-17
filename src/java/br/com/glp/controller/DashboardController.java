@@ -108,6 +108,7 @@ public class DashboardController implements Serializable {
             graficoPedidos = initBarModelPedidosAno();
 
             BigInteger qtde = pedidoDao.totalPedidoAno(session);
+            Long total = qtde.longValue();
 
             graficoPedidos.setTitle("Pedidos do Ano");
             graficoPedidos.setLegendPosition("nw");
@@ -117,7 +118,7 @@ public class DashboardController implements Serializable {
             graficoPedidos.setAnimate(true);
             graficoPedidos.setZoom(true);
             Axis xAxis = graficoPedidos.getAxis(AxisType.X);
-            xAxis.setLabel("Total de Pedidos no Ano: " + qtde + "  ");
+            xAxis.setLabel("Total de Pedidos no Ano: " + total + "  ");
             Axis yAxis = graficoPedidos.getAxis(AxisType.Y);
             yAxis.setMin(0);
             yAxis.setMax(pegarQtdeMaxPedido());
@@ -258,6 +259,8 @@ public class DashboardController implements Serializable {
             abreSessao();
 
             BigInteger qtde = itemPedidoDao.totalProdutoAno(session);
+            
+            Long total = qtde.longValue();
 
             graficoProdutos = initBarModelProdutos();
 
@@ -269,7 +272,7 @@ public class DashboardController implements Serializable {
             graficoProdutos.setAnimate(true);
             graficoProdutos.setZoom(true);
             Axis xAxis = graficoProdutos.getAxis(AxisType.X);
-            xAxis.setLabel("Total de Produtos no Ano: " + qtde + "  ");
+            xAxis.setLabel("Total de Produtos no Ano: " + total + "  ");
             Axis yAxis = graficoProdutos.getAxis(AxisType.Y);
             yAxis.setMin(0);
             yAxis.setMax(pegarQtdeMaxProduto());
