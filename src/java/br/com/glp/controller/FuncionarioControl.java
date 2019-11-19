@@ -149,7 +149,7 @@ public class FuncionarioControl implements Serializable {
             abreSessao();
 
             funcionario.setUsuario(usuario);
-            usuario.setFuncionario(funcionario);
+//            usuario.setFuncionario(funcionario);
             usuario.setEnable(true);
             usuario.setPerfil(perfil);
 

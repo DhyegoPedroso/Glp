@@ -50,6 +50,14 @@ public class UsuarioDaoImpl extends BaseDaoImpl<Usuario, Long> implements Usuari
          return (Usuario) session.get(Usuario.class, id);
     }
 
+    @Override
+    public Usuario logar(String login, String senha, Session session) throws HibernateException {
+          Query consulta = session.createQuery("from Usuario u where u.login = :login and u.senha = :senha");
+          consulta.setParameter("login", login);
+          consulta.setParameter("senha", senha);
+          return (Usuario) consulta.uniqueResult();
+    }
+
    
 
 }

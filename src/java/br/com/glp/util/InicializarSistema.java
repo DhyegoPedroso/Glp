@@ -41,7 +41,7 @@ public class InicializarSistema {
         funcionarioAdmin.setRg("3.962.625");
         funcionarioAdmin.setUsuario(usuarioAdmin);
 
-        usuarioAdmin.setFuncionario(funcionarioAdmin);
+//        usuarioAdmin.setFuncionario(funcionarioAdmin);
         perfilDao.salvarOuAlterar(perfilAdmin, sessao);
         funcionarioDao.salvarOuAlterar(funcionarioAdmin, sessao);
 
@@ -57,7 +57,7 @@ public class InicializarSistema {
         funcionarioConferente.setRg("3.962.625");
         funcionarioConferente.setUsuario(usuarioConferente);
 
-        usuarioConferente.setFuncionario(funcionarioConferente);
+//        usuarioConferente.setFuncionario(funcionarioConferente);
         perfilDao.salvarOuAlterar(perfilConferente, sessao);
         funcionarioDao.salvarOuAlterar(funcionarioConferente, sessao);
         sessao.close();

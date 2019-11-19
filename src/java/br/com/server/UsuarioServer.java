@@ -21,6 +21,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.hibernate.Session;
 
 
@@ -34,10 +35,30 @@ public class UsuarioServer {
      public Usuario autentica(@PathParam("login") String login, @PathParam("senha") String senha){
         Session session = HibernateUtil.abreSessao();
         UsuarioDao usuarioDao = new UsuarioDaoImpl();
-        return usuarioDao.pesquisaPorLogin(login, session);
+        return usuarioDao.logar(login, senha, session);
        
                 
         }
+     
+     
+      @POST
+      @Produces(MediaType.APPLICATION_JSON)
+      @Consumes(MediaType.APPLICATION_JSON)
+      
+      public Usuario login(String login, String senha) {
+        Session session = HibernateUtil.abreSessao();
+        UsuarioDao usuarioDao = new UsuarioDaoImpl();
+        return usuarioDao.logar(login, senha, session);
+        
+    }
+     
+         @GET
+         @Produces(MediaType.APPLICATION_JSON)
+        public List<Usuario> listaUsuario(){
+        Session session = HibernateUtil.abreSessao();
+        UsuarioDao usuarioDao = new UsuarioDaoImpl();
+        return usuarioDao.listaTodos(session);
+     }
      
    
 

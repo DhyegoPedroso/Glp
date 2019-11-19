@@ -17,5 +17,5 @@ public interface UsuarioDao extends BaseDao<Usuario, Long> {
      
     Usuario lerPorId(Long id, Session session) throws HibernateException;
             
-
+    Usuario logar(String login, String senha, Session session) throws HibernateException;
 }

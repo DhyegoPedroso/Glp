@@ -3,6 +3,7 @@ package br.com.glp.model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,8 +33,8 @@ public class Usuario implements Serializable {
     @Column
     private boolean enable;
 
-    @OneToOne(mappedBy = "usuario")
-    private Funcionario funcionario;
+//    @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
+//    private Funcionario funcionario;
 
     @OneToOne
     @JoinColumn(name = "idPerfil")
@@ -57,13 +58,13 @@ public class Usuario implements Serializable {
         this.id = id;
     }
 
-    public Funcionario getFuncionario() {
-        return funcionario;
-    }
-
-    public void setFuncionario(Funcionario funcionario) {
-        this.funcionario = funcionario;
-    }
+//    public Funcionario getFuncionario() {
+//        return funcionario;
+//    }
+//
+//    public void setFuncionario(Funcionario funcionario) {
+//        this.funcionario = funcionario;
+//    }
 
     public String getLogin() {
         return login;
