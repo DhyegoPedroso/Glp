@@ -11,7 +11,6 @@ public abstract class Usuario_ {
 	public static volatile SingularAttribute<Usuario, String> senha;
 	public static volatile SingularAttribute<Usuario, Boolean> enable;
 	public static volatile SingularAttribute<Usuario, Long> id;
-	public static volatile SingularAttribute<Usuario, Funcionario> funcionario;
 	public static volatile SingularAttribute<Usuario, String> login;
 	public static volatile SingularAttribute<Usuario, Perfil> perfil;
 

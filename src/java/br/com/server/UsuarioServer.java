@@ -41,16 +41,14 @@ public class UsuarioServer {
         }
      
      
-      @POST
-      @Produces(MediaType.APPLICATION_JSON)
-      @Consumes(MediaType.APPLICATION_JSON)
-      
-      public Usuario login(String login, String senha) {
+     @POST
+     @Produces(MediaType.APPLICATION_JSON)
+     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+     public Usuario autenticar(@FormParam("login") String login, @FormParam("senha") String senha){
         Session session = HibernateUtil.abreSessao();
-        UsuarioDao usuarioDao = new UsuarioDaoImpl();
-        return usuarioDao.logar(login, senha, session);
-        
-    }
+         UsuarioDao usuarioDao = new UsuarioDaoImpl();
+         return usuarioDao.logar(login, senha, session);
+     }
      
          @GET
          @Produces(MediaType.APPLICATION_JSON)

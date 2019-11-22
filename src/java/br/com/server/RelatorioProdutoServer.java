@@ -23,8 +23,8 @@ import org.hibernate.Session;
  *
  * @author Pedro
  */
-@Path("/relatorio")
-public class RelatorioServer {
+@Path("/relatorioProduto")
+public class RelatorioProdutoServer {
     
      @GET
      @Produces(MediaType.APPLICATION_JSON)
@@ -34,6 +34,7 @@ public class RelatorioServer {
         return produtoDao.listaTodos(session);
      }
      
+    
     
      
      
