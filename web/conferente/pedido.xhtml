@@ -172,10 +172,10 @@
                                  styleClass="painel_grid_noborder" style="width: 100%; min-width: 50%" >
 
                         <p:outputLabel  value="Horario do Pedido: "/>
-                        <p:clock pattern="dd.MM.yyyy - HH:mm:ss"  rendered="#{pedidoC.pedido.id == null}"/>
+                        <p:clock pattern="dd.MM.yyyy - HH:mm:ss" timeZone="america/sao_paulo" rendered="#{pedidoC.pedido.id == null}"/>
 
                         <h:outputText  value="#{pedidoC.pedido.cadastro}"  rendered="#{pedidoC.pedido.id != null}">
-                            <f:convertDateTime for="data" pattern="dd-MM-yyyy - HH:mm:ss" timeZone="GMT-03:00" />
+                            <f:convertDateTime for="data" pattern="dd-MM-yyyy - HH:mm:ss" timeZone="america/sao_paulo" />
                         </h:outputText>
 
                         <p:outputLabel value="Nota Fiscal: "/>                        
