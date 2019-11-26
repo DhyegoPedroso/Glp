@@ -3,7 +3,6 @@ package br.com.glp.dao;
 import br.com.glp.model.GraficoPedidosTotalMesAno;
 import br.com.glp.model.Pedido;
 import br.com.glp.model.RelatorioPedido;
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -107,13 +106,4 @@ public class PedidoDaoImpl extends BaseDaoImpl<Pedido, Long> implements PedidoDa
 
         return relatorios;
     }
-
-    public static void main(String[] args) {
-        PedidoDaoImpl daoImpl = new PedidoDaoImpl();
-        Session session = HibernateUtil.abreSessao();
-        daoImpl.listarTodoMobile(session);
-        session.close();
-
-    }
-
 }
