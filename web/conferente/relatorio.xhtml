@@ -46,10 +46,10 @@
                 <p:separator/>
 
                 <p:outputLabel for="dateInicial" value="Data Iníco:" />
-                <p:calendar id="dateInicial" pattern="dd/MM/yyyy HH:mm" mask="true" locale="pt" value="#{relatorioC.dataInicio}" showOn="button" />
+                <p:calendar id="dateInicial" pattern="dd/MM/yyyy HH:mm" mask="true" timeZone="america/sao_paulo" value="#{relatorioC.dataInicio}" showOn="button" />
 
                 <p:outputLabel for="dateFinal" value="Data Final:" />
-                <p:calendar id="dateFinal" pattern="dd/MM/yyyy HH:mm" mask="true" locale="pt" value="#{relatorioC.dataFinal}" showOn="button"/>
+                <p:calendar id="dateFinal" pattern="dd/MM/yyyy HH:mm" mask="true" timeZone="america/sao_paulo" value="#{relatorioC.dataFinal}" showOn="button"/>
 
                 <p:outputLabel for="pesqPedido" value="Cliente: " rendered="#{relatorioC.qualPesquisa == true}" />
                 <p:inputText id="pesqPedido"  value="#{relatorioC.nomeCliente}" rendered="#{relatorioC.qualPesquisa == true}" />
@@ -102,7 +102,7 @@
 
                     <p:column headerText="Data do Pedido" sortBy="#{pedido.cadastro}">
                         <p:outputLabel value="#{pedido.cadastro}" >
-                            <f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" timeZone="GMT-02:00"/>
+                            <f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" timeZone="america/sao_paulo"/>
                         </p:outputLabel>
                     </p:column>
 
@@ -155,7 +155,7 @@
 
                     <p:column headerText="Data do Pedido" sortBy="#{itemPedido.pedido.cadastro}">
                         <p:outputLabel value="#{itemPedido.pedido.cadastro}" >
-                            <f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" timeZone="GMT-02:00"/>
+                            <f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" timeZone="america/sao_paulo"/>
                         </p:outputLabel>
                     </p:column>
 
