@@ -461,7 +461,7 @@ public class InicializarCliente {
 
         Cliente cliente = new Cliente();
         cliente.setNome("Adrino Martins");
-        cliente.setNomeSocial("Doido Anomino");
+        cliente.setNomeSocial("Doido Anonimo");
         cliente.setCnpj("54.847.125/9841-66");
         cliente.setDtCadastro(new Date());
         
