@@ -2,6 +2,7 @@ package br.com.glp.dao;
 
 import br.com.glp.model.GraficoPedidosTotalMesAno;
 import br.com.glp.model.Pedido;
+import br.com.glp.model.RelatorioPedido;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,8 @@ public interface PedidoDao extends BaseDao<Pedido, Long> {
     public List<Pedido> pesquisaPedidoClienteDataInicioFim(String nomeSocial, Date inicio, Date fim, Session session) throws HibernateException;
 
     public List<Pedido> listarTodosPedidoDataInicioFim(Date inicio, Date fim, Session session) throws HibernateException;
+
+    public List<RelatorioPedido> listarTodoMobile(Session session) throws HibernateException;
 
     public List<GraficoPedidosTotalMesAno> totalMesPedidos(Session session) throws HibernateException;
 

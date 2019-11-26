@@ -2,6 +2,8 @@ package br.com.glp.dao;
 
 import br.com.glp.model.GraficoPedidosTotalMesAno;
 import br.com.glp.model.Pedido;
+import br.com.glp.model.RelatorioPedido;
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -85,4 +87,33 @@ public class PedidoDaoImpl extends BaseDaoImpl<Pedido, Long> implements PedidoDa
         Query consulta = session.createSQLQuery("SELECT COUNT(id) FROM Pedido p WHERE year(current_date()) ");
         return (BigInteger) consulta.uniqueResult();
     }
+
+    @Override
+    public List<RelatorioPedido> listarTodoMobile(Session session) throws HibernateException {
+        List pedidos = session.createQuery("Select p.cadastro, c.nome as cliente, ca.nomeMotorista as motorista, ca.placaCaminhao as placa,"
+                + " c.cnpj as cnpj from Pedido p join p.cliente c join p.caminhao ca where p.id < 10").list();
+
+        List<RelatorioPedido> relatorios = new ArrayList<>();
+
+        if (!pedidos.isEmpty()) {
+            Object[] item;
+            RelatorioPedido relatorioPedido;
+            for (Object pedido : pedidos) {
+                item = (Object[]) pedido;
+                relatorioPedido = new RelatorioPedido(item[0].toString(), item[1].toString(), item[2].toString(), item[3].toString(), item[4].toString());
+                relatorios.add(relatorioPedido);
+            }
+        }
+
+        return relatorios;
+    }
+
+    public static void main(String[] args) {
+        PedidoDaoImpl daoImpl = new PedidoDaoImpl();
+        Session session = HibernateUtil.abreSessao();
+        daoImpl.listarTodoMobile(session);
+        session.close();
+
+    }
+
 }
