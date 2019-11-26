@@ -31,7 +31,6 @@ public class RelatorioPedidoServer {
         Session session = HibernateUtil.abreSessao();
         PedidoDao pedidoDao = new PedidoDaoImpl();
         List<RelatorioPedido> pedidos = pedidoDao.listarTodoMobile(session);
-//        session.close();
 
         Gson gson = new Gson();
 
