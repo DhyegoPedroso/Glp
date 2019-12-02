@@ -113,8 +113,8 @@ public class ProdutoControle implements Serializable {
                 produto.setQuantidade(0);
             }
             produtoDao.salvarOuAlterar(produto, session);
+            Mensagem.salvar("Produto " + produto.getNomeProduto());
             limpar();
-            Mensagem.salvar("Produto ");
 
         } catch (HibernateException ex) {
             Mensagem.mensagemError("Erro ao salvar\nTente novamente");

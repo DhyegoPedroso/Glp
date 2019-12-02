@@ -175,7 +175,6 @@ public class DashboardController implements Serializable {
         }
 
         return null;
-
     }
 
 //    Fim do Grafico do Ano corrente com o total de pedidos
@@ -259,7 +258,7 @@ public class DashboardController implements Serializable {
             abreSessao();
 
             BigInteger qtde = itemPedidoDao.totalProdutoAno(session);
-            
+
             Long total = qtde.longValue();
 
             graficoProdutos = initBarModelProdutos();

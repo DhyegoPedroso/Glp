@@ -3,8 +3,13 @@ package br.com.glp.controller;
 import br.com.glp.dao.HibernateUtil;
 import br.com.glp.dao.ProdutoDao;
 import br.com.glp.dao.ProdutoDaoImpl;
+import br.com.glp.model.Caminhao;
+import br.com.glp.model.Cliente;
+import br.com.glp.model.Contato;
+import br.com.glp.model.Endereco;
 import br.com.glp.model.Produto;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -43,8 +48,6 @@ public class EstoqueControle implements Serializable {
 
     public void carregarParaAlterar() {
         produto = modelProdutos.getRowData();
-
-        System.out.println("id: " + produto.getId());
     }
 
     public void pesquisar() {
@@ -73,11 +76,16 @@ public class EstoqueControle implements Serializable {
             produtoDao.salvarOuAlterar(produto, session);
             Mensagem.sucesso("Produto " + getProduto().getNomeProduto() + " alterado com sucesso");
 
+            limpar();
         } catch (Exception e) {
             session.close();
             Mensagem.mensagemError("Erro ao alterar o Produto " + getProduto().getNomeProduto());
         }
 
+    }
+
+    public void limpar() {
+        produto = new Produto();
     }
 
     //Gettes e Setters

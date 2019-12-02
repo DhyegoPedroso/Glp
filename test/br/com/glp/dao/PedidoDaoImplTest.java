@@ -109,9 +109,7 @@ public class PedidoDaoImplTest {
         
         BigInteger qtde = pedidoDao.totalQtdeMaxPedido(session);
         
-        Long total = qtde.longValue();
-        
-        System.out.println("qtde "+total);
+        System.out.println("qtde "+qtde);
     }
 
     @Test
@@ -155,8 +153,25 @@ public class PedidoDaoImplTest {
         session = HibernateUtil.abreSessao();
         
         BigInteger qtde = pedidoDao.totalPedidoAno(session);
+        Long total = qtde.longValue();
         
-        System.out.println(qtde);
+        System.out.println(total);
+    }
+
+    @Test
+    public void testPesquisaPedidoClienteDataInicioFim() {
+    }
+
+    @Test
+    public void testTotalQtdeMaxPedido() {
+    }
+
+    @Test
+    public void testTotalPedidoAno() {
+    }
+
+    @Test
+    public void testListarTodoMobile() {
     }
     
     

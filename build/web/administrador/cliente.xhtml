@@ -39,13 +39,13 @@
                     <p:spacer />
 
                 </p:panelGrid>
-                    
-                    <p:dataTable id="dadosCliente" value="#{clienteC.modelClientes}" var="cliente" reflow="true"
+
+                <p:dataTable id="dadosCliente" value="#{clienteC.modelClientes}" var="cliente" reflow="true"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
                              {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
                              paginator="true" rows="10" style="margin-bottom:20px"
                              emptyMessage="Nenhum cliente encontrado">
-                       <f:facet name="{Exporters}">
+                    <f:facet name="{Exporters}">
 
                         <h:commandLink id="excel" style="float: right">
                             <p:graphicImage library="images" name="excel.png" width="24"/>
@@ -59,23 +59,23 @@
 
                     </f:facet>
 
-                    <p:column headerText="Cliente" priority="1">
+                    <p:column headerText="Cliente" sortBy="#{cliente.nome}">
                         <h:outputText value="#{cliente.nome}"/>
                     </p:column>
 
-                    <p:column headerText="Razão Social" priority="1">
+                    <p:column headerText="Razão Social" sortBy="#{cliente.nomeSocial}">
                         <h:outputText value="#{cliente.nomeSocial}"/>
                     </p:column>
 
-                    <p:column headerText="CNPJ" priority="1">
+                    <p:column headerText="CNPJ" sortBy="#{cliente.cnpj}">
                         <h:outputText value="#{cliente.cnpj}" />
                     </p:column>
 
-                    <p:column headerText="Unidade" priority="1">
+                    <p:column headerText="Unidade" sortBy="#{cliente.endereco.unidade}">
                         <h:outputText value="#{cliente.endereco.unidade}" />
                     </p:column>
 
-                    <p:column headerText="Data Contratação">
+                    <p:column headerText="Data Contratação" sortBy="#{cliente.dtCadastro}">
                         <h:outputText value="#{cliente.dtCadastro}">
                             <f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy"/>
                         </h:outputText>

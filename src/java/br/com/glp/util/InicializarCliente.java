@@ -38,15 +38,15 @@ public class InicializarCliente {
         
         List<Caminhao> caminhoes = new ArrayList<>();
         Caminhao caminhao1 = new Caminhao();
-        caminhao1.setNomeMotorista("Rossilda Itaco");
+        caminhao1.setNomeMotorista("Renato dos Santos");
         caminhao1.setPlacaCaminhao("MKJ9852");
         caminhoes.add(caminhao1);
         Caminhao caminhao2 = new Caminhao();
-        caminhao2.setNomeMotorista("Rossinaldo Italo");
+        caminhao2.setNomeMotorista("Roberto da Silva");
         caminhao2.setPlacaCaminhao("MOJ4125");
         caminhoes.add(caminhao2);
         Caminhao caminhao3 = new Caminhao();
-        caminhao3.setNomeMotorista("Rossalindo Itigo");
+        caminhao3.setNomeMotorista("Ruan Oliveira");
         caminhao3.setPlacaCaminhao("MGF8214");
         caminhoes.add(caminhao3);
         
@@ -68,8 +68,8 @@ public class InicializarCliente {
         endereco.setUnidade("01");
 
         Cliente cliente = new Cliente();
-        cliente.setNome("Rossi Chefe");
-        cliente.setNomeSocial("Rossinha Italiano");
+        cliente.setNome("Rossi Evangelista");
+        cliente.setNomeSocial("Rossi Italiano");
         cliente.setCnpj("16.515.615/6156-15");
         cliente.setDtCadastro(new Date());
         
@@ -94,15 +94,15 @@ public class InicializarCliente {
         
         List<Caminhao> caminhoes = new ArrayList<>();
         Caminhao caminhao1 = new Caminhao();
-        caminhao1.setNomeMotorista("Leozinho Gamer");
+        caminhao1.setNomeMotorista("Lucas Lima");
         caminhao1.setPlacaCaminhao("MAS8417");
         caminhoes.add(caminhao1);
         Caminhao caminhao2 = new Caminhao();
-        caminhao2.setNomeMotorista("Leozinho Morno");
+        caminhao2.setNomeMotorista("Lorenzo Alves");
         caminhao2.setPlacaCaminhao("MGF9874");
         caminhoes.add(caminhao2);
         Caminhao caminhao3 = new Caminhao();
-        caminhao3.setNomeMotorista("Leozinho Cartucho");
+        caminhao3.setNomeMotorista("Luiz Nascimento");
         caminhao3.setPlacaCaminhao("MWE8745");
         caminhoes.add(caminhao3);
         
@@ -124,7 +124,7 @@ public class InicializarCliente {
         endereco.setUnidade("01");
 
         Cliente cliente = new Cliente();
-        cliente.setNome("Leo SubChefe");
+        cliente.setNome("Leonardo Filho");
         cliente.setNomeSocial("Leo Estronda");
         cliente.setCnpj("84.515.185/4165-12");
         cliente.setDtCadastro(new Date());
@@ -150,15 +150,15 @@ public class InicializarCliente {
         
         List<Caminhao> caminhoes = new ArrayList<>();
         Caminhao caminhao1 = new Caminhao();
-        caminhao1.setNomeMotorista("Pedroca Master");
+        caminhao1.setNomeMotorista("Percy Silva");
         caminhao1.setPlacaCaminhao("MNH7895");
         caminhoes.add(caminhao1);
         Caminhao caminhao2 = new Caminhao();
-        caminhao2.setNomeMotorista("Pedrinho Baixo");
+        caminhao2.setNomeMotorista("Patrick Almeida");
         caminhao2.setPlacaCaminhao("MMP6854");
         caminhoes.add(caminhao2);
         Caminhao caminhao3 = new Caminhao();
-        caminhao3.setNomeMotorista("Peidorreira Barriga");
+        caminhao3.setNomeMotorista("Pietro Ribeiro");
         caminhao3.setPlacaCaminhao("MXA9578");
         caminhoes.add(caminhao3);
         
@@ -180,8 +180,8 @@ public class InicializarCliente {
         endereco.setUnidade("01");
 
         Cliente cliente = new Cliente();
-        cliente.setNome("Pedro Master");
-        cliente.setNomeSocial("Pedro Sgt Peixoto");
+        cliente.setNome("Pedro Mattos");
+        cliente.setNomeSocial("Pedro Soldado");
         cliente.setCnpj("15.615.615/1561-56");
         cliente.setDtCadastro(new Date());
         
@@ -206,15 +206,15 @@ public class InicializarCliente {
         
         List<Caminhao> caminhoes = new ArrayList<>();
         Caminhao caminhao1 = new Caminhao();
-        caminhao1.setNomeMotorista("Ichigo Hurosaki");
+        caminhao1.setNomeMotorista("Darci Pereira");
         caminhao1.setPlacaCaminhao("MHJ2365");
         caminhoes.add(caminhao1);
         Caminhao caminhao2 = new Caminhao();
-        caminhao2.setNomeMotorista("Natsu Dragneel");
+        caminhao2.setNomeMotorista("Danilo Neto");
         caminhao2.setPlacaCaminhao("MTR1145");
         caminhoes.add(caminhao2);
         Caminhao caminhao3 = new Caminhao();
-        caminhao3.setNomeMotorista("Lorde Escanor");
+        caminhao3.setNomeMotorista("Damião Junior");
         caminhao3.setPlacaCaminhao("MGH3214");
         caminhoes.add(caminhao3);
         
@@ -237,7 +237,7 @@ public class InicializarCliente {
 
         Cliente cliente = new Cliente();
         cliente.setNome("Dhyego Pedroso");
-        cliente.setNomeSocial("Dhyego Garoto de Programa");
+        cliente.setNomeSocial("Dhyego Tech");
         cliente.setCnpj("89.854.128/4165-82");
         cliente.setDtCadastro(new Date());
         
@@ -262,29 +262,29 @@ public class InicializarCliente {
         
         List<Caminhao> caminhoes = new ArrayList<>();
         Caminhao caminhao1 = new Caminhao();
-        caminhao1.setNomeMotorista("Gabigol Gol");
+        caminhao1.setNomeMotorista("Silvio Martinz");
         caminhao1.setPlacaCaminhao("MAS9214");
         caminhoes.add(caminhao1);
         Caminhao caminhao2 = new Caminhao();
-        caminhao2.setNomeMotorista("Bruno Henrique");
+        caminhao2.setNomeMotorista("Adriano Martinz");
         caminhao2.setPlacaCaminhao("MPO3201");
         caminhoes.add(caminhao2);
         Caminhao caminhao3 = new Caminhao();
-        caminhao3.setNomeMotorista("Reinier 17");
+        caminhao3.setNomeMotorista("José Martinz");
         caminhao3.setPlacaCaminhao("MFR1717");
         caminhoes.add(caminhao3);
         
         Contato contato = new Contato();
         contato.setCelular("(48) 98517-6214");
-        contato.setEmail("Flamengo@gmail.com");
+        contato.setEmail("Tech-S@gmail.com");
         contato.setTelefone("(48) 6532-8541");
         contato.setWhatsapp(true);
         
         Endereco endereco = new Endereco();
-        endereco.setBairro("Gavea");
+        endereco.setBairro("Jd. Eldorado");
         endereco.setCep("32101-400");
-        endereco.setCidade("Rio de Janeiro");
-        endereco.setComplemento("Ninho do Urubu");
+        endereco.setCidade("Palhoça");
+        endereco.setComplemento("Posto de Saúde");
         endereco.setLogradouro("Rua: Ministro Raul Machado");
         endereco.setNumero(254);
         endereco.setPais("Brasil");
@@ -292,8 +292,8 @@ public class InicializarCliente {
         endereco.setUnidade("01");
 
         Cliente cliente = new Cliente();
-        cliente.setNome("Flamengo");
-        cliente.setNomeSocial("Clube Regatas Flamengo");
+        cliente.setNome("Ricardo Martinz");
+        cliente.setNomeSocial("Familia Martinz");
         cliente.setCnpj("58.343.847/5147-33");
         cliente.setDtCadastro(new Date());
         
@@ -318,15 +318,15 @@ public class InicializarCliente {
         
         List<Caminhao> caminhoes = new ArrayList<>();
         Caminhao caminhao1 = new Caminhao();
-        caminhao1.setNomeMotorista("Ferreiro Ferrado");
+        caminhao1.setNomeMotorista("Fernando Ferreiro");
         caminhao1.setPlacaCaminhao("MFF9851");
         caminhoes.add(caminhao1);
         Caminhao caminhao2 = new Caminhao();
-        caminhao2.setNomeMotorista("Botelho Pinto");
+        caminhao2.setNomeMotorista("Diego Lima");
         caminhao2.setPlacaCaminhao("MPP8430");
         caminhoes.add(caminhao2);
         Caminhao caminhao3 = new Caminhao();
-        caminhao3.setNomeMotorista("Aspirina Acido");
+        caminhao3.setNomeMotorista("Bruno Senna");
         caminhao3.setPlacaCaminhao("MAA1247");
         caminhoes.add(caminhao3);
         
@@ -348,8 +348,8 @@ public class InicializarCliente {
         endereco.setUnidade("01");
 
         Cliente cliente = new Cliente();
-        cliente.setNome("Fernando");
-        cliente.setNomeSocial("Fanaticos por Sono");
+        cliente.setNome("Fernando Meira");
+        cliente.setNomeSocial("Speed Entega");
         cliente.setCnpj("02.632.758/8541-99");
         cliente.setDtCadastro(new Date());
         
@@ -374,29 +374,29 @@ public class InicializarCliente {
         
         List<Caminhao> caminhoes = new ArrayList<>();
         Caminhao caminhao1 = new Caminhao();
-        caminhao1.setNomeMotorista("Tony Stark");
+        caminhao1.setNomeMotorista("Rocher Oliveira");
         caminhao1.setPlacaCaminhao("MEQ8596");
         caminhoes.add(caminhao1);
         Caminhao caminhao2 = new Caminhao();
-        caminhao2.setNomeMotorista("Capitão America");
+        caminhao2.setNomeMotorista("Fabricio Souza");
         caminhao2.setPlacaCaminhao("MJR3245");
         caminhoes.add(caminhao2);
         Caminhao caminhao3 = new Caminhao();
-        caminhao3.setNomeMotorista("Pantera Negra");
+        caminhao3.setNomeMotorista("Valdir Aguiar");
         caminhao3.setPlacaCaminhao("MVC5512");
         caminhoes.add(caminhao3);
         
         Contato contato = new Contato();
         contato.setCelular("(48) 95214-0021");
-        contato.setEmail("Marvel@gmail.com");
+        contato.setEmail("EntregaMaster@gmail.com");
         contato.setTelefone("(48) 2314-0012");
         contato.setWhatsapp(true);
         
         Endereco endereco = new Endereco();
-        endereco.setBairro("Gavea");
+        endereco.setBairro("Bela Vista");
         endereco.setCep("32101-400");
-        endereco.setCidade("Rio de Janeiro");
-        endereco.setComplemento("Ninho do Urubu");
+        endereco.setCidade("São José");
+        endereco.setComplemento("Perto da Havan");
         endereco.setLogradouro("Rua: Ministro Raul Machado");
         endereco.setNumero(254);
         endereco.setPais("Brasil");
@@ -404,8 +404,8 @@ public class InicializarCliente {
         endereco.setUnidade("01");
 
         Cliente cliente = new Cliente();
-        cliente.setNome("Stan Lee");
-        cliente.setNomeSocial("Marvel Studios");
+        cliente.setNome("Amilton Damasco");
+        cliente.setNomeSocial("Entrega Master");
         cliente.setCnpj("58.321.030/8541-63");
         cliente.setDtCadastro(new Date());
         
@@ -434,17 +434,17 @@ public class InicializarCliente {
         caminhao1.setPlacaCaminhao("MLB1937");
         caminhoes.add(caminhao1);
         Caminhao caminhao2 = new Caminhao();
-        caminhao2.setNomeMotorista("Thiago Feio");
+        caminhao2.setNomeMotorista("Thiago Nascimento");
         caminhao2.setPlacaCaminhao("MLQ5436");
         caminhoes.add(caminhao2);
         Caminhao caminhao3 = new Caminhao();
-        caminhao3.setNomeMotorista("Rocher Maluco");
+        caminhao3.setNomeMotorista("Eduardo Pereira");
         caminhao3.setPlacaCaminhao("MOZ8399");
         caminhoes.add(caminhao3);
         
         Contato contato = new Contato();
         contato.setCelular("(48) 98531-3154");
-        contato.setEmail("RocherDoidao@gmail.com");
+        contato.setEmail("TeleEntrega@gmail.com");
         contato.setTelefone("(48) 2230-8124");
         contato.setWhatsapp(true);
         
@@ -460,8 +460,8 @@ public class InicializarCliente {
         endereco.setUnidade("01");
 
         Cliente cliente = new Cliente();
-        cliente.setNome("Adrino Martins");
-        cliente.setNomeSocial("Doido Anonimo");
+        cliente.setNome("Adriano Martins");
+        cliente.setNomeSocial("Tele Entrega Speed");
         cliente.setCnpj("54.847.125/9841-66");
         cliente.setDtCadastro(new Date());
         

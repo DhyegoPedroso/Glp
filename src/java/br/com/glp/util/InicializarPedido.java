@@ -9,6 +9,7 @@ import br.com.glp.model.Pedido;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 /**
@@ -26,13 +27,13 @@ public class InicializarPedido {
             try {
 
                 Cliente cliente = new Cliente();
-                cliente = gerarCliente(3,10);
+                cliente = gerarCliente(3, 10);
 
                 Pedido pedido = new Pedido(gerarDataCadastro(), cliente, gerarCaminhao(cliente), gerarNotaFiscal(100000000, 999999999));
                 PedidoDao pedidoDao = new PedidoDaoImpl();
                 pedidoDao.salvarOuAlterar(pedido, session);
 
-            } catch (Exception e) {
+            } catch (ParseException | HibernateException e) {
             }
 
         }
@@ -63,7 +64,7 @@ public class InicializarPedido {
             caminhao.setId(16 + (Long) Math.round(Math.random() * (18 - 16)));
         } else if (cliente.getId() == 9) {
             caminhao.setId(19 + (Long) Math.round(Math.random() * (21 - 19)));
-        } else{
+        } else {
             caminhao.setId(22 + (Long) Math.round(Math.random() * (24 - 22)));
         }
 

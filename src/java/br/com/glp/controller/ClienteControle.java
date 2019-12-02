@@ -117,7 +117,7 @@ public class ClienteControle implements Serializable {
             if (!cliente.getNome().equals("")) {
                 clientes = clienteDao.pesquisaPorNome(cliente.getNome(), session);
             } else {
-                Mensagem.campoVazio("O campo Cliente");
+                clientes = clienteDao.listaTodos(session);
             }
 
             modelClientes = new ListDataModel(clientes);
@@ -165,7 +165,7 @@ public class ClienteControle implements Serializable {
             caminhaoDao.remover(caminhao, session);
             caminhoes.remove(caminhao);
             modelCaminhoes = new ListDataModel(caminhoes);
-            Mensagem.excluir("Motorista");
+            Mensagem.excluir("Motorista" + caminhao.getNomeMotorista());
             limpar();
         } catch (Exception e) {
             System.out.println("erro ao excluir: " + e.getMessage());
@@ -189,6 +189,7 @@ public class ClienteControle implements Serializable {
 
             clienteDao.salvarOuAlterar(cliente, session);
             Mensagem.salvar("Cliente: " + cliente.getNome());
+            limpar();
 
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar Cliente:\n" + ex.getMessage());
@@ -199,7 +200,6 @@ public class ClienteControle implements Serializable {
         } finally {
             session.close();
         }
-        limpar();
     }
 
     public void addCaminhao() {
@@ -215,6 +215,7 @@ public class ClienteControle implements Serializable {
         caminhoes.add(caminhao);
         caminhao.setEndereco(endereco);
         endereco.setCaminhoes(caminhoes);
+        Mensagem.salvar("Motorista: " + caminhao.getNomeMotorista());
 
         caminhao = new Caminhao();
     }

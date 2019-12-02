@@ -63,22 +63,29 @@ public class RelatorioController {
 
             abreSessao();
 
-            if (qualPesquisa) {
-                if (!nomeCliente.equalsIgnoreCase("")) {
-                    pedidos = pedidoDao.pesquisaPedidoClienteDataInicioFim(nomeCliente, dataInicio, dataFinal, session);
-                } else {
-                    pedidos = pedidoDao.listarTodosPedidoDataInicioFim(dataInicio, dataFinal, session);
-                }
-
-                modelPedido = new ListDataModel<>(pedidos);
+            if (qualPesquisa == null) {
+                Mensagem.selecioneUmaPesquisa();
+            } else if (dataInicio == null) {
+                Mensagem.dataInicial();
+            } else if (dataFinal == null) {
+                Mensagem.dataFinal();
             } else {
-                if (!nomeProduto.equalsIgnoreCase("")) {
-                    itemPedidos = itemPedidoDao.pesquisaProdutoDataInicioFim(nomeProduto, dataInicio, dataFinal, session);
+                if (qualPesquisa) {
+                    if (!nomeCliente.equalsIgnoreCase("")) {
+                        pedidos = pedidoDao.pesquisaPedidoClienteDataInicioFim(nomeCliente, dataInicio, dataFinal, session);
+                    } else {
+                        pedidos = pedidoDao.listarTodosPedidoDataInicioFim(dataInicio, dataFinal, session);
+                    }
+                    modelPedido = new ListDataModel<>(pedidos);
                 } else {
-                    itemPedidos = itemPedidoDao.listarTodosProdutosDataInicioFim(dataInicio, dataFinal, session);
-                }
+                    if (!nomeProduto.equalsIgnoreCase("")) {
+                        itemPedidos = itemPedidoDao.pesquisaProdutoDataInicioFim(nomeProduto, dataInicio, dataFinal, session);
+                    } else {
+                        itemPedidos = itemPedidoDao.listarTodosProdutosDataInicioFim(dataInicio, dataFinal, session);
+                    }
 
-                modelItemPedido = new ListDataModel<>(itemPedidos);
+                    modelItemPedido = new ListDataModel<>(itemPedidos);
+                }
             }
 
         } catch (Exception e) {

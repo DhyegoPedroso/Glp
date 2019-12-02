@@ -104,7 +104,6 @@ public class PedidoController implements Serializable {
             modelItemProdutos = new ListDataModel<>(itemProdutos);
         }
 
-//        itemPedido = modelItemProdutos.getRowData();
         itemProdutos = pedido.getItemPedidos();
         produto = itemPedido.getProduto();
 
@@ -117,6 +116,8 @@ public class PedidoController implements Serializable {
 
             if (!getNomePesquisa().equals("")) {
                 pedidos = pedidoDao.pesquisaPedidoNomeSocial(getNomePesquisa(), session);
+            } else {
+                Mensagem.campoVazio("O campo Cliente");
             }
             modelPedido = new ListDataModel(pedidos);
         } catch (HibernateException ex) {
@@ -138,13 +139,10 @@ public class PedidoController implements Serializable {
             pedido.setCliente(cliente);
             pedido.setItemPedidos(itemProdutos);
             pedido.setCaminhao(caminhao);
-
             updateEstoque();
-
             pedidoDao.salvarOuAlterar(pedido, session);
-
+            Mensagem.salvar("Pedido " + pedido.getNotaFiscal());
             limpar();
-            Mensagem.salvar("Pedido ");
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar pedido:\n" + ex.getMessage());
             Mensagem.mensagemError("Erro ao tentar salvar o pedido");
@@ -267,6 +265,8 @@ public class PedidoController implements Serializable {
             Mensagem.selecioneMovimentacao();
         } else if (!itemPedido.getMovimentacao().equalsIgnoreCase("Entrada") && itemPedido.getQuantidade() > produto.getQuantidade()) {
             Mensagem.estoqueInsuficiente(itemPedido.getQuantidade(), produto.getQuantidade());
+        } else if (itemPedido.getQuantidade() <= 0) {
+            Mensagem.quantidadeZero();
         } else {
             itemPedido.setProduto(produto);
             itemPedido.setQuantidade(itemPedido.getQuantidade());

@@ -55,23 +55,23 @@
 
                     </f:facet>
 
-                    <p:column headerText="Nome" priority="1">
+                    <p:column headerText="Nome" sortBy="#{funcionario.nome}">
                         <h:outputText value="#{funcionario.nome}"/>
                     </p:column>
 
-                    <p:column headerText="CPF" priority="1">
+                    <p:column headerText="CPF" sortBy="#{funcionario.cpf}">
                         <h:outputText value="#{funcionario.cpf}" />
                     </p:column>
 
-                    <p:column headerText="RG" priority="1">
+                    <p:column headerText="RG" sortBy="#{funcionario.rg}">
                         <h:outputText value="#{funcionario.rg}" />
                     </p:column>
 
-                    <p:column headerText="Matricula" priority="1">
+                    <p:column headerText="Matricula" sortBy="#{funcionario.matricula}">
                         <h:outputText value="#{funcionario.matricula}" />
                     </p:column>
 
-                    <p:column headerText="Data Contratação">
+                    <p:column headerText="Data Contratação" sortBy="#{funcionario.dtCadastro}">
                         <h:outputText value="#{funcionario.dtCadastro}">
                             <f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy"/>
                         </h:outputText>

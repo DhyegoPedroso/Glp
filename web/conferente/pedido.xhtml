@@ -24,9 +24,10 @@
                     <p:toolbarGroup>
 
                         <p:commandButton value="Pesquisar" actionListener="#{pedidoC.pesquisar()}"
-                                         update="dadosTabelas" process="@this panelGridPesq" />
+                                         update="dadosTabelas, pesqNome" process="@this, pesqNome" />
                         <p:separator></p:separator>
-                        <p:commandButton value="Novo" actionListener="#{pedidoC.novo}" update="@form" global="false" />
+                        <p:commandButton value="Novo" actionListener="#{pedidoC.novo}" update="@form" global="false" 
+                                         />
 
                     </p:toolbarGroup>
 
@@ -35,7 +36,7 @@
                 <p:panelGrid id="panelGridPesq" columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-10" styleClass="painel_grid_noborder" >
 
                     <p:outputLabel for="pesqNome" value="Cliente: "/>
-                    <p:inputText id="pesqNome" value="#{pedidoC.nomePesquisa}" style="margin-left: 5px"/>
+                    <p:inputText id="pesqNome" value="#{pedidoC.nomePesquisa}"  style="margin-left: 5px" />
                     <p:spacer />
 
                 </p:panelGrid>
@@ -59,20 +60,26 @@
 
                     </f:facet>
 
-                    <p:column headerText="Cliente " priority="1">
+                    <p:column headerText="Cliente " sortBy="#{pedido.cliente.nomeSocial}">
                         <h:outputText value="#{pedido.cliente.nomeSocial}"/>
                     </p:column>
 
-                    <p:column headerText="CNPJ" priority="1">
+                    <p:column headerText="CNPJ" sortBy="#{pedido.cliente.cnpj}">
                         <h:outputText value="#{pedido.cliente.cnpj}"/>
                     </p:column>
 
-                    <p:column headerText="Placa do veículo" priority="1">
+                    <p:column headerText="Placa do veículo" sortBy="#{pedido.caminhao.placaCaminhao}">
                         <h:outputText value="#{pedido.caminhao.placaCaminhao}" />
                     </p:column>
 
-                    <p:column headerText="Nome do motorista">
+                    <p:column headerText="Nome do motorista" sortBy="#{pedido.caminhao.nomeMotorista}">
                         <h:outputText value="#{pedido.caminhao.nomeMotorista}"/>
+                    </p:column>
+
+                    <p:column headerText="Data pedido" sortBy="#{pedido.cadastro}">
+                        <h:outputText value="#{pedido.cadastro}">
+                            <f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
                     </p:column>
 
                     <p:column headerText="Alterar" class="centralizado tabela_botao_usuario" priority="1" >
@@ -188,7 +195,7 @@
                         </p:autoComplete>
 
                         <p:outputLabel value="CNPJ: "/>
-                        <p:inputText   id="CNPJ" value="#{pedidoC.cliente.cnpj}" size="70"/>
+                        <p:inputText   id="CNPJ" value="#{pedidoC.cliente.cnpj}" size="70" disabled="true"/>
 
                         <p:outputLabel value="Placa do Veículo: "/>
                         <p:autoComplete id="placaCami"  forceSelection="true" size="70" minQueryLength="0" onfocus="true"
@@ -197,7 +204,7 @@
                         </p:autoComplete>
 
                         <p:outputLabel for="nomeMot" value="Nome do Motorista: "/>
-                        <p:inputText  id="nomeMot" value="#{pedidoC.caminhao.nomeMotorista}" size="70"/>
+                        <p:inputText  id="nomeMot" value="#{pedidoC.caminhao.nomeMotorista}" size="70" disabled="true"/>
 
                     </p:panelGrid>
 
@@ -211,7 +218,7 @@
                         <p:outputLabel value="Produto: " for="produto" />
                         <p:autoComplete id="produto"  forceSelection="true" size="70" minQueryLength="3" 
                                         value="#{pedidoC.produto.nomeProduto}" completeMethod="#{pedidoC.completeProduto}">
-                            <p:ajax event="itemSelect" update="produto" listener="#{pedidoC.carregarDadosProduto()}"/>
+                            <p:ajax event="itemSelect" update="movi" listener="#{pedidoC.carregarDadosProduto()}"/>
                         </p:autoComplete>
 
                         <h:outputLabel for="tipoMovimentacao" value="Movimentação:  " />
@@ -227,10 +234,11 @@
 
                         <p:spacer/>
                         <p:commandButton id="btn_add_produto" value="Add" update="dadosMovi, movi, confirMovi" process="@this, movi" 
-                                         action="#{pedidoC.addItemProduto()}" />
+                                         action="#{pedidoC.addItemProduto()}" 
+                                         rendered="#{pedidoC.produto.nomeProduto == empty true}"/>
 
                     </p:panelGrid>
-
+                    
                 </p:fieldset>
 
                 <p:dataTable id="dadosMovi" value="#{pedidoC.modelItemProdutos}" var="itemPedido" reflow="true"
@@ -267,7 +275,8 @@
                     <p:column headerText="Alterar" rendered="#{pedidoC.pedido.id == null}" class="centralizado tabela_botao_usuario"
                               priority="1" >
                         <p:commandButton icon="ui-icon-pencil" title="Alterar Movimentação" process="@this" 
-                                         update=":form_pesquisa:movi" actionListener="#{pedidoC.carregarParaAlterarItens()}">
+                                         update=":form_pesquisa:movi" actionListener="#{pedidoC.carregarParaAlterarItens()}"
+                                         disabled="#{pedidoC.produto.nomeProduto == empty true}" >
                             <f:setPropertyActionListener target="#{pedidoC.itemPedido}" value="#{itemPedido}"   />          
                         </p:commandButton>
 

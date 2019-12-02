@@ -149,7 +149,6 @@ public class FuncionarioControl implements Serializable {
             abreSessao();
 
             funcionario.setUsuario(usuario);
-//            usuario.setFuncionario(funcionario);
             usuario.setEnable(true);
             usuario.setPerfil(perfil);
 
@@ -159,19 +158,19 @@ public class FuncionarioControl implements Serializable {
 
             funcionarioDao.salvarOuAlterar(funcionario, session);
             Mensagem.salvar("Funcionario: " + funcionario.getNome());
+            limpar();
             funcionario = null;
             usuario = null;
 
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar funcionario:\n" + ex.getMessage());
-                 Mensagem.mensagemError("Erro ao tentar salvar funcionário");
+            Mensagem.mensagemError("Erro ao tentar salvar funcionário");
         } catch (Exception e) {
             System.out.println("Erro no salvar funcionarioDao Controle "
                     + e.getMessage());
         } finally {
             session.close();
         }
-        limpar();
 
     }
 

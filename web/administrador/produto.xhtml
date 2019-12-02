@@ -55,15 +55,15 @@
 
                     </f:facet>
 
-                    <p:column headerText="Produto" priority="1">
+                         <p:column headerText="Produto" sortBy="#{produto.nomeProduto}">
                         <h:outputText value="#{produto.nomeProduto}"/>
                     </p:column>
 
-                    <p:column headerText="Marca" priority="1">
+                    <p:column headerText="Marca" sortBy="#{produto.marca}">
                         <h:outputText value="#{produto.marca}" />
                     </p:column>
 
-                    <p:column headerText="Situação" priority="1">
+                    <p:column headerText="Situação" sortBy="#{produto.situacao}">
                         <h:outputText value="#{produto.situacao}" />
                     </p:column>
 

@@ -82,6 +82,34 @@ public class Mensagem {
                         " Há quantidade " + quantidade + " do pedido é maior que a do estoque, estoque disponível " + estoque, ""));
     }
 
+    static void quantidadeZero() {
+        FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_INFO,
+                        " Impossivel add produto com a quanitade 0 'Zero' " , ""));
+    }
+    
+    static void selecioneUmaPesquisa() {
+        FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_WARN,
+                        " Por favor selecione 'Pedido' ou 'Produto' para realizar o procedimento " , ""));
+    }
+    
+    static void dataInicial() {
+        FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_WARN,
+                        " Por favor selecione um período inicial para realizar o procedimento " , ""));
+    }
+    
+    static void dataFinal() {
+        FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_WARN,
+                        " Por favor selecione um período final para realizar o procedimento " , ""));
+    }
+
     public static void mensagemError(String msg) {
         FacesContext.getCurrentInstance().
                 addMessage(null, new FacesMessage(
