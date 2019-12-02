@@ -104,6 +104,8 @@ public class PedidoController implements Serializable {
             modelItemProdutos = new ListDataModel<>(itemProdutos);
         }
 
+        itemPedido = modelItemProdutos.getRowData();
+        produto = itemPedido.getProduto();
         itemProdutos = pedido.getItemPedidos();
         produto = itemPedido.getProduto();
 
@@ -277,6 +279,7 @@ public class PedidoController implements Serializable {
             itemPedido.setQuantidade(itemPedido.getQuantidade());
             itemPedido.setPedido(pedido);
             itemProdutos.add(itemPedido);
+            modelItemProdutos = new ListDataModel(itemProdutos);
 
             itemPedido = new ItemPedido();
             produto = new Produto();
