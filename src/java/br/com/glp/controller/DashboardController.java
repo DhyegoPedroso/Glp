@@ -14,6 +14,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -73,7 +74,7 @@ public class DashboardController implements Serializable {
 
             carregarDadosPedido();
             pedidoMes.setLabel("Pedidos do Ano");
-            pedidoMes.set("Janeiro", Integer.parseInt(String.valueOf(resultadoPedidos.get(0).getQuantidade())));
+            pedidoMes.set("Janeiro", resultadoPedidos.get(0).getQuantidade());
             pedidoMes.set("Fevereiro", resultadoPedidos.get(1).getQuantidade());
             pedidoMes.set("Março", resultadoPedidos.get(2).getQuantidade());
             pedidoMes.set("Abril", resultadoPedidos.get(3).getQuantidade());
@@ -169,7 +170,7 @@ public class DashboardController implements Serializable {
 
             return (total + 50);
 
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             session.close();
         }
 
@@ -275,7 +276,7 @@ public class DashboardController implements Serializable {
             yAxis.setMin(0);
             yAxis.setMax(pegarQtdeMaxProduto());
 
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             session.close();
         }
 
@@ -330,7 +331,7 @@ public class DashboardController implements Serializable {
 
             return (total + 50);
 
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             session.close();
         }
 
@@ -483,7 +484,7 @@ public class DashboardController implements Serializable {
 
             return (total + 50);
 
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             session.close();
         }
 

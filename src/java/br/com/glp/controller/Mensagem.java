@@ -40,13 +40,6 @@ public class Mensagem {
                 );
     }
 
-    public static void campoVazio(String msg) {
-        FacesContext.getCurrentInstance().
-                addMessage(null, new FacesMessage(
-                        FacesMessage.SEVERITY_ERROR,
-                        msg + " deve(m) ser preenchido", ""));
-    }
-
     public static void clienteNaoExiste(String telefone) {
         FacesContext.getCurrentInstance().
                 addMessage(null, new FacesMessage(
@@ -86,28 +79,35 @@ public class Mensagem {
         FacesContext.getCurrentInstance().
                 addMessage(null, new FacesMessage(
                         FacesMessage.SEVERITY_INFO,
-                        " Impossivel add produto com a quanitade 0 'Zero' " , ""));
+                        " Impossivel add produto com a quanitade 0 'Zero' ", ""));
     }
-    
+
+    static void quantidadeNegativa() {
+        FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_INFO,
+                        " Impossivel add produto com a quanitade negativa", ""));
+    }
+
     static void selecioneUmaPesquisa() {
         FacesContext.getCurrentInstance().
                 addMessage(null, new FacesMessage(
                         FacesMessage.SEVERITY_WARN,
-                        " Por favor selecione 'Pedido' ou 'Produto' para realizar o procedimento " , ""));
+                        " Por favor selecione 'Pedido' ou 'Produto' para realizar o procedimento ", ""));
     }
-    
+
     static void dataInicial() {
         FacesContext.getCurrentInstance().
                 addMessage(null, new FacesMessage(
                         FacesMessage.SEVERITY_WARN,
-                        " Por favor selecione um período inicial para realizar o procedimento " , ""));
+                        " Por favor selecione um período inicial para realizar o procedimento ", ""));
     }
-    
+
     static void dataFinal() {
         FacesContext.getCurrentInstance().
                 addMessage(null, new FacesMessage(
                         FacesMessage.SEVERITY_WARN,
-                        " Por favor selecione um período final para realizar o procedimento " , ""));
+                        " Por favor selecione um período final para realizar o procedimento ", ""));
     }
 
     public static void mensagemError(String msg) {
@@ -117,12 +117,40 @@ public class Mensagem {
                         msg, "")
                 );
     }
-    
-     public static void selecioneMovimentacao() {
+
+    public static void selecioneMovimentacao() {
         FacesContext.getCurrentInstance().
                 addMessage(null, new FacesMessage(
                         FacesMessage.SEVERITY_WARN,
                         " Selecione uma Movimentação para realizar o procedimento!", ""));
+    }
+
+    public static void campoVazio(String msg) {
+        FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_WARN,
+                       msg + " é Obrigatório ", ""));
+    }
+    
+    public static void dataFinalMenor() {
+        FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_WARN,
+                       "Data final menor que a data inicial", ""));
+    }
+    
+    public static void dataFinalFutura() {
+        FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_WARN,
+                       "Data final maior que a data atual", ""));
+    }
+    
+    public static void dataInicioFutura() {
+        FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_WARN,
+                       "Data inicio maior que a data atual", ""));
     }
 
 }

@@ -222,8 +222,8 @@
                         </p:autoComplete>
 
                         <h:outputLabel for="tipoMovimentacao" value="Movimentação:  " />
-                        <p:selectOneMenu styleClass="form-control" id="tipoMovimentacao" value="#{pedidoC.itemPedido.movimentacao}"
-                                         required="true">
+                        <p:selectOneMenu styleClass="form-control" id="tipoMovimentacao"
+                                         value="#{pedidoC.itemPedido.movimentacao}">
                             <f:selectItem itemLabel="Selecione uma Situação" itemValue="" />
                             <f:selectItem itemLabel="Entrada" itemValue="Entrada" />
                             <f:selectItem itemLabel="Saída" itemValue="Saida" />
@@ -233,7 +233,7 @@
                         <p:inputText   id="quanti" value="#{pedidoC.itemPedido.quantidade}" size="15"/>
 
                         <p:spacer/>
-                        <p:commandButton id="btn_add_produto" value="Add" update="dadosMovi, movi, confirMovi" process="@this, movi" 
+                        <p:commandButton id="btn_add_produto" value="Add" update="dadosMovi, movi, confirMovi"  
                                          action="#{pedidoC.addItemProduto()}" 
                                          rendered="#{pedidoC.produto.nomeProduto == empty true}"/>
 

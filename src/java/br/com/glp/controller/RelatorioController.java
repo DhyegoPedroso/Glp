@@ -69,6 +69,12 @@ public class RelatorioController {
                 Mensagem.dataInicial();
             } else if (dataFinal == null) {
                 Mensagem.dataFinal();
+            } else if (dataInicio.after(dataFinal)) {
+                Mensagem.dataFinalMenor();
+            } else if (dataInicio.after(new Date())) {
+                Mensagem.dataInicioFutura();
+            } else if (dataFinal.after(new Date())) {
+                Mensagem.dataFinalFutura();
             } else {
                 if (qualPesquisa) {
                     if (!nomeCliente.equalsIgnoreCase("")) {

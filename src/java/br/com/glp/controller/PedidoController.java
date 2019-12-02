@@ -140,9 +140,12 @@ public class PedidoController implements Serializable {
             pedido.setItemPedidos(itemProdutos);
             pedido.setCaminhao(caminhao);
             updateEstoque();
-            pedidoDao.salvarOuAlterar(pedido, session);
-            Mensagem.salvar("Pedido " + pedido.getNotaFiscal());
-            limpar();
+
+            if (verificarCliente()) {
+                pedidoDao.salvarOuAlterar(pedido, session);
+                limpar();
+            }
+
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar pedido:\n" + ex.getMessage());
             Mensagem.mensagemError("Erro ao tentar salvar o pedido");
@@ -265,8 +268,10 @@ public class PedidoController implements Serializable {
             Mensagem.selecioneMovimentacao();
         } else if (!itemPedido.getMovimentacao().equalsIgnoreCase("Entrada") && itemPedido.getQuantidade() > produto.getQuantidade()) {
             Mensagem.estoqueInsuficiente(itemPedido.getQuantidade(), produto.getQuantidade());
-        } else if (itemPedido.getQuantidade() <= 0) {
+        } else if (itemPedido.getQuantidade() == 0) {
             Mensagem.quantidadeZero();
+        } else if (itemPedido.getQuantidade() < 0) {
+            Mensagem.quantidadeNegativa();
         } else {
             itemPedido.setProduto(produto);
             itemPedido.setQuantidade(itemPedido.getQuantidade());
@@ -318,6 +323,22 @@ public class PedidoController implements Serializable {
             session.close();
         }
         return produto;
+    }
+
+    private boolean verificarCliente() {
+        if (pedido.getNotaFiscal().equalsIgnoreCase("")) {
+            Mensagem.campoVazio("Nota Fiscal");
+            return false;
+        } else if (cliente.getNomeSocial().equalsIgnoreCase("")) {
+            Mensagem.campoVazio("Cliente");
+            return false;
+        } else if (caminhao.getPlacaCaminhao().equalsIgnoreCase("")) {
+            Mensagem.campoVazio("Motorista");
+            return false;
+        } else {
+            Mensagem.salvar("Pedido " + pedido.getNotaFiscal());
+            return true;
+        }
     }
 
     public void limpar() {
