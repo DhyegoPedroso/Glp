@@ -108,7 +108,7 @@ public class DashboardController implements Serializable {
             graficoPedidos = initBarModelPedidosAno();
 
             BigInteger qtde = pedidoDao.totalPedidoAno(session);
-            Integer total = qtde.intValue();
+            Integer total = qtde.intValueExact();
 
             graficoPedidos.setTitle("Pedidos do Ano");
             graficoPedidos.setLegendPosition("nw");
@@ -165,7 +165,7 @@ public class DashboardController implements Serializable {
         try {
 
             BigInteger qtde = pedidoDao.totalQtdeMaxPedido(session);
-            int total = qtde.intValue();
+            Integer total = qtde.intValueExact();
 
             return (total + 50);
 
