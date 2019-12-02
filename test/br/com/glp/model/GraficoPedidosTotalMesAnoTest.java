@@ -3,12 +3,10 @@ package br.com.glp.model;
 import br.com.glp.dao.HibernateUtil;
 import br.com.glp.dao.PedidoDao;
 import br.com.glp.dao.PedidoDaoImpl;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -36,7 +34,7 @@ public class GraficoPedidosTotalMesAnoTest {
         List<GraficoPedidosTotalMesAno> totalMesAnos = new ArrayList<>();
         for (Object resultado : resultados) {
             item = (Object[]) resultado;
-            grt = new GraficoPedidosTotalMesAno((int) item[0], (long) item[1]);
+            grt = new GraficoPedidosTotalMesAno((int) item[0], Integer.parseInt(item[1].toString()));
             totalMesAnos.add(grt);
         }
 

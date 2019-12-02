@@ -60,7 +60,7 @@ public class ItemPedidoDaoImplTest {
         List<GraficoProdutosTotalMesAno> totalMesAnos = new ArrayList<>();
         for (Object resultado : resultados) {
             item = (Object[]) resultado;
-            grt = new GraficoProdutosTotalMesAno((int) item[0], (String) item[1], (long) item[2]);
+            grt = new GraficoProdutosTotalMesAno((int) item[0], (String) item[1], (int) item[2]);
             totalMesAnos.add(grt);
         }
 
@@ -84,7 +84,7 @@ public class ItemPedidoDaoImplTest {
         totalMesAnos = new ArrayList<>();
         for (Object resultado : resultados) {
             item = (Object[]) resultado;
-            grt = new GraficoProdutosTotalMesAno((int) item[0], (String) item[1], (long) item[2]);
+            grt = new GraficoProdutosTotalMesAno((int) item[0], (String) item[1], (int) item[2]);
             totalMesAnos.add(grt);
         }
 
@@ -108,7 +108,7 @@ public class ItemPedidoDaoImplTest {
         totalMesAnos = new ArrayList<>();
         for (Object resultado : resultados) {
             item = (Object[]) resultado;
-            grt = new GraficoProdutosTotalMesAno((int) item[0], (String) item[1], (long) item[2]);
+            grt = new GraficoProdutosTotalMesAno((int) item[0], (String) item[1], (int) item[2]);
             totalMesAnos.add(grt);
         }
 

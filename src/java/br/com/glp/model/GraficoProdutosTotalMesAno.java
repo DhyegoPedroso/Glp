@@ -8,12 +8,12 @@ public class GraficoProdutosTotalMesAno {
 
     private int mes;
     private String produto;
-    private long quantidade;
+    private int quantidade;
 
     public GraficoProdutosTotalMesAno() {
     }
 
-    public GraficoProdutosTotalMesAno(int mes, String produto, long quantidade) {
+    public GraficoProdutosTotalMesAno(int mes, String produto, int quantidade) {
         this.mes = mes;
         this.produto = produto;
         this.quantidade = quantidade;
@@ -35,11 +35,11 @@ public class GraficoProdutosTotalMesAno {
         this.mes = mes;
     }
 
-    public long getQuantidade() {
+    public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(long quantidade) {
+    public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
 

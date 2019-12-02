@@ -73,7 +73,7 @@ public class DashboardController implements Serializable {
 
             carregarDadosPedido();
             pedidoMes.setLabel("Pedidos do Ano");
-            pedidoMes.set("Janeiro", resultadoPedidos.get(0).getQuantidade());
+            pedidoMes.set("Janeiro", Integer.parseInt(String.valueOf(resultadoPedidos.get(0).getQuantidade())));
             pedidoMes.set("Fevereiro", resultadoPedidos.get(1).getQuantidade());
             pedidoMes.set("Março", resultadoPedidos.get(2).getQuantidade());
             pedidoMes.set("Abril", resultadoPedidos.get(3).getQuantidade());
@@ -108,7 +108,7 @@ public class DashboardController implements Serializable {
             graficoPedidos = initBarModelPedidosAno();
 
             BigInteger qtde = pedidoDao.totalPedidoAno(session);
-            Long total = qtde.longValue();
+            Integer total = qtde.intValue();
 
             graficoPedidos.setTitle("Pedidos do Ano");
             graficoPedidos.setLegendPosition("nw");
@@ -138,7 +138,7 @@ public class DashboardController implements Serializable {
         resultadoPedidos = new ArrayList<>();
         for (Object resultado : resultados) {
             item = (Object[]) resultado;
-            grt = new GraficoPedidosTotalMesAno((int) item[0], (long) item[1]);
+            grt = new GraficoPedidosTotalMesAno((int) item[0], Integer.parseInt(item[1].toString()));
             resultadoPedidos.add(grt);
 
         }
@@ -160,13 +160,12 @@ public class DashboardController implements Serializable {
         }
     }
 
-    private Long pegarQtdeMaxPedido() {
+    private Integer pegarQtdeMaxPedido() {
 
         try {
 
             BigInteger qtde = pedidoDao.totalQtdeMaxPedido(session);
-
-            Long total = qtde.longValue();
+            int total = qtde.intValue();
 
             return (total + 50);
 
@@ -259,7 +258,7 @@ public class DashboardController implements Serializable {
 
             BigInteger qtde = itemPedidoDao.totalProdutoAno(session);
 
-            Long total = qtde.longValue();
+            Integer total = qtde.intValue();
 
             graficoProdutos = initBarModelProdutos();
 
@@ -291,7 +290,7 @@ public class DashboardController implements Serializable {
         resultadoProdutos = new ArrayList<>();
         for (Object resultado : resultados) {
             item = (Object[]) resultado;
-            grt = new GraficoProdutosTotalMesAno((int) item[0], (String) item[1], (long) item[2]);
+            grt = new GraficoProdutosTotalMesAno((int) item[0], (String) item[1], Integer.parseInt(item[2].toString()));
             resultadoProdutos.add(grt);
 
         }
@@ -319,7 +318,7 @@ public class DashboardController implements Serializable {
 
     }
 
-    private Long pegarQtdeMaxProduto() {
+    private Integer pegarQtdeMaxProduto() {
 
         try {
 
@@ -327,7 +326,7 @@ public class DashboardController implements Serializable {
 
             BigInteger qtde = itemPedidoDao.totalQtdeMaxProduto(session);
 
-            Long total = qtde.longValue();
+            Integer total = qtde.intValue();
 
             return (total + 50);
 
@@ -444,7 +443,7 @@ public class DashboardController implements Serializable {
         resultadoSituacoes = new ArrayList<>();
         for (Object resultado : resultados) {
             item = (Object[]) resultado;
-            grt = new GraficoProdutosTotalMesAno((int) item[0], (String) item[1], (long) item[2]);
+            grt = new GraficoProdutosTotalMesAno((int) item[0], (String) item[1], Integer.parseInt(item[2].toString()));
             resultadoSituacoes.add(grt);
 
         }
@@ -472,7 +471,7 @@ public class DashboardController implements Serializable {
 
     }
 
-    private Long pegarQtdeMaxSituacao() {
+    private Integer pegarQtdeMaxSituacao() {
 
         try {
 
@@ -480,7 +479,7 @@ public class DashboardController implements Serializable {
 
             BigInteger qtde = itemPedidoDao.totalQtdeMaxSituacoes(session);
 
-            Long total = qtde.longValue();
+            Integer total = qtde.intValue();
 
             return (total + 50);
 

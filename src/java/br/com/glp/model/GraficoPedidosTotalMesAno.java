@@ -9,12 +9,12 @@ import java.io.Serializable;
 public class GraficoPedidosTotalMesAno implements Serializable{
     
     private int mes;
-    private long quantidade;
+    private int quantidade;
 
     public GraficoPedidosTotalMesAno() {
     }
 
-    public GraficoPedidosTotalMesAno(int mes, long quantidade) {
+    public GraficoPedidosTotalMesAno(int mes, int quantidade) {
         this.mes = mes;
         this.quantidade = quantidade;
     }
@@ -27,11 +27,11 @@ public class GraficoPedidosTotalMesAno implements Serializable{
         this.mes = mes;
     }
 
-    public long getQuantidade() {
+    public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(long quantidade) {
+    public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
     
