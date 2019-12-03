@@ -56,6 +56,7 @@ public class PedidoController implements Serializable {
 
     private String movimentacao;
     private String nomePesquisa;
+    private boolean alterar;
 
     public PedidoController() {
         pedidoDao = new PedidoDaoImpl();
@@ -94,7 +95,7 @@ public class PedidoController implements Serializable {
         modelItemProdutos = new ListDataModel<>(pedido.getItemPedidos());
     }
 
-    public void carregarParaAlterarItens() {
+    public Boolean carregarParaAlterarItens() {
 
         if (itemProdutos == null) {
             itemProdutos = new ArrayList();
@@ -106,8 +107,12 @@ public class PedidoController implements Serializable {
 
         itemPedido = modelItemProdutos.getRowData();
         produto = itemPedido.getProduto();
-        itemProdutos = pedido.getItemPedidos();
+        itemProdutos = getItemProdutos();
         produto = itemPedido.getProduto();
+
+        alterar = true;
+
+        return alterar;
 
     }
 
@@ -275,9 +280,16 @@ public class PedidoController implements Serializable {
         } else if (itemPedido.getQuantidade() < 0) {
             Mensagem.quantidadeNegativa();
         } else {
+
             itemPedido.setProduto(produto);
+            itemPedido.setQuantidade(itemPedido.getQuantidade());
             itemPedido.setPedido(pedido);
-            itemProdutos.add(itemPedido);
+
+            if (!alterar) {
+                itemProdutos.add(itemPedido);
+            }
+            alterar = false;
+
             modelItemProdutos = new ListDataModel(itemProdutos);
 
             itemPedido = new ItemPedido();
@@ -513,4 +525,11 @@ public class PedidoController implements Serializable {
         this.nomePesquisa = nomePesquisa;
     }
 
+    public boolean isAlterar() {
+        return alterar;
+    }
+
+    public void setAlterar(boolean alterar) {
+        this.alterar = alterar;
+    }
 }
