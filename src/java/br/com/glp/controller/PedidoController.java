@@ -108,11 +108,8 @@ public class PedidoController implements Serializable {
         itemPedido = modelItemProdutos.getRowData();
         produto = itemPedido.getProduto();
         itemProdutos = getItemProdutos();
-        produto = itemPedido.getProduto();
 
-        alterar = true;
-
-        return alterar;
+        return alterar = true;
 
     }
 
@@ -348,6 +345,9 @@ public class PedidoController implements Serializable {
             return false;
         } else if (caminhao.getPlacaCaminhao().equalsIgnoreCase("")) {
             Mensagem.campoVazio("Motorista");
+            return false;
+        } else if (itemProdutos.isEmpty()) {
+            Mensagem.campoVazio("Tabela produtos");
             return false;
         } else {
             Mensagem.salvar("Pedido " + pedido.getNotaFiscal());

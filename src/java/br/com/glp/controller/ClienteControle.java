@@ -48,6 +48,8 @@ public class ClienteControle implements Serializable {
 
     private boolean skip;
 
+    private boolean alterar;
+
     public ClienteControle() {
         clienteDao = new ClienteDaoImpl();
     }
@@ -80,12 +82,12 @@ public class ClienteControle implements Serializable {
         cliente = modelClientes.getRowData();
         endereco = cliente.getEndereco();
         contato = endereco.getContato();
-        
+
         caminhoes = endereco.getCaminhoes();
         modelCaminhoes = new ListDataModel<>(endereco.getCaminhoes());
     }
 
-    public void carregarCaminhao() {
+    public Boolean carregarCaminhao() {
 
         if (caminhoes == null) {
             caminhoes = new ArrayList();
@@ -96,8 +98,9 @@ public class ClienteControle implements Serializable {
         }
 
         caminhao = modelCaminhoes.getRowData();
-        caminhao.setEndereco(endereco);
-        endereco.setCaminhoes(caminhoes);
+        endereco = caminhao.getEndereco();
+
+        return alterar = true;
     }
 
     public boolean isSkip() {
@@ -218,7 +221,13 @@ public class ClienteControle implements Serializable {
 
         caminhao.setEndereco(endereco);
         endereco.setCaminhoes(caminhoes);
-        caminhoes.add(caminhao);
+
+        if (!alterar) {
+            caminhoes.add(caminhao);
+        }
+
+        alterar = false;
+
         modelCaminhoes = new ListDataModel<>(caminhoes);
 
         caminhao = new Caminhao();
@@ -329,4 +338,13 @@ public class ClienteControle implements Serializable {
     public void setSkip(boolean skip) {
         this.skip = skip;
     }
+
+    public boolean isAlterar() {
+        return alterar;
+    }
+
+    public void setAlterar(boolean alterar) {
+        this.alterar = alterar;
+    }
+
 }
