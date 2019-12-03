@@ -131,7 +131,8 @@
 
                 <p:panel >
 
-                    <p:wizard flowListener="#{clienteC.onFlowProcess}" nextLabel="Próximo" backLabel="Voltar" >
+                    <p:wizard flowListener="#{clienteC.onFlowProcess}" showStepStatus="true" showNavBar="true" 
+                              nextLabel="Próximo" backLabel="Voltar" >
                         <p:tab id="personal" title="Cliente">
                             <p:panel header="Detalhes Pessoais">
                                 <p:messages />
