@@ -276,7 +276,6 @@ public class PedidoController implements Serializable {
             Mensagem.quantidadeNegativa();
         } else {
             itemPedido.setProduto(produto);
-            itemPedido.setQuantidade(itemPedido.getQuantidade());
             itemPedido.setPedido(pedido);
             itemProdutos.add(itemPedido);
             modelItemProdutos = new ListDataModel(itemProdutos);

@@ -80,6 +80,8 @@ public class ClienteControle implements Serializable {
         cliente = modelClientes.getRowData();
         endereco = cliente.getEndereco();
         contato = endereco.getContato();
+        
+        caminhoes = endereco.getCaminhoes();
         modelCaminhoes = new ListDataModel<>(endereco.getCaminhoes());
     }
 
@@ -94,6 +96,8 @@ public class ClienteControle implements Serializable {
         }
 
         caminhao = modelCaminhoes.getRowData();
+        caminhao.setEndereco(endereco);
+        endereco.setCaminhoes(caminhoes);
     }
 
     public boolean isSkip() {
@@ -212,10 +216,10 @@ public class ClienteControle implements Serializable {
             modelCaminhoes = new ListDataModel<>(caminhoes);
         }
 
-        caminhoes.add(caminhao);
         caminhao.setEndereco(endereco);
         endereco.setCaminhoes(caminhoes);
-        Mensagem.salvar("Motorista: " + caminhao.getNomeMotorista());
+        caminhoes.add(caminhao);
+        modelCaminhoes = new ListDataModel<>(caminhoes);
 
         caminhao = new Caminhao();
     }

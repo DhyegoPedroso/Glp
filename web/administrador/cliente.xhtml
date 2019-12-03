@@ -231,7 +231,7 @@
                                 </h:panelGrid>
 
                                 <p:dataTable id="dadosCaminhao" var="caminhao" value="#{clienteC.modelCaminhoes}"
-                                             emptyMessage="Não há registros na lista" style="margin-top: 10px">
+                                             emptyMessage="Não há registros na lista" style="margin-top: 10px" reflow="true">
 
                                     <p:column headerText="Motorista" priority="1">
                                         <h:outputText value="#{caminhao.nomeMotorista}"/>
