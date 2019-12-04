@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -30,19 +31,31 @@ public class CaminhaoDaoImpl extends BaseDaoImpl<Caminhao, Long> implements Cami
         consulta.setParameter("nome", nome + "%");
         return consulta.list();
     }
-    
+
     @Override
     public List<Caminhao> pesquisaPlaca(String placaCaminhao, Session session) throws HibernateException {
         Query consulta = session.createQuery("from Caminhao c where c.placaCaminhao like :placaCaminhao");
         consulta.setParameter("placaCaminhao", placaCaminhao + "%");
         return consulta.list();
     }
-    
+
     @Override
     public List<Caminhao> pesquisaCaminhaoCliente(Long idCliente, Session session) throws HibernateException {
         Query consulta = session.createQuery("SELECT c FROM Caminhao c JOIN c.endereco.cliente cec WHERE cec.id = :idCliente ");
-        consulta.setParameter("idCliente", idCliente );
+        consulta.setParameter("idCliente", idCliente);
         return consulta.list();
+    }
+
+    @Override
+    public void salvarCaminhao(Caminhao caminhao, Session session) throws HibernateException {
+        Transaction transaction;
+        transaction = session.beginTransaction();
+        try {
+            session.save(caminhao);
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+        }
     }
 
 }

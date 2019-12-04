@@ -49,6 +49,7 @@ public class ClienteControle implements Serializable {
     private boolean skip;
 
     private boolean alterar;
+    private boolean excluir;
 
     public ClienteControle() {
         clienteDao = new ClienteDaoImpl();
@@ -178,6 +179,7 @@ public class ClienteControle implements Serializable {
             caminhoes.remove(caminhao);
             Mensagem.excluir("Motorista " + caminhao.getNomeMotorista());
             limparCaminhao();
+            excluir = true;
         } catch (Exception e) {
             System.out.println("erro ao excluir: " + e.getMessage());
         } finally {
@@ -198,9 +200,6 @@ public class ClienteControle implements Serializable {
             contato.setEndereco(endereco);
             endereco.setContato(contato);
 
-            caminhao.setEndereco(endereco);
-            endereco.setCaminhoes(caminhoes);
-
             clienteDao.salvarOuAlterar(cliente, session);
             Mensagem.salvar("Cliente: " + cliente.getNome());
             limpar();
@@ -218,6 +217,8 @@ public class ClienteControle implements Serializable {
 
     public void addCaminhao() {
 
+        CaminhaoDao caminhaoDao = new CaminhaoDaoImpl();
+
         if (caminhoes == null) {
             caminhoes = new ArrayList();
         }
@@ -232,10 +233,20 @@ public class ClienteControle implements Serializable {
             caminhoes.add(caminhao);
         }
 
+        if (endereco.getId() != null && excluir) {
+            try {
+                abreSessao();
+                endereco.setId(endereco.getId());
+                caminhao.setEndereco(endereco);
+                caminhaoDao.salvarCaminhao(caminhao, session);
+            } catch (HibernateException e) {
+                session.close();
+            }
+        }
+
+        excluir = false;
         alterar = false;
-
         modelCaminhoes = new ListDataModel<>(caminhoes);
-
         caminhao = new Caminhao();
     }
 
@@ -351,6 +362,14 @@ public class ClienteControle implements Serializable {
 
     public void setAlterar(boolean alterar) {
         this.alterar = alterar;
+    }
+
+    public boolean isExcluir() {
+        return excluir;
+    }
+
+    public void setExcluir(boolean excluir) {
+        this.excluir = excluir;
     }
 
 }

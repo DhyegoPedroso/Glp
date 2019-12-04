@@ -1,11 +1,12 @@
 package br.com.glp.dao;
 
 import br.com.glp.model.Caminhao;
+import br.com.glp.model.Cliente;
+import br.com.glp.model.Endereco;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -63,6 +64,30 @@ public class CaminhaoDaoImplTest {
 
     @Test
     public void testPesquisaPlaca() {
+
+        try {
+
+            session = HibernateUtil.abreSessao();
+            
+            Cliente cliente = new Cliente();
+            cliente.setId(19l);
+
+            caminhao = new Caminhao("Teste 69", "ABC6969");
+            Endereco endereco = new Endereco();
+            endereco.setId(15l);
+            caminhao.setEndereco(endereco);
+
+            if (cliente.getId() != null) {
+                caminhaoDao.salvarCaminhao(caminhao, session);
+            }
+
+        } catch (Exception e) {
+            session.close();
+        }
+    }
+
+    @Test
+    public void testPesquisaCaminhaoCliente() {
     }
 
 }
