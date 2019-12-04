@@ -119,8 +119,6 @@
                 <p:toolbar id="toolbar_salvar" styleClass="toolbar">
 
                     <p:toolbarGroup  >
-                        <p:commandButton value="Salvar" action="#{clienteC.salvar()}" update="aba_alterar" />
-                        <p:separator></p:separator>
                         <p:commandButton value="Cancelar" actionListener="#{clienteC.novaPesquisa}" immediate="true"
                                          update="@form" global="false" />
                     </p:toolbarGroup>
@@ -341,6 +339,8 @@
                                             </p:column>
 
                                         </p:dataTable>
+
+                                        <p:commandButton value="Salvar" action="#{clienteC.salvar()}" update="aba_alterar" />
 
                                     </p:panelGrid>
 

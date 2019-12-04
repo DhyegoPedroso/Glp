@@ -47,7 +47,6 @@ public class ClienteControle implements Serializable {
     private Contato contato;
 
     private boolean skip;
-    private boolean skipFirst;
 
     private boolean alterar;
 
@@ -66,19 +65,16 @@ public class ClienteControle implements Serializable {
     public void novo() {
         mostrar_toolbar = !mostrar_toolbar;
         limpar();
-        isSkipFirst();
     }
 
     public void novaPesquisa() {
         mostrar_toolbar = !mostrar_toolbar;
         limpar();
-        isSkipFirst();
     }
 
     public void preparaAlterar() {
         mostrar_toolbar = !mostrar_toolbar;
         limpar();
-        isSkipFirst();
     }
 
     public void carregarParaAlterar() {
@@ -89,7 +85,6 @@ public class ClienteControle implements Serializable {
 
         caminhoes = endereco.getCaminhoes();
         modelCaminhoes = new ListDataModel<>(endereco.getCaminhoes());
-        isSkipFirst();
     }
 
     public Boolean carregarCaminhao() {
@@ -113,23 +108,10 @@ public class ClienteControle implements Serializable {
         return skip;
     }
 
-    public boolean isSkipFirst() {
-        return skipFirst = true;
-    }
-
     public String onFlowProcess(FlowEvent event) {
         if (skip) {
             skip = false;   //reset in case user goes back
             return "confirm";
-        } else {
-            return event.getNewStep();
-        }
-    }
-
-    public String onFlowProcessFirst(FlowEvent event) {
-        if (skip) {
-            skip = true;   //reset in case user goes back
-            return "personal";
         } else {
             return event.getNewStep();
         }
@@ -163,6 +145,10 @@ public class ClienteControle implements Serializable {
         caminhoes = new ArrayList<>();
     }
 
+    public void limparCaminhao() {
+        caminhao = new Caminhao();
+    }
+
     public void excluir() {
         cliente = modelClientes.getRowData();
         abreSessao();
@@ -190,9 +176,8 @@ public class ClienteControle implements Serializable {
             CaminhaoDao caminhaoDao = new CaminhaoDaoImpl();
             caminhaoDao.remover(caminhao, session);
             caminhoes.remove(caminhao);
-//            modelCaminhoes = new ListDataModel(caminhoes);
             Mensagem.excluir("Motorista " + caminhao.getNomeMotorista());
-//            limpar();
+            limparCaminhao();
         } catch (Exception e) {
             System.out.println("erro ao excluir: " + e.getMessage());
         } finally {
@@ -219,7 +204,6 @@ public class ClienteControle implements Serializable {
             clienteDao.salvarOuAlterar(cliente, session);
             Mensagem.salvar("Cliente: " + cliente.getNome());
             limpar();
-            isSkipFirst();
 
         } catch (HibernateException ex) {
             System.err.println("Erro ao Salvar Cliente:\n" + ex.getMessage());
@@ -359,10 +343,6 @@ public class ClienteControle implements Serializable {
 
     public void setSkip(boolean skip) {
         this.skip = skip;
-    }
-
-    public void setSkipFirst(boolean skipFirst) {
-        this.skipFirst = skipFirst;
     }
 
     public boolean isAlterar() {
