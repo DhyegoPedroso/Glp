@@ -84,6 +84,10 @@
                         Pedidos
                     </f:facet>
 
+                    <p:column headerText="Nota Fiscal" sortBy="#{pedido.notaFiscal}">
+                        <p:outputLabel value="#{pedido.notaFiscal}" />
+                    </p:column>
+
                     <p:column headerText="Cliente" sortBy="#{pedido.cliente.nomeSocial}">
                         <p:outputLabel value="#{pedido.cliente.nomeSocial}" />
                     </p:column>
@@ -136,6 +140,10 @@
                     <f:facet name="header">
                         Produtos
                     </f:facet>
+
+                    <p:column headerText="Nota Fiscal" sortBy="#{itemPedido.pedido.notaFiscal}">
+                        <p:outputLabel value="#{itemPedido.pedido.notaFiscal}" />
+                    </p:column>
 
                     <p:column headerText="Produto" sortBy="#{itemPedido.produto.nomeProduto}">
                         <p:outputLabel value="#{itemPedido.produto.nomeProduto}" />
