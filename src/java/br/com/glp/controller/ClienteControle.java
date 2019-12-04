@@ -104,6 +104,7 @@ public class ClienteControle implements Serializable {
 
         caminhao = modelCaminhoes.getRowData();
         endereco = caminhao.getEndereco();
+        caminhoes = endereco.getCaminhoes();
 
         return alterar = true;
     }
@@ -189,9 +190,9 @@ public class ClienteControle implements Serializable {
             CaminhaoDao caminhaoDao = new CaminhaoDaoImpl();
             caminhaoDao.remover(caminhao, session);
             caminhoes.remove(caminhao);
-            modelCaminhoes = new ListDataModel(caminhoes);
-            Mensagem.excluir("Motorista" + caminhao.getNomeMotorista());
-            limpar();
+//            modelCaminhoes = new ListDataModel(caminhoes);
+            Mensagem.excluir("Motorista " + caminhao.getNomeMotorista());
+//            limpar();
         } catch (Exception e) {
             System.out.println("erro ao excluir: " + e.getMessage());
         } finally {
@@ -211,6 +212,9 @@ public class ClienteControle implements Serializable {
 
             contato.setEndereco(endereco);
             endereco.setContato(contato);
+
+            caminhao.setEndereco(endereco);
+            endereco.setCaminhoes(caminhoes);
 
             clienteDao.salvarOuAlterar(cliente, session);
             Mensagem.salvar("Cliente: " + cliente.getNome());
@@ -238,10 +242,9 @@ public class ClienteControle implements Serializable {
             modelCaminhoes = new ListDataModel<>(caminhoes);
         }
 
-        caminhao.setEndereco(endereco);
-        endereco.setCaminhoes(caminhoes);
-
         if (!alterar) {
+            caminhao.setEndereco(endereco);
+            endereco.setCaminhoes(caminhoes);
             caminhoes.add(caminhao);
         }
 
