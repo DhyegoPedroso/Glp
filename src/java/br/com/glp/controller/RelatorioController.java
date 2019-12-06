@@ -7,6 +7,8 @@ import br.com.glp.dao.PedidoDao;
 import br.com.glp.dao.PedidoDaoImpl;
 import br.com.glp.model.ItemPedido;
 import br.com.glp.model.Pedido;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -55,6 +57,17 @@ public class RelatorioController {
         } else if (!session.isOpen()) {
             session = HibernateUtil.abreSessao();
         }
+    }
+    
+    public void limpar(){
+        pedido = new Pedido();
+        itemPedido = new ItemPedido();
+        pedidos = new ArrayList<>();
+        itemPedidos = new ArrayList<>();
+        modelPedido = new ListDataModel<>(pedidos);
+        modelItemPedido = new ListDataModel<>(itemPedidos);
+        qualPesquisa = null;
+        
     }
 
     public void pesquisarPedido() {

@@ -28,7 +28,9 @@
 
                     <p:separator/>
 
-                    <p:commandButton value="Limpar Dados" update="formRelatorio" process="@this" />
+                    <p:commandButton value="Limpar Dados" 
+                                     update="tabelaPedido, tabelaProduto" process="@this dadosPesquisa" 
+                                     actionListener="#{relatorioC.limpar()}" />
 
                 </p:toolbarGroup>
 
